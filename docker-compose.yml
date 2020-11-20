@@ -5,8 +5,8 @@ services:
       context: .
     container_name: customgeonetwork
     volumes:
-      - ./geonetwork/jdbc.properties:$CATALINA_HOME/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
-      - ./geonetwork/srv.xml:$CATALINA_HOME/webapps/geonetwork/WEB-INF/config-node/srv.xml
+      - ./geonetwork/jdbc.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
+      - ./geonetwork/srv.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-node/srv.xml
     ports:
       - "8080:8080"
     networks:
@@ -14,7 +14,7 @@ services:
     # restart: unless-stopped
     environment:
       #DATA_DIR: /var/lib/geonetwork_data
-      CATALINA_HOME: /var/lib/tomcat8
+      #CATALINA_HOME: /var/lib/tomcat8
       ES_HOST: elasticsearch
       ES_PROTOCOL: http
       ES_PORT: 9200

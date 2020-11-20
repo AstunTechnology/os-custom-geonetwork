@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.0-experimental
 FROM tomcat:8.5-jdk8
 
-ENV CATALINA_HOME=/var/lib/tomcat8
+#ENV CATALINA_HOME=/var/lib/tomcat8
 ENV GN_FILE geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data
 ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"

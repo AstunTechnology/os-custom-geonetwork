@@ -1,6 +1,9 @@
 # syntax = docker/dockerfile:1.0-experimental
 FROM tomcat:8.5-jdk8
 
+RUN apt-get update && apt-get install -y postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
+
 #ENV CATALINA_HOME=/var/lib/tomcat8
 ENV GN_FILE geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data

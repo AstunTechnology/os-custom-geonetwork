@@ -30,11 +30,11 @@ if [ "$1" = 'catalina.sh' ]; then
     chmod 0600 ~/.pgpass
     if psql -h "$DB_HOST" -U "$DB_USERNAME" -p "$DB_PORT" -tqc "SELECT 1 FROM pg_database WHERE datname = '$DB_NAME'" | grep -q 1; then
         echo "Database '$DB_NAME' exists; skipping createdb"
-    elif psql -h "$DB_HOST" -U "$DB_USERNAME" -p "$DB_PORT" -d "$DB_NAME" -tqc "SELECT 1 FROM pg_database WHERE datname = '$DB_NAME'" | grep -q 1;then
-        echo "Database '$DB_NAME' already exist; skipping database creation"
+    elif psql -h "$DB_HOST" -U "$DB_USERNAME" -p "$DB_PORT" -d "$DB_DATABASE" -tqc "SELECT 1 FROM pg_database WHERE datname = '$DB_DATABASE'" | grep -q 1;then
+        echo "Database '$DB_DATABASE' already exist; skipping database creation"
     else
-        echo "Database '$DB_NAME' doesn't exist. Creating it..."
-        createdb -h "$DB_HOST" -U "$DB_USERNAME" -p "$DB_PORT" -O "$DB_USERNAME" "$DB_NAME"
+        echo "Database '$DB_DATABASE' doesn't exist. Creating it..."
+        createdb -h "$DB_HOST" -U "$DB_USERNAME" -p "$DB_PORT" -O "$DB_USERNAME" "$DB_DATABASE"
     fi
     rm ~/.pgpass
 
@@ -42,7 +42,7 @@ if [ "$1" = 'catalina.sh' ]; then
     sed -ri '/^jdbc[.](username|password|database|host|port)=/d' /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.username=$DB_USERNAME" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.password=$DB_PASSWORD" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
-    echo "jdbc.database=$DB_NAME" >> /usr/local/tomcatwebapps/geonetwork/WEB-INF/config-db/jdbc.properties
+    echo "jdbc.database=$DB_DATABASE" >> /usr/local/tomcatwebapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.host=$DB_HOST" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.port=$DB_PORT" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
 

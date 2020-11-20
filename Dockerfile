@@ -1,9 +1,6 @@
 # syntax = docker/dockerfile:1.0-experimental
 FROM tomcat:8.5-jdk8
 
-RUN apt-get update && apt-get install -y postgresql-client && \
-    rm -rf /var/lib/apt/lists/*
-
 #ENV CATALINA_HOME=/var/lib/tomcat8
 ENV GN_FILE geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data
@@ -25,6 +22,9 @@ RUN --mount=type=secret,id=creds,dst=/run/secrets/creds.txt \
      mkdir -p geonetwork && \
      unzip -e ${GN_FILE} -d geonetwork && \
      rm ${GN_FILE}
+
+RUN apt-get update && apt-get install -y postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
 
 #Set geonetwork data dir
 COPY ./docker-entrypoint.sh /entrypoint.sh

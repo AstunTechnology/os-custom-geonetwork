@@ -51,6 +51,11 @@ if [ "$1" = 'catalina.sh' ]; then
     #Fixing an hardcoded port on the connection string (bug fixed on development branch)
 #    sed -i -e 's#5432#${jdbc.port}#g' /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/postgres.xml
 
+    # change default database provider to postgresql
+    cp -f /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-node/srv.xml ~/srv.xml.new
+    sed -i -e 's#<import resource="../config-db/${geonetwork.db.type:h2}.xml"/>#<!--<import resource="../config-db/${geonetwork.db.type:h2}.xml"/-->#g' ~/srv.xml.new && \
+    sed -i -e 's#<!--<import resource="../config-db/postgres.xml"/>-->#<import resource="../config-db/postgres.xml"/>#g' ~/srv.xml.new
+    cp -f ~/srv.xml.new /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-node/srv.xml
 
 
 	mkdir -p "$DATA_DIR"

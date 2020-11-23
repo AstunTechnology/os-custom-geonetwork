@@ -39,15 +39,17 @@ if [ "$1" = 'catalina.sh' ]; then
     rm ~/.pgpass
 
     #Write connection string for GN
-    sed -ri '/^jdbc[.](username|password|database|host|port)=/d' /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
+    cp -f /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties ~/jdbc.properties.new
+    sed -ri '/^jdbc[.](username|password|database|host|port)=/d' ~/jdbc.properties.new
+    cp -f ~/jdbc.properties.new /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.username=$DB_USERNAME" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.password=$DB_PASSWORD" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
-    echo "jdbc.database=$DB_DATABASE" >> /usr/local/tomcatwebapps/geonetwork/WEB-INF/config-db/jdbc.properties
+    echo "jdbc.database=$DB_DATABASE" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.host=$DB_HOST" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
     echo "jdbc.port=$DB_PORT" >> /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
 
     #Fixing an hardcoded port on the connection string (bug fixed on development branch)
-    sed -i -e 's#5432#${jdbc.port}#g' /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/postgres.xml
+#    sed -i -e 's#5432#${jdbc.port}#g' /usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/postgres.xml
 
 
 

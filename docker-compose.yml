@@ -19,6 +19,8 @@ services:
       ES_PROTOCOL: http
       ES_PORT: 9200
       KB_URL: http://kibana:5601
+    env_file:
+      - .env
     depends_on:
       - kibana
       - elasticsearch

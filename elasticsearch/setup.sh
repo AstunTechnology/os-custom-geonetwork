@@ -4,15 +4,16 @@ echo Initiating Elasticsearch Custom Index
 # move to the directory of this setup script
 cd "$(dirname "$0")"
 
-# should wrap this in some logic to check if the indices already exist or not
-# this isn't working yet!
+until $(curl -sSf -XGET  'http://localhost:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
+    printf 'not ready, trying again in 5 seconds \n'
+    sleep 5
+done
 
-#if ! http://elasticsearch:9200/gn-records ; then
-	echo "Loading Indices into ElasticSearch"
-	curl -s -v -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/gn-records -d @/records.json
-	curl -s -v -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/gn-features -d @/features.json
-	curl -s -v -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/gn-searchlogs -d @/searchlogs.json
+echo "Loading Indices into ElasticSearch"
+curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-records -d @/records.json
+curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-features -d @/features.json
+curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-searchlogs -d @/searchlogs.json
 
-#else
-#	echo "Indices already exist"
+# else
+# 	echo "Indices already exist"
 #fi

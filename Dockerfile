@@ -23,7 +23,7 @@ RUN --mount=type=secret,id=creds,dst=/run/secrets/creds.txt \
      unzip -e ${GN_FILE} -d geonetwork && \
      rm ${GN_FILE}
 
-RUN apt-get update && apt-get install -y postgresql-client, nano && \
+RUN apt-get update && apt-get install -y postgresql-client nano && \
     rm -rf /var/lib/apt/lists/*
 
 #Set geonetwork data dir

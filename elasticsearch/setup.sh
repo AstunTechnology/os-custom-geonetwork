@@ -13,6 +13,6 @@ cd "$(dirname "$0")"
 	curl -s -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/gn-features -d @/features.json
 	curl -s -XPUT -H 'Content-Type: application/json' http://elasticsearch:9200/gn-searchlogs -d @/searchlogs.json
 
-else
-	echo "Indices already exist"
-fi
+#else
+#	echo "Indices already exist"
+#fi

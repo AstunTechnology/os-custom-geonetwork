@@ -11,6 +11,7 @@ done
 
 echo "Loading Indices into ElasticSearch"
 curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-records -d @/records.json
+curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-records-public -d @/records.json
 curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-features -d @/features.json
 curl -s -XPUT -H 'Content-Type: application/json' http://0.0.0.0:9200/gn-searchlogs -d @/searchlogs.json
 

@@ -67,7 +67,7 @@ if [ "$1" = 'catalina.sh' ]; then
 	 # Reconfigure Elasticsearch & Kibana if necessary
     if [ "$ES_HOST" != "localhost" ]; then
        sed -i "s#http://localhost:9200#${ES_PROTOCOL}://${ES_HOST}:${ES_PORT}#g" /usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml ;
-      sed -i "s#es.host=localhost#es.host=${ES_HOST}#" /usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties ;
+      sed -i "s#http://localhost:9200#${ES_PROTOCOL}://${ES_HOST}:${ES_PORT}#g" /usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties ;
    fi;
 
    if [ "$ES_PROTOCOL" != "http" ] ; then

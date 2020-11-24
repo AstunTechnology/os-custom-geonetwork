@@ -88,6 +88,8 @@ if [ "$1" = 'catalina.sh' ]; then
       sed -i "s#kb.url=http://localhost:5601#kb.url=${KB_URL}#" /usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties ;
       sed -i "s#http://localhost:5601#${KB_URL}#g" /usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml ;
     fi
+
+    sed -i "s#es.index.records_public=#es.index.records_public=gn-records#" /usr/local/webapps/geonetwork/WEB-INF/config.properties ;
 fi
 
 exec "$@"

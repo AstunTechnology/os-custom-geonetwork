@@ -84,17 +84,17 @@ services:
       - esnet
     restart: unless-stopped
 
-    #  nginx:
-    #image: nginx
-    #container_name: nginx
-    #volumes:
-    #  - ./nginx/default:/etc/nginx/sites-available/default
-    #ports:
-    #  - "80:80"
-    #expose:
-    #  - "80"
-    #networks:
-    #   - esnet
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx/default:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+    networks:
+      - esnet
 
     
 volumes:

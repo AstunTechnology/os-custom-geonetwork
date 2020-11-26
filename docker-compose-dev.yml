@@ -1,0 +1,22 @@
+version: '3'
+
+# run me with docker-compose -f docker-compose-dev.yml run --rm  integration-tests mvn clean test -Dbrowser=firefox -DendPointToTest=https://public.metadata.astuntechnology.com/geonetwork
+
+services:
+
+  integration-tests:
+    container_name: integration-tests
+    build:
+      context: .
+      dockerfile: ./testing/Dockerfile
+    volumes:
+      - ./testing:/testing
+    working_dir: /testing
+    environment:
+      - MOZ_HEADLESS=1
+    networks:
+      - esnet
+
+networks:
+  esnet:
+    driver: bridge

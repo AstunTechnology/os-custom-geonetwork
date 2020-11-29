@@ -2,7 +2,7 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.6.2
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY setup.sh /setup.sh
-COPY wait-for-it.sh /wait-for-it.sh
+COPY ../wait-for-it.sh /wait-for-it.sh
 
 
 COPY features.json /features.json

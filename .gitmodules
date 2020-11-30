@@ -1,0 +1,3 @@
+[submodule "shiro-geonetwork"]
+	path = shiro-geonetwork
+	url = https://github.com/AstunTechnology/shiro-geonetwork

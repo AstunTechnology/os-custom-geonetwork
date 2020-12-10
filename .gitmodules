@@ -1,3 +1,6 @@
 [submodule "shiro-geonetwork"]
 	path = shiro-geonetwork
 	url = https://github.com/AstunTechnology/shiro-geonetwork
+[submodule "geonetwork/iso19139.gemini23"]
+	path = geonetwork/iso19139.gemini23
+	url = https://github.com/AstunTechnology/iso19139.gemini23.git

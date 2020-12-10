@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 #x-aws-vpc: vpc-0d6398060b3738286
 
@@ -6,6 +6,8 @@ volumes:
   geonetwork:
   esdata:
   pgdata:
+  #geonetwork/iso19139.gemini23/src/main/plugin/iso19139.gemini23:
+  #geonetwork/iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:
 
 services:
   geonetwork:
@@ -26,26 +28,26 @@ services:
         -Dgeonetwork.codeList.dir=/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/codelist
         -Dgeonetwork.schema.dir=/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins
 
-      ES_HOST: elasticsearch
+      ES_HOST: localhost
       ES_PROTOCOL: http
       ES_PORT: 9200
 
-      KB_URL: http://kibana:5601
+      KB_URL: http://localhost:5601
 
       GEONETWORK_DB_TYPE: postgres
-      GEONETWORK_DB_HOST: database
+      GEONETWORK_DB_HOST: localhost
       GEONETWORK_DB_PORT: 5432
       GEONETWORK_DB_NAME: geonetwork
       GEONETWORK_DB_USERNAME: geonetwork
       GEONETWORK_DB_PASSWORD: geonetwork
     volumes:
       - geonetwork:/catalogue-data
-      # - ../../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      #- ../../iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/
-    # depends_on:
-    #   - kibana
-    #   - elasticsearch
-    #   - database
+      #- "./geonetwork/iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23"
+      #- "./geonetwork/iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar"
+    depends_on:
+      - kibana
+      - elasticsearch
+      - database
 
   elasticsearch:
     image: elasticsearch:7.9.2

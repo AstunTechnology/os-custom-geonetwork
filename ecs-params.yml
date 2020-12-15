@@ -2,18 +2,18 @@ version: 1
 task_definition:
   task_execution_role: ecsTaskExecutionRole
   ecs_network_mode: awsvpc
-#   # task_size:
-#   #   mem_limit: 4GB
-#   #   cpu_limit: 256
-# services:
-#   geonetwork:
-#     mem_limit: 2g
-#   elasticsearch:
-#     mem_limit: 2g
-#   kibana:
-#     mem_limit: 1g
-#   database:
-#     mem_limit: 1g
+  task_size:
+    mem_limit: 6144
+    cpu_limit: 1024
+services:
+  geonetwork:
+    mem_limit: 2048
+  elasticsearch:
+    mem_limit: 2048
+  kibana:
+    mem_limit: 1024
+  database:
+    mem_limit: 512
 
 run_params:
   network_configuration:
@@ -24,3 +24,6 @@ run_params:
       security_groups:
         - "sg-039f0a97751903467"
       #assign_public_ip: ENABLED
+docker_volumes:
+  schemas:
+    external: true

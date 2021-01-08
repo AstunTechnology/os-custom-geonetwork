@@ -8,12 +8,26 @@ task_definition:
 services:
   geonetwork:
     mem_limit: 2048
+    container_name: geonetwork
+    # depends_on:
+    #   - container_name: database
+    #     condition: "HEALTHY"
   elasticsearch:
     mem_limit: 2048
+    container_name: elasticsearch
   kibana:
     mem_limit: 1024
-  database:
+    container_name: kibana
+  postgres:
     mem_limit: 512
+    container_name: postgres
+    essential: false
+    # healthcheck:
+    #   test: ["CMD", "pg_isready -U geonetwork"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
 
 run_params:
   network_configuration:
@@ -27,3 +41,4 @@ run_params:
 docker_volumes:
   schemas:
     external: true
+

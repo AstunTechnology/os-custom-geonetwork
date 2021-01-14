@@ -8,7 +8,8 @@ unzip gemini22.zip -d schemas && \
 #curl -fSL https://raw.githubusercontent.com/geonetwork/docker-geonetwork/master/3.10.5/postgres/jdbc.properties -o jdbc.properties && \
 mkdir pgdata && \
 mkdir esdata && \
-mkdir geonetwork && \
+mkdir -p geonetwork/thesauri && \
 mkdir nginx && \
 chown ec2-user:ec2-user pgdata esdata geonetwork nginx && \
-cp /home/ec2-user/os-custom-geonetwork/nginx/default /home/ec2-user/nginx
+cp /home/ec2-user/os-custom-geonetwork/nginx/default /home/ec2-user/nginx && \
+cp -r /home/ec2-user/os-custom-geonetwork/thesauri /home/ec2-user/geonetwork/thesauri

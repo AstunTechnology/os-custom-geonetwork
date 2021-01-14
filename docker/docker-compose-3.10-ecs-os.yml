@@ -103,6 +103,7 @@ services:
     image: nginx
     volumes:
       - /home/ec2-user/nginx/default:/etc/nginx/conf.d/default.conf
+      - /home/ec2-user/nginx/os-csw-api.inc:/etc/nginx/conf.d/os-csw-api.inc
     ports:
       - "80:80"
     # expose:

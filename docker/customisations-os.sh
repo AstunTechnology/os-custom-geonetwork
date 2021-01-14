@@ -11,5 +11,5 @@ mkdir esdata && \
 mkdir -p geonetwork/thesauri && \
 mkdir nginx && \
 chown ec2-user:ec2-user pgdata esdata geonetwork nginx && \
-cp /home/ec2-user/os-custom-geonetwork/nginx/default /home/ec2-user/nginx && \
+cp /home/ec2-user/os-custom-geonetwork/nginx/* /home/ec2-user/nginx && \
 cp -r /home/ec2-user/os-custom-geonetwork/thesauri/*.rdf /home/ec2-user/geonetwork/thesauri

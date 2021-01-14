@@ -59,7 +59,7 @@ server {
 	 	error_page 404 /404.html;
 	}
 
-	include os-csw-api.inc;
+	include conf-d/os-csw-api.inc;
 	 	
 
 

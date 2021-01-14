@@ -101,7 +101,6 @@ services:
 
   nginx:
     image: nginx
-    container_name: nginx
     volumes:
       - /home/ec2-user/nginx:/etc/nginx/conf.d
     ports:

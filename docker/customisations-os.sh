@@ -10,4 +10,5 @@ mkdir pgdata && \
 mkdir esdata && \
 mkdir geonetwork && \
 mkdir nginx && \
+chown ec2-user:ec2-user pgdata esdata geonetwork nginx && \
 cp /home/ec2-user/os-custom-geonetwork/nginx/default /home/ec2-user/nginx

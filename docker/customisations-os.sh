@@ -9,4 +9,5 @@ unzip gemini22.zip -d schemas && \
 mkdir pgdata && \
 mkdir esdata && \
 mkdir geonetwork && \
-mkdir nginx
+mkdir nginx && \
+cp /home/ec2-user/os-custom-geonetwork/nginx/default /home/ec2-user/nginx

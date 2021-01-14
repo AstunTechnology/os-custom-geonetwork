@@ -99,16 +99,16 @@ services:
     #         awslogs-region: eu-west-2
     #         awslogs-stream-prefix: geonetwork
 
-    nginx:
+  nginx:
     image: nginx
     container_name: nginx
     volumes:
       - /home/ec2-user/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
-    expose:
-      - "80"
-    networks:
-      - esnet
+    # expose:
+    #   - "80"
+    # networks:
+    #   - esnet
 
 

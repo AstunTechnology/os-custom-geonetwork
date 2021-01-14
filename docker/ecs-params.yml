@@ -15,9 +15,11 @@ services:
   elasticsearch:
     mem_limit: 2048
     container_name: elasticsearch
+    essential: false
   kibana:
     mem_limit: 1024
     container_name: kibana
+    essential: false
   postgres:
     mem_limit: 512
     container_name: postgres
@@ -29,6 +31,7 @@ services:
     #   retries: 5
   nginx:
     container_name: nginx
+    essential: false
 
 
 run_params:
@@ -39,7 +42,7 @@ run_params:
         - "subnet-0f253937562273b7f"
       security_groups:
         - "sg-039f0a97751903467"
-docker_volumes:
-  schemas:
-    external: true
+# docker_volumes:
+#   schemas:
+#     external: true
 

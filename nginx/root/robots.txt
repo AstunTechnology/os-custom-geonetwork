@@ -1,0 +1,13 @@
+User-agent: *
+Disallow:/
+# Don't crawl the parameterised endpoints
+#Disallow: /csw
+#Disallow: /xml
+#Disallow: /json
+#Disallow: /search
+# Don't crawl the login pages
+#Disallow: /catalog.signin
+#Disallow: /login.jsp
+#Sitemap: https://ssdi.astuntechnology.com/geonetwork/srv/api/sitemap
+#Sitemap: https://ssdi.astuntechnology.com/geonetwork/srv/api/sitemap?format=rdf
+

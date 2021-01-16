@@ -3,7 +3,7 @@ task_definition:
   task_execution_role: ecsTaskExecutionRole
   ecs_network_mode: awsvpc
   task_size:
-    mem_limit: 6144
+    mem_limit: 7168
     cpu_limit: 1024
 services:
   geonetwork:
@@ -21,15 +21,15 @@ services:
   elasticsearch:
     mem_limit: 2048
     container_name: elasticsearch
-    essential: false
+    # essential: false
   kibana:
     mem_limit: 1024
     container_name: kibana
-    essential: false
+    # essential: false
   postgres:
     mem_limit: 512
     container_name: postgres
-    essential: false
+    # essential: false
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U geonetwork"]
       interval: 5m
@@ -38,7 +38,7 @@ services:
       start_period: 1m
   nginx:
     container_name: nginx
-    essential: false
+    # essential: false
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
       interval: 5m

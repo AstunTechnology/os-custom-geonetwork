@@ -37,12 +37,12 @@ services:
       - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
       - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
       - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/target/schema-iso19139.gemini22-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-3.7.jar
-    # logging:
-    #     driver: awslogs
-    #     options: 
-    #       awslogs-group: docker-geonetwork
-    #       awslogs-region: eu-west-2
-    #       awslogs-stream-prefix: geonetwork
+    logging:
+        driver: awslogs
+        options: 
+          awslogs-group: docker-geonetwork
+          awslogs-region: eu-west-2
+          awslogs-stream-prefix: geonetwork
 
   elasticsearch:
     image: elasticsearch:7.6.2
@@ -51,19 +51,20 @@ services:
         soft: -1
         hard: -1
       nofile:
-        soft: 65536
-        hard: 65536
+        soft: 65535
+        hard: 65535
     environment:
       ES_JAVA_OPTS: "-Xms1G -Xmx1G"
       discovery.type: single-node
+      xpack.security.enabled: "false"
     volumes:
       - /home/ec2-user/esdata:/usr/share/elasticsearch/data
-    # logging:
-    #       driver: awslogs
-    #       options: 
-    #         awslogs-group: docker-geonetwork
-    #         awslogs-region: eu-west-2
-    #         awslogs-stream-prefix: geonetwork
+    logging:
+          driver: awslogs
+          options: 
+            awslogs-group: docker-geonetwork
+            awslogs-region: eu-west-2
+            awslogs-stream-prefix: geonetwork
 
   kibana:
     image: kibana:7.6.2
@@ -74,12 +75,14 @@ services:
       SERVER_REWRITEBASEPATH: 'false'
       KIBANA_INDEX: .dashboards
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
-    # logging:
-    #       driver: awslogs
-    #       options: 
-    #         awslogs-group: docker-geonetwork
-    #         awslogs-region: eu-west-2
-    #         awslogs-stream-prefix: geonetwork
+    volumes:
+      - /home/ec2-user/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    logging:
+          driver: awslogs
+          options: 
+            awslogs-group: docker-geonetwork
+            awslogs-region: eu-west-2
+            awslogs-stream-prefix: geonetwork
 
   postgres:
     image: postgis/postgis:12-master
@@ -91,12 +94,12 @@ services:
       - /home/ec2-user/pgdata:/var/lib/postgresql/data
     # ports:
     #   - 5432:5432
-    # logging:
-    #       driver: awslogs
-    #       options: 
-    #         awslogs-group: docker-geonetwork
-    #         awslogs-region: eu-west-2
-    #         awslogs-stream-prefix: geonetwork
+    logging:
+          driver: awslogs
+          options: 
+            awslogs-group: docker-geonetwork
+            awslogs-region: eu-west-2
+            awslogs-stream-prefix: geonetwork
 
   nginx:
     image: nginx
@@ -111,11 +114,11 @@ services:
     #   - "80"
     # networks:
     #   - esnet
-    # logging:
-    #       driver: awslogs
-    #       options: 
-    #         awslogs-group: docker-geonetwork
-    #         awslogs-region: eu-west-2
-    #         awslogs-stream-prefix: nginx
+    logging:
+          driver: awslogs
+          options: 
+            awslogs-group: docker-geonetwork
+            awslogs-region: eu-west-2
+            awslogs-stream-prefix: nginx
 
 

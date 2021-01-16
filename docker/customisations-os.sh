@@ -10,6 +10,8 @@ mkdir -p pgdata && \
 mkdir -p esdata && \
 mkdir -p geonetwork/thesauri && \
 mkdir -p nginx && \
-chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx && \
+mkdir -p kibana && \
+chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx kibana && \
 cp -rf /home/ec2-user/os-custom-geonetwork/nginx/* /home/ec2-user/nginx && \
+cp -rf /home/ec2-user/os-custom-geonetwork/kibana/* /home/ec2-user/kibana  && \
 cp -rf /home/ec2-user/os-custom-geonetwork/thesauri/*.rdf /home/ec2-user/geonetwork/thesauri

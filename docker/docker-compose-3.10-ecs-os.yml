@@ -30,13 +30,19 @@ services:
       GEONETWORK_DB_PORT: 5432
       GEONETWORK_DB_NAME: geonetwork
       GEONETWORK_DB_USERNAME: geonetwork
-      GEONETWORK_DB_USERNAME: geonetwork
+      GEONETWORK_DB_PASSWORD: geonetwork
     volumes:
       - /home/ec2-user/geonetwork:/catalogue-data
       - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
       - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
       - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
       - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/target/schema-iso19139.gemini22-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-3.7.jar
+    healthcheck:
+      test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 3m
     # logging:
     #     driver: awslogs
     #     options: 
@@ -89,8 +95,12 @@ services:
       POSTGRES_DB: geonetwork
     volumes:
       - /home/ec2-user/pgdata:/var/lib/postgresql/data
-    # ports:
-    #   - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
     # logging:
     #       driver: awslogs
     #       options: 
@@ -107,10 +117,12 @@ services:
     ports:
       - 80:80
       - 443:443
-    # expose:
-    #   - "80"
-    # networks:
-    #   - esnet
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
     # logging:
     #       driver: awslogs
     #       options: 

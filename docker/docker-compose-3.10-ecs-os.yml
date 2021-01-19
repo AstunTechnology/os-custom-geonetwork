@@ -8,6 +8,8 @@ services:
     ports:
       - 8080:8080
       - 587:587
+      - 25:25
+      - 465:465
     environment:
       DATA_DIR: /catalogue-data
 
@@ -31,7 +33,6 @@ services:
       GEONETWORK_DB_PORT: 5432
       GEONETWORK_DB_NAME: geonetwork
       GEONETWORK_DB_USERNAME: geonetwork
-      GEONETWORK_DB_PASSWORD: geonetwork
     volumes:
       - /home/ec2-user/geonetwork:/catalogue-data
       - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
@@ -92,12 +93,9 @@ services:
     image: postgis/postgis:12-master
     environment:
       POSTGRES_USER: geonetwork
-      POSTGRES_PASSWORD: geonetwork
       POSTGRES_DB: geonetwork
     volumes:
       - /home/ec2-user/pgdata:/var/lib/postgresql/data
-    # ports:
-    #   - 5432:5432
     logging:
           driver: awslogs
           options: 
@@ -113,11 +111,6 @@ services:
       - /home/ec2-user/nginx/root:/var/www/html
     ports:
       - 80:80
-      #- 443:443
-    # expose:
-    #   - "80"
-    # networks:
-    #   - esnet
     logging:
           driver: awslogs
           options: 

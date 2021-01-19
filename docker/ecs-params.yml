@@ -9,6 +9,9 @@ services:
   geonetwork:
     mem_limit: 2048
     container_name: geonetwork
+    secrets:
+      - value_from: "postgres-su-password"
+        name: "GEONETWORK_DB_PASSWORD"
     healthcheck:
       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
       # interval: 5m
@@ -29,6 +32,9 @@ services:
   postgres:
     mem_limit: 512
     container_name: postgres
+    secrets:
+      - value_from: "postgres-su-password"
+        name: "POSTGRES_PASSWORD"
     # essential: false
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U geonetwork"]
@@ -51,8 +57,8 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-0e9130b270a4c4f11"
-        - "subnet-0f253937562273b7f"
+        - "subnet-0d89b9b6aadfadb2a"
+        - "subnet-0d5ad36d370ef53f0"
       security_groups:
         - "sg-039f0a97751903467"
 # docker_volumes:

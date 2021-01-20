@@ -7,9 +7,9 @@ services:
     #restart: always
     ports:
       - 8080:8080
-      - 587:587
-      - 25:25
-      - 465:465
+      # - 587:587
+      # - 25:25
+      # - 465:465
     environment:
       DATA_DIR: /catalogue-data
 
@@ -50,7 +50,7 @@ services:
           awslogs-stream-prefix: geonetwork
 
   elasticsearch:
-    image: elasticsearch:7.6.2
+    image: 511545296924.dkr.ecr.eu-west-2.amazonaws.com/os-elasticsearch
     ulimits:
       memlock:
         soft: -1
@@ -82,6 +82,7 @@ services:
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
     volumes:
       - /home/ec2-user/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - /home/ec2-user/kibana/dashboard/export.ndjson:/usr/share/kibana/dashboard/export.ndjson
     logging:
           driver: awslogs
           options: 

@@ -8,6 +8,7 @@ COPY wait-for-it.sh /wait-for-it.sh
 COPY features.json /features.json
 COPY records.json /records.json
 COPY searchlogs.json /searchlogs.json
+COPY records-public.json.json /records-public.json
 
 USER root
 RUN chmod +x /docker-entrypoint.sh /wait-for-it.sh /setup.sh

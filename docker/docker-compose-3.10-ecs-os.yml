@@ -42,6 +42,7 @@ services:
       - /home/ec2-user/geonetwork/catalog/locales/en-custom.json:/usr/local/tomcat/webapps/geonetwork/catalog/locales/en-custom.json
       - /home/ec2-user/geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
       - /home/ec2-user/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl:/usr/local/tomcat/webapps/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl
+      - /home/ec2-user/geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
     logging:
         driver: awslogs
         options: 

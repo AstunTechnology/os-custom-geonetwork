@@ -1,7 +1,7 @@
 ---
-name: P1 Bug report
-about: Use this for high priority or urgent problems
-title: ''
+name: P1 Bug Report
+about: Use this for urgent issues
+title: "[P1 BUG]:"
 labels: bug
 assignees: archaeogeek
 

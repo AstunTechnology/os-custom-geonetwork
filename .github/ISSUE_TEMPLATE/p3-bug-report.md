@@ -1,9 +1,9 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
+name: P3 Bug Report
+about: Use this for minor issues
+title: "[P3 BUG]:"
 labels: bug
-assignees: archaeogeek
+assignees: ''
 
 ---
 

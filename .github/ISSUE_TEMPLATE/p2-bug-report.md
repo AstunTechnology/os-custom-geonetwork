@@ -1,7 +1,7 @@
 ---
 name: P2 Bug Report
 about: Use this for less urgent issues
-title: ''
+title: "[P2 BUG]:"
 labels: bug
 assignees: archaeogeek
 

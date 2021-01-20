@@ -3,7 +3,7 @@ name: To Do
 about: Things that need doing but aren't bugs
 title: "[To Do]"
 labels: enhancement
-assignees: archaeogeek
+assignees: ''
 
 ---
 

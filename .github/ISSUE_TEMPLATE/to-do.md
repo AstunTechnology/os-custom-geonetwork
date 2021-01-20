@@ -1,7 +1,7 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
+name: To Do
+about: Things that need doing but aren't bugs
+title: "[To Do]"
 labels: enhancement
 assignees: archaeogeek
 

@@ -1,2 +1,2 @@
 docker/geonetwork.war
-*-local-*
+.env-local

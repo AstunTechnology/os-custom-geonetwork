@@ -9,7 +9,6 @@ services:
       ES_HOST: elasticsearch
       KB_URL: http://kibana:5601
       GEONETWORK_DB_HOST: postgres
-      #GEONETWORK_DB_PASSWORD
     volumes:
       - ../../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
       - ../../iso19139.gemini22_GN3/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
@@ -39,6 +38,8 @@ services:
   postgres:
     env_file:
       - .env-local
+    ports:
+      - "5435:5432"
     container_name: postgres
     logging:
           driver: "json-file"

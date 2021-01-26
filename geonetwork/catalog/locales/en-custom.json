@@ -1,4 +1,5 @@
 {
 	"xml_gemini22gemini23-schemaupgrade": "Convert from Gemini 2.2 to Gemini 2.3",
-	"xml_gemini22gemini23": "Convert from Gemini 2.2 to 2.3 on import"
+	"xml_gemini22gemini23": "Convert from Gemini 2.2 to 2.3 on import",
+	"passwordMinlength": "Password must contain at least 10 characters!"
 }

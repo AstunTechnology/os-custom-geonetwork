@@ -17,6 +17,6 @@ cp -rf /home/ec2-user/os-custom-geonetwork/thesauri/* /home/ec2-user/geonetwork/
 curl -fSL https://github.com/AstunTechnology/audit-trigger/archive/master.zip -o audit-trigger.zip && \
 mkdir -p audit-trigger && \
 unzip -o audit-trigger.zip -d audit-trigger && \
-cp -rf /home/ec2-user/audit-trigger/audit-trigger/audit.sql /home/ec2-user/postgresql && \
+cp -rf /home/ec2-user/audit-trigger/audit-trigger-master/audit.sql /home/ec2-user/postgresql && \
 # finally make sure we can access all the directories
 chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx kibana elasticsearch postgresql

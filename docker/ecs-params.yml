@@ -11,10 +11,10 @@ services:
     container_name: geonetwork
     healthcheck:
       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
-      interval: 5m
+      interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 3m
+      start_period: 5m
     # depends_on:
     #   - container_name: database
     #     condition: "HEALTHY"
@@ -29,18 +29,18 @@ services:
     container_name: postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U geonetwork"]
-      interval: 5m
+      interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 1m
+      start_period: 5m
   nginx:
     container_name: nginx
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
-      interval: 5m
+      interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 1m
+      start_period: 5m
 
 
 run_params:

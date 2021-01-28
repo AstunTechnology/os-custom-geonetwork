@@ -2,3 +2,4 @@ docker/geonetwork.war
 .env-local
 esdata
 geonetwork/*.db
+.env

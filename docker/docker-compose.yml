@@ -38,7 +38,7 @@ services:
       - ../geonetwork/catalog/locales/en-custom.json:/usr/local/tomcat/webapps/geonetwork/catalog/locales/en-custom.json
       - ../geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
       - ../geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl:/usr/local/tomcat/webapps/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl
-      - ../geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
+      - ../geonetwork/WEB-INF/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-service-csw.xml
 
   elasticsearch:
     image: public.ecr.aws/y7x5j6q3/os-elasticsearch:latest

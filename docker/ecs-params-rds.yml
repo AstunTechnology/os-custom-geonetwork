@@ -1,6 +1,6 @@
 version: 1
 task_definition:
-  task_execution_role: ecsTaskExecutionRole
+  #task_execution_role: ecsTaskExecutionRole
   ecs_network_mode: awsvpc
   task_size:
     mem_limit: 7168
@@ -24,15 +24,15 @@ services:
   kibana:
     mem_limit: 1024
     container_name: kibana
-  postgres:
-    mem_limit: 512
-    container_name: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
-      interval: 1m
-      timeout: 10s
-      retries: 3
-      start_period: 5m
+  # postgres:
+  #   mem_limit: 512
+  #   container_name: postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+  #     interval: 1m
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 5m
   nginx:
     container_name: nginx
     healthcheck:

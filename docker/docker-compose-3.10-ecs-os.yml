@@ -51,7 +51,7 @@ services:
     logging:
         driver: awslogs
         options: 
-          awslogs-group: docker-geonetwork
+          awslogs-group: os-geonetwork
           awslogs-region: eu-west-2
           awslogs-stream-prefix: geonetwork
 
@@ -73,7 +73,7 @@ services:
     logging:
           driver: awslogs
           options: 
-            awslogs-group: docker-geonetwork
+            awslogs-group: os-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: geonetwork
 
@@ -92,7 +92,7 @@ services:
     logging:
           driver: awslogs
           options: 
-            awslogs-group: docker-geonetwork
+            awslogs-group: os-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: geonetwork
 
@@ -109,7 +109,7 @@ services:
     logging:
           driver: awslogs
           options: 
-            awslogs-group: docker-geonetwork
+            awslogs-group: os-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: geonetwork
 
@@ -124,7 +124,7 @@ services:
     logging:
           driver: awslogs
           options: 
-            awslogs-group: docker-geonetwork
+            awslogs-group: os-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: nginx
 

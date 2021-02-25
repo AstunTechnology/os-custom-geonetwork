@@ -6,6 +6,12 @@ git clone https://github.com/AstunTechnology/os-custom-geonetwork.git
 chmod +x os-custom-geonetwork/docker/customisations-os.sh
 ./os-custom-geonetwork/docker/customisations-os.sh
 
+# add to ecs-config
+sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE" | sudo tee -a /etc/ecs/ecs.config
+sudo service ecs restart
+
+
+
 # docker-bench-security issues 1.5-1.13
 # echo "-w /usr/bin/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
 # echo "-w /var/lib/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules

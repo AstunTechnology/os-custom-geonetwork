@@ -104,8 +104,10 @@ services:
             awslogs-region: eu-west-2
             awslogs-stream-prefix: geonetwork
     healthcheck:
-        test: ["CMD-SHELL", "curl", "-s", "-f", "http://localhost:5601/login"]
-        retries: 3
+        test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
+        interval: 1m
+        timeout: 10s
+        retries: 5
 
   nginx:
     image: nginx

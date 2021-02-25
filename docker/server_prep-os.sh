@@ -17,8 +17,8 @@ echo "-w /etc/default/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
 echo "-w /etc/docker/daemon.json -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
 echo "-w /usr/bin/docker-containerd -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
 echo "-w /usr/bin/docker-runc -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w docker.socket -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w docker.service -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
+#echo "-w docker.socket -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
+#echo "-w docker.service -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
 sudo service auditd restart
 
 # docker-bench-security issues 2.1-2.15 and 4.5

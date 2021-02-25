@@ -25,7 +25,7 @@ sudo chown root:root /etc/docker/daemon.json
 sudo service docker restart
 
 #add to ecs-config
-sudo echo "ECS_CLUSTER=docker-geonetwork-ec2" | sudo tee -a /etc/ecs/ecs.config
-sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" | sudo tee -a /etc/ecs/ecs.config
-sudo service ecs restart
+# sudo echo "ECS_CLUSTER=docker-geonetwork-ec2" | sudo tee -a /etc/ecs/ecs.config
+# sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" | sudo tee -a /etc/ecs/ecs.config
+# sudo service ecs restart
 

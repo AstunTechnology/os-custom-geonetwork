@@ -13,10 +13,14 @@ cp -rf /home/ec2-user/os-custom-geonetwork/kibana/* /home/ec2-user/kibana  && \
 cp -rf /home/ec2-user/os-custom-geonetwork/geonetwork/* /home/ec2-user/geonetwork  && \
 cp -rf /home/ec2-user/os-custom-geonetwork/elasticsearch/* /home/ec2-user/elasticsearch  && \
 cp -rf /home/ec2-user/os-custom-geonetwork/thesauri/* /home/ec2-user/geonetwork/thesauri && \
-# postgresql audit script (in progress)
-curl -fSL https://github.com/AstunTechnology/audit-trigger/archive/master.zip -o audit-trigger.zip && \
-mkdir -p audit-trigger && \
-unzip -o audit-trigger.zip -d audit-trigger && \
-cp -rf /home/ec2-user/audit-trigger/audit-trigger-master/audit.sql /home/ec2-user/postgresql && \
+# # postgresql audit script (in progress)
+# curl -fSL https://github.com/AstunTechnology/audit-trigger/archive/master.zip -o audit-trigger.zip && \
+# mkdir -p audit-trigger && \
+# unzip -o audit-trigger.zip -d audit-trigger && \
+# cp -rf /home/ec2-user/audit-trigger/audit-trigger-master/audit.sql /home/ec2-user/postgresql && \
+#add to ecs-config
+sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" | sudo tee -a /etc/ecs/ecs.config &&\
+sudo echo "ECS_CLUSTER=docker-geonetwork-ec2" | sudo tee -a /etc/ecs/ecs.config && \
+sudo service ecs restart && \
 # finally make sure we can access all the directories
 chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx kibana elasticsearch postgresql

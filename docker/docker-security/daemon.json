@@ -1,5 +1,4 @@
 {
-	"disable-legacy-registry": true,
 	"icc": false,
 	"live-restore": true,
  	"log-driver": "syslog",
@@ -8,5 +7,4 @@
   	},
 	"storage-driver": "overlay2",
 	"userland-proxy": false,
-	"userns-remap": "default"
 }

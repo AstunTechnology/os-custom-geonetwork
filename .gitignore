@@ -9,3 +9,4 @@ geonetwork/config
 geonetwork/index
 geonetwork/resources
 geonetwork/*[0-9]*
+*creds.txt

@@ -7,7 +7,7 @@ chmod +x os-custom-geonetwork/docker/customisations-os.sh
 ./os-custom-geonetwork/docker/customisations-os.sh
 
 # add to ecs-config
-sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE" | sudo tee -a /etc/ecs/ecs.config
+sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" | sudo tee -a /etc/ecs/ecs.config
 sudo service ecs restart
 
 
@@ -25,7 +25,7 @@ sudo service ecs restart
 # sudo service auditd restart
 
 # docker-bench-security issues 2.1-2.15
-#sudo mv ./os-custom-geonetwork/docker/docker-security/daemon.json /etc/docker/daemon.json
-#sudo chown root:root /etc/docker/daemon.json
-#sudo service docker restart
+sudo mv ./os-custom-geonetwork/docker/docker-security/daemon.json /etc/docker/daemon.json
+sudo chown root:root /etc/docker/daemon.json
+sudo service docker restart
 

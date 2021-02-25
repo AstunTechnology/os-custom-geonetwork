@@ -8,6 +8,7 @@ chmod +x os-custom-geonetwork/docker/customisations-os.sh
 
 # add to ecs-config
 sudo echo "ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true" | sudo tee -a /etc/ecs/ecs.config
+sudo echo "ECS_CLUSTER=docker-geonetwork-ec2" | sudo tee -a /etc/ecs/ecs.config
 sudo service ecs restart
 
 

@@ -17,3 +17,6 @@ RUN chown -R elasticsearch:elasticsearch /docker-entrypoint.sh /wait-for-it.sh /
 USER elasticsearch
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/share/elasticsearch/bin/elasticsearch"]
+
+HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
+    CMD curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1

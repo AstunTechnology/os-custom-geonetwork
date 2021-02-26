@@ -23,3 +23,7 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["catalina.sh", "run"]
+
+HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
+    CMD curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1
+

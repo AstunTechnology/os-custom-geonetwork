@@ -18,7 +18,7 @@ Feature: Create (draft) editor
     And I wait 3 seconds for element having css "select[data-ng-model='currentSelectionRight'] > option" to display
     Then I scroll to top of page
     And I click on element having id "gn-btn-user-save"
-    And I wait 5 seconds for element having css "div.alert.gn-info" to display
+    #And I wait 5 seconds for element having css "div.alert.gn-info" to display
         
     # Add editor 2
   Scenario: Add editortest2
@@ -35,7 +35,7 @@ Feature: Create (draft) editor
     And I wait 3 seconds for element having css "select[data-ng-model='currentSelectionRight'] > option" to display
     Then I scroll to top of page
     When I click on element having id "gn-btn-user-save"
-    And I wait 5 seconds for element having css "div.alert.gn-info" to display
+    #And I wait 5 seconds for element having css "div.alert.gn-info" to display
 
     # Add reviewer
   Scenario: Add reviewertest
@@ -51,7 +51,7 @@ Feature: Create (draft) editor
     And I wait 3 seconds for element having css "select[data-ng-model='currentSelectionRight'] > option" to display
     Then I scroll to top of page
     When I click on element having id "gn-btn-user-save"
-    And I wait 5 seconds for element having css "div.alert.gn-info" to display
+    #And I wait 5 seconds for element having css "div.alert.gn-info" to display
         
     # Logout admin
     And I sign out

@@ -1,9 +1,10 @@
 version: '2.2'
 
 # run me with:
-#  docker-compose -f docker-compose-dev.yml run --rm  integration-tests / 
-# mvn clean test -Dbrowser=firefox -DendPointToTest=https://geonetwork:/geonetwork /
-# -Dcucumber.options="--plugin pretty"
+#  either (non-headless, linux only) xhost + && docker-compose -f docker-compose-dev.yml run --rm  -e "DISPLAY=$DISPLAY" integration mvn clean test -Dbrowser=firefox -DendPointToTest=http://yourgeonetworkurl/geonetwork
+#  or docker-compose -f docker-compose-dev.yml run --rm  -e "MOZ_HEADLESS=1" integration mvn clean test -Dbrowser=firefox -DendPointToTest=http://yourgeonetworkurl/geonetwork
+
+
 
 services:
 
@@ -15,41 +16,6 @@ services:
     volumes:
       - ./testing:/testing
     working_dir: /testing
+    network_mode: "host"
     environment:
-      - MOZ_HEADLESS=1
-    depends_on:
-      - geonetwork
-    command: ["./wait-for-it.sh", "geonetwork:8080"]
-    networks:
-      - esnet
-
-  geonetwork:
-    build:
-      context: .
-    container_name: geonetwork
-    volumes:
-      - ./geonetwork/jdbc.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-db/jdbc.properties
-      - ./geonetwork/srv.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-node/srv.xml
-    ports:
-      - "8080:8080"
-    networks:
-      - esnet
-    # restart: unless-stopped
-    env_file:
-      - env.test
-    depends_on:
-      - database
-
-  database:
-    image: postgis/postgis:9.5-2.5-alpine
-    container_name: database
-    environment:
-      - POSTGRES_PASSWORD=geonetwork
-      - POSTGRES_USER=geonetwork
-    networks:
-      - esnet
-
-
-networks:
-  esnet:
-    driver: bridge
+      - DISPLAY

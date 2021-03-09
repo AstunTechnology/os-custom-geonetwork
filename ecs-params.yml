@@ -7,26 +7,50 @@ task_definition:
     cpu_limit: 1024
 services:
   geonetwork:
-    mem_limit: 2048
+    mem_limit: 2048   
     container_name: geonetwork
+    healthcheck:
+      test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 5m
     # depends_on:
     #   - container_name: database
     #     condition: "HEALTHY"
   elasticsearch:
     mem_limit: 2048
     container_name: elasticsearch
+    healthcheck:
+      test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 5m
   kibana:
     mem_limit: 1024
     container_name: kibana
+    healthcheck:
+        test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/login"]
+        retries: 3
   postgres:
     mem_limit: 512
     container_name: postgres
-    essential: false
-    # healthcheck:
-    #   test: ["CMD", "pg_isready -U geonetwork"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 5m
+  nginx:
+    container_name: nginx
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 5m
+
 
 
 run_params:
@@ -37,8 +61,5 @@ run_params:
         - "subnet-0f253937562273b7f"
       security_groups:
         - "sg-039f0a97751903467"
-      #assign_public_ip: ENABLED
-docker_volumes:
-  schemas:
-    external: true
+
 

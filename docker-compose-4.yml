@@ -1,13 +1,13 @@
 version: '3.1'
 
 volumes:
-  geonetwork:
-  esdata:
-  pgdata:
+  geonetwork4:
+  esdata9:
+  pgdata12:
 
 services:
   geonetwork:
-    image: geonetwork:4.0.1
+    image: geonetwork:4.0.2
 
     restart: always
     ports:
@@ -37,9 +37,10 @@ services:
       GEONETWORK_DB_USERNAME: geonetwork
       GEONETWORK_DB_PASSWORD: geonetwork
     volumes:
-      - geonetwork:/catalogue-data
+      - geonetwork4:/catalogue-data
       - ../../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      #- ../../iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/
+      #- ../../dcat2/src/main/plugin/dcat2:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
+      - ../../iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/
     depends_on:
       - kibana
       - elasticsearch
@@ -58,7 +59,7 @@ services:
       ES_JAVA_OPTS: "-Xms1G -Xmx1G"
       discovery.type: single-node
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - esdata9:/usr/share/elasticsearch/data
 
   kibana:
     image: kibana:7.9.2
@@ -71,12 +72,12 @@ services:
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
 
   database:
-    image: mdillon/postgis
+    image: postgis/postgis:12-master
     environment:
       POSTGRES_USER: geonetwork
       POSTGRES_PASSWORD: geonetwork
       POSTGRES_DB: geonetwork
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata12:/var/lib/postgresql/data
 
 

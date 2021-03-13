@@ -21,4 +21,4 @@ cp -rf /home/ec2-user/docker-geonetwork/elasticsearch/* /home/ec2-user/elasticse
 # unzip -o audit-trigger.zip -d audit-trigger && \
 # cp -rf /home/ec2-user/audit-trigger/audit-trigger-master/audit.sql /home/ec2-user/postgresql && \
 # finally make sure we can access all the directories
-chown -Rf ec2-user:ec2-user pgdata esdata nginx kibana elasticsearch
+chown -Rf ec2-user:ec2-user pgdata esdata nginx kibana elasticsearch schemas

@@ -1,3 +1,4 @@
 creds.txt
 .env
 shiro-geonetwork/conf/shiro.ini
+bitbucket.sh

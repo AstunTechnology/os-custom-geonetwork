@@ -1,45 +1,77 @@
 #!/bin/bash
 yum -y update
-yum -y install unzip
+yum -y install unzip git
 cd /home/ec2-user && \
-# schemas
 curl -fSL https://github.com/AstunTechnology/iso19139.gemini23/archive/3.10.x.zip -o gemini23.zip && \
 mkdir -p schemas && \
 unzip -o gemini23.zip -d schemas && \
-curl -fSL https://github.com/AstunTechnology/iso19139.gemini22_GN3/archive/3.8.x.zip -o gemini22.zip && \
-unzip -o gemini22.zip -d schemas && \
-# directories
-mkdir -p pgdata esdata geonetwork/thesauri nginx kibana elasticsearch postgresql && \
-cp -rf /home/ec2-user/os-custom-geonetwork/nginx/* /home/ec2-user/nginx && \
-cp -rf /home/ec2-user/os-custom-geonetwork/kibana/* /home/ec2-user/kibana  && \
-cp -rf /home/ec2-user/os-custom-geonetwork/geonetwork/* /home/ec2-user/geonetwork  && \
-cp -rf /home/ec2-user/os-custom-geonetwork/elasticsearch/* /home/ec2-user/elasticsearch  && \
-cp -rf /home/ec2-user/os-custom-geonetwork/thesauri/* /home/ec2-user/geonetwork/thesauri && \
-# # postgresql audit script (in progress)
-# curl -fSL https://github.com/AstunTechnology/audit-trigger/archive/master.zip -o audit-trigger.zip && \
-# mkdir -p audit-trigger && \
-# unzip -o audit-trigger.zip -d audit-trigger && \
-# cp -rf /home/ec2-user/audit-trigger/audit-trigger-master/audit.sql /home/ec2-user/postgresql && \
-# finally make sure we can access all the directories
-chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx kibana elasticsearch postgresql
+curl -fSL https://github.com/AstunTechnology/iso19139.nonspatial/archive/main.zip -o nonspatial.zip && \
+unzip -o nonspatial.zip -d schemas && \
+curl -fSL https://github.com/AstunTechnology/dcat2/archive/master.zip -o dcat.zip && \
+unzip -o dcat.zip -d schemas
+mkdir nginx
+cat > nginx/default.conf << EOL
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
 
 
-# docker-bench-security issues 1.5-1.13
-echo "-w /usr/bin/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /var/lib/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /etc/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /lib/systemd/system/docker.service -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /lib/systemd/system/docker.socket -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /etc/default/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /etc/docker/daemon.json -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /usr/bin/docker-containerd -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-echo "-w /usr/bin/docker-runc -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-#echo "-w docker.socket -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
-#echo "-w docker.service -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /var/www/html;
+    }
+	 	
+	location /geonetwork {
+	 	proxy_set_header Host \$$host;
+	 	proxy_set_header X-Real-IP \$remote_addr;
+	 	proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+	 	#proxy_pass      http://geonetwork:8080;
+	 	proxy_pass      http://localhost:8080;
+	 	client_max_body_size 30M;
+	 	proxy_send_timeout          36000;
+	 	proxy_read_timeout         36000;
+	 	send_timeout                36000;
+	 	proxy_intercept_errors on;
+	 	error_page 404 /404.html;
+	 	if (\$http_x_forwarded_proto = "http") {
+	 				rewrite ^/(.*)\$ https://\$host\$request_uri;
+	 	  		}
+	}
+}
+EOL
+cat > nginx/robots.txt << EOL
+User-agent: *
+Disallow:/
+EOL
+chown -Rf ec2-user:ec2-user nginx
+mkdir kibana
+cat > kibana/kibana.yml << EOL
+server.basePath: "/geonetwork/dashboards"
+server.rewriteBasePath: false
+kibana.index: ".dashboards"
+server.name: kibana
+server.host: "0"
+elasticsearch.hosts: [ "http://localhost:9200" ]
+xpack.monitoring.ui.container.elasticsearch.enabled: true
+EOL
+chown -Rf ec2-user:ec2-user kibana schemas nginx
+echo "-w /usr/bin/docker -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /var/lib/docker -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /etc/docker -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /lib/systemd/system/docker.service -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /lib/systemd/system/docker.socket -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /etc/default/docker -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /etc/docker/daemon.json -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /usr/bin/docker-containerd -p wa" | tee -a /etc/audit/rules.d/audit.rules
+echo "-w /usr/bin/docker-runc -p wa" | tee -a /etc/audit/rules.d/audit.rules
 sudo service auditd restart
-
-# docker-bench-security issues 2.1-2.15 and 4.5
-cat \<< EOF | sudo tee -a /etc/docker/daemon.json
+cat > /etc/docker/daemon.json << EOL
         {
 			"icc": false,
 			"live-restore": true,
@@ -51,9 +83,9 @@ cat \<< EOF | sudo tee -a /etc/docker/daemon.json
 			"userland-proxy": false,
 			"no-new-privileges": true
 		}
-        EOF
-sudo chown root:root /etc/docker/daemon.json
-sudo service docker restart
+EOL
+chown root:root /etc/docker/daemon.json
+service docker restart
 
 
 

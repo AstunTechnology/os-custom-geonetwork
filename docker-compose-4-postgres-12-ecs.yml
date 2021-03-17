@@ -48,6 +48,7 @@ services:
       - /home/ec2-user/schemas/dcat2-master/src/main/plugin/dcat2:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
       #- /home/ec2-user/schemas/iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
       - /home/ec2-user/schemas/iso19139.nonspatial-main/target/schema-iso19139.nonspatial-3.7.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.nonspatial-3.7.jar
+      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl
     logging:
         driver: awslogs
         options: 
@@ -85,6 +86,8 @@ services:
       SERVER_REWRITEBASEPATH: 'false'
       KIBANA_INDEX: .dashboards
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
+    volumes:
+      - /home/ec2-user/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     logging:
           driver: awslogs
           options: 

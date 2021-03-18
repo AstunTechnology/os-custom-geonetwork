@@ -6,7 +6,7 @@ mkdir -p schemas && \
 unzip -o gemini23.zip -d schemas && \
 curl -fSL https://github.com/AstunTechnology/iso19139.nonspatial/archive/main.zip -o nonspatial.zip && \
 unzip -o nonspatial.zip -d schemas && \
-curl -fSL https://github.com/AstunTechnology/dcat2/archive/master.zip -o dcat.zip && \
+curl -fSL https://github.com/AstunTechnology/dcat2/archive/3.10.x.zip -o dcat.zip && \
 unzip -o dcat.zip -d schemas
 # directories
 mkdir -p pgdata esdata nginx kibana elasticsearch geonetwork-customisations && \

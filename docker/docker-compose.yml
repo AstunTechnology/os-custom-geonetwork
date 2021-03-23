@@ -2,9 +2,12 @@ version: '3'
 
 services:
   geonetwork:
-    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    build:
+      context: .
     container_name: geonetwork
-
+    env_file:
+      - .env-local
 
     ports:
       - 8080:8080
@@ -12,9 +15,14 @@ services:
       DATA_DIR: /catalogue-data
       ES_HOST: elasticsearch
       KB_URL: http://kibana:5601
-      es.url: http://elasticsearch:9200
-      kb.url: http://kibana:5601
-
+      ES_PROTOCOL: http
+      ES_PORT: 9200
+      GEONETWORK_DB_TYPE: postgres
+      GEONETWORK_DB_HOST: postgres
+      GEONETWORK_DB_PORT: 5432
+      GEONETWORK_DB_NAME: geonetwork
+      GEONETWORK_DB_USERNAME: geonetwork
+      GEONETWORK_DB_PASSWORD: ${GEONETWORK_DB_PASSWORD}
       JAVA_OPTS: 
         -Dorg.eclipse.jetty.annotations.AnnotationParser.LEVEL=OFF
         -Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true
@@ -23,21 +31,10 @@ services:
         -Dgeonetwork.data.dir=/catalogue-data
         -Dgeonetwork.codeList.dir=/catalogue-data/thesauri
         -Dgeonetwork.schema.dir=/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins
-
-      ES_HOST: elasticsearch
-      ES_PROTOCOL: http
-      ES_PORT: 9200
-
-      GEONETWORK_DB_TYPE: postgres
-      GEONETWORK_DB_HOST: postgres
-      GEONETWORK_DB_PORT: 5432
-      GEONETWORK_DB_NAME: geonetwork
-      GEONETWORK_DB_USERNAME: geonetwork
-      GEONETWORK_DB_PASSWORD: ${GEONETWORK_DB_PASSWORD}
     logging:
       driver: "json-file"
-    networks:
-      - esnet
+    # networks:
+    #   - esnet
     volumes:
       - ../geonetwork:/catalogue-data
       - ../../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
@@ -52,15 +49,20 @@ services:
       - ../geonetwork/catalog/locales/en-custom.json:/usr/local/tomcat/webapps/geonetwork/catalog/locales/en-custom.json
       - ../geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
       - ../geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl:/usr/local/tomcat/webapps/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl
-      - ../geonetwork/WEB-INF/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-service-csw.xml
+      - ../geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
+      - ../geonetwork/WEB-INF/config-security/config-security-mapping.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config-security/config-security-mapping.xml
+      - ../geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
+      - ../geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
+      - ../tomcat/server.xml:/usr/local/tomcat/conf/server.xml
+      - ../tomcat/web.xml:/usr/local/tomcat/conf/web.xml
 
   elasticsearch:
     image: public.ecr.aws/y7x5j6q3/os-elasticsearch:latest
     container_name: elasticsearch
     logging:
       driver: "json-file"
-    networks:
-      - esnet
+    # networks:
+    #   - esnet
     ulimits:
       memlock:
         soft: -1
@@ -79,7 +81,7 @@ services:
     image: kibana:7.6.2
     container_name: kibana
     environment:
-      SERVER_NAME: 'kibana'
+      SERVER_NAME: kibana
       SERVER_BASEPATH: /geonetwork/dashboards
       SERVER_REWRITEBASEPATH: 'false'
       KIBANA_INDEX: .dashboards
@@ -87,10 +89,9 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200/
     logging:
           driver: "json-file"
-    networks:
-      - esnet
-    ports:
-      - "5601:5601"
+    # networks:
+    #   - esnet
+
   
 
   postgres:
@@ -107,8 +108,8 @@ services:
       - ../postgresql/audit.sql:/docker-entrypoint-initdb.d/1-audit.sql
     logging:
           driver: "json-file"
-    networks:
-      - esnet
+    # networks:
+    #   - esnet
 
   nginx:
     image: nginx
@@ -120,11 +121,11 @@ services:
       - "81:80"
     logging:
           driver: "json-file"
-    networks:
-      - esnet
+    # networks:
+    #   - esnet
 
-networks:
-  esnet:
-    driver: bridge
+# networks:
+#   esnet:
+#     driver: bridge
 
 

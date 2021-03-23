@@ -1,0 +1,4 @@
+<Context>
+<CookieProcessor sameSiteCookies="strict" />
+<Resources antiResourceLocking="false" cachingAllowed="false" />
+</Context>

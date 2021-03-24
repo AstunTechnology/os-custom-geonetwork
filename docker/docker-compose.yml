@@ -2,9 +2,9 @@ version: '3'
 
 services:
   geonetwork:
-    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
-    build:
-      context: .
+    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    # build:
+    #   context: .
     container_name: geonetwork
     env_file:
       - .env-local

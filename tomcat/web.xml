@@ -491,7 +491,7 @@
   <!--                       Should the header that blocks content type     -->
   <!--                       sniffing be added to every response? [true]    -->
 
-    <filter>
+ <!--    <filter>
         <filter-name>httpHeaderSecurity</filter-name>
         <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
         <async-supported>true</async-supported>
@@ -500,7 +500,7 @@
     <filter-mapping>
 <filter-name>httpHeaderSecurity</filter-name>
 <url-pattern>/*</url-pattern>
-</filter-mapping>
+</filter-mapping> -->
 
 
   <!-- A filter that sets character encoding that is used to decode -->

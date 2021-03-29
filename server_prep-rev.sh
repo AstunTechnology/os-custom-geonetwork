@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This file is for customisations to the EC2 instance, not to the docker containers.
+# It's for security config changes mainly.
+# It is run as one of the --extra--user-data parameters for the ecs-cli cluster up script
+# It should be run second, after bitbucket.sh
+
 
 # docker-bench-security issues 1.5-1.13
 echo "-w /usr/bin/docker -p wa" | sudo tee -a /etc/audit/rules.d/audit.rules

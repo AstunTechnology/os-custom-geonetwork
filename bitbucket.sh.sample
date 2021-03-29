@@ -1,0 +1,36 @@
+#cloud-config
+
+# This file is for downloading repos from bitbucke that require credentials.
+# It is run as one of the --extra--user-data parameters for the ecs-cli cluster up script
+# It should be run first. 
+
+# It clones a copy of the docker-geonetwork repository to the server itself, so you can
+# Deploy updates to the customisation files, without needing to redeploy the EC2 instance itself,
+# just by sshing onto the EC2 instance, pulling the latest git changes, then
+# running customisation.sh as required
+
+write_files:
+- path: /etc/environment
+  content: |
+    bitbucketuser="youruser"
+    bitbucketpwd="your app password"
+  append: true
+
+repo_update: true
+repo_upgrade: all
+
+packages:
+- git
+- unzip
+
+runcmd:
+ - cd /home/ec2-user
+ - source /etc/environment
+ - git clone https://$bitbucketuser:$bitbucketpwd@bitbucket.org/astuntech/docker-geonetwork.git
+ - chmod +x docker-geonetwork/customisations.sh
+ - ./docker-geonetwork/customisations.sh
+ - sed '1,2d' /etc/environment
+ - unset bitbucketuser
+ - unset bitbucketpwd
+
+

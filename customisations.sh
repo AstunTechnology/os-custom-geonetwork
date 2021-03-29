@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# This file is to allow you to make customisations to the docker config on ECS without you needing to 
+# redeploy the entire EC2 instance. The repository is downloaded ad this script run as part of the server 
+# initialisation but you can ssh onto the server and git pull changes, then run this as required
+
 cd /home/ec2-user && \
 # schemas
 curl -fSL https://github.com/AstunTechnology/iso19139.gemini23/archive/3.10.x.zip -o gemini23.zip && \

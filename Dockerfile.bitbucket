@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.0-experimental
-FROM tomcat:8.5-jdk8
+FROM tomcat:8
 
 #ENV CATALINA_HOME=/var/lib/tomcat8
 ENV GN_FILE geonetwork.war
@@ -27,9 +27,8 @@ RUN apt-get update && apt-get install -y postgresql-client nano && \
     rm -rf /var/lib/apt/lists/*
 
 #Set geonetwork data dir
-COPY ./docker-entrypoint.sh /entrypoint.sh
+COPY ./docker-entrypoint.sh.bitbucket /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["catalina.sh", "run"]
-

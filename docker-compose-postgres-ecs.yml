@@ -1,17 +1,15 @@
 version: '3'
 
-#x-aws-vpc: vpc-0d6398060b3738286
-
 volumes:
   geonetwork:
   esdata:
   pgdata:
-  #geonetwork/iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:
 
 services:
   geonetwork:
     #image: geonetwork:4.0.2
     image: geonetwork:3.10.6
+    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
 
     ports:
       - 8080:8080

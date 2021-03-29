@@ -57,8 +57,8 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-0e9130b270a4c4f11"
-        - "subnet-0f253937562273b7f"
+        - "subnet-0d5ad36d370ef53f0"
+        - "subnet-0d89b9b6aadfadb2a"
       security_groups:
         - "sg-039f0a97751903467"
 

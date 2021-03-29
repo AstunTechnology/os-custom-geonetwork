@@ -10,8 +10,8 @@ volumes:
 
 services:
   geonetwork:
-    image: geonetwork:4.0.2
-    #image: geonetwork:3.10.6
+    #image: geonetwork:4.0.2
+    image: geonetwork:3.10.6
 
     ports:
       - 8080:8080
@@ -117,7 +117,7 @@ services:
     image: nginx
     volumes:
       - /home/ec2-user/nginx/root/robots.txt:/var/www/html/robots.txt
-      - /home/ec2-user/nginx/default:/etc/nginx/conf.d/default.conf
+      - /home/ec2-user/nginx/default.ecs:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
     logging:

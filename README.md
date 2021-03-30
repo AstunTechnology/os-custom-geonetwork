@@ -102,6 +102,8 @@ Modify `./shiro-geonetwork/conf/shiro.ini.geonetworkexample` to match your GeoNe
 
 ### Running GeoNetwork locally using a standard image
 
+Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
+
 In `docker-compose.yml` modify `services\geonetwork\images` to match the image you wish to download. Keep `build` and `context` commented out then run:
 
 	docker-compose -f docker-compose.yml up
@@ -121,6 +123,8 @@ In your `docker-compose` modify `services\geonetwork\images` to match the image 
 ### Building and running GeoNetwork using a locally downloaded war file
 
 Ensure your war file is locally tested, then copy it into docker-geonetwork/geonetwork.
+
+Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
 
 Build from the root `docker-geonetwork` folder using:
 

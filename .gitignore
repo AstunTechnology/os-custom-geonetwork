@@ -6,3 +6,4 @@ geonetwork/*.war
 *.war
 testing/target
 *creds.txt
+.env-local

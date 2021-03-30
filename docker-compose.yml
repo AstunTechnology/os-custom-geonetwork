@@ -126,8 +126,8 @@ services:
     image: nginx
     container_name: nginx
     volumes:
-          - ../nginx/default-local:/etc/nginx/conf.d/default.conf
-          - ../nginx/os-csw-api-local.inc:/etc/nginx/conf.d/os-csw-api.inc
+          - ./nginx/default.local:/etc/nginx/conf.d/default.conf
+          #- ../nginx/os-csw-api-local.inc:/etc/nginx/conf.d/os-csw-api.inc
     ports:
       - "81:80"
     logging:

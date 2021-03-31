@@ -12,6 +12,7 @@ services:
     #image: geonetwork:3.10.6
     build:
       context: .
+      dockerfile: Dockerfile.local
     container_name: geonetwork
     env_file:
       - .env-local

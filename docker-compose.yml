@@ -14,8 +14,6 @@ services:
       context: .
       dockerfile: Dockerfile.local
     container_name: geonetwork
-    env_file:
-      - .env-local
 
     ports:
       - 8080:8080
@@ -112,8 +110,6 @@ services:
   
 
   postgres:
-    env_file:
-      - .env-local
     image: postgis/postgis:12-master
     container_name: postgres
     environment:

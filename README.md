@@ -104,9 +104,11 @@ Modify `./shiro-geonetwork/conf/shiro.ini.geonetworkexample` to match your GeoNe
 
 Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
 
+Copy `.env-local.sample` to `.env-local` and fill in the credentials- note it's the same value in each case.
+
 In `docker-compose.yml` modify `services\geonetwork\images` to match the image you wish to download. Keep `build` and `context` commented out then run:
 
-	docker-compose -f docker-compose.yml up
+	docker-compose -f docker-compose.yml --env-file .env-local up
 
 Add the `-d` parameter if you want it to run quietly.
 
@@ -126,13 +128,15 @@ Ensure your war file is locally tested, then copy it into docker-geonetwork/geon
 
 Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
 
+Copy `.env-local.sample` to `.env-local` and fill in the credentials- note it's the same value in each case.
+
 Build from the root `docker-geonetwork` folder using:
 
 	docker build -f Dockerfile.local .
 
 Once the image is built, ensure you're using `build` and `context` rather than `image` in your `docker-compose.yml` then:
 
-	docker-compose -f docker-compose.yml up
+	docker-compose -f docker-compose.yml --env-file .env-local up
 
 Add the `-d` parameter if you want it to run quietly.
 

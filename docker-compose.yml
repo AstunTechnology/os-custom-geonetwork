@@ -19,10 +19,7 @@ services:
       - 8080:8080
     environment:
       DATA_DIR: /catalogue-data
-      ES_HOST: elasticsearch
       KB_URL: http://kibana:5601
-      ES_PROTOCOL: http
-      ES_PORT: 9200
       GEONETWORK_DB_TYPE: postgres
       GEONETWORK_DB_HOST: postgres
       GEONETWORK_DB_PORT: 5432
@@ -66,13 +63,13 @@ services:
       - ./geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
       # security overrides
       - ./geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
-      #- ./geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
+      - ./geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
       - ./geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - ./tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ./tomcat/web.xml:/usr/local/tomcat/conf/web.xml
 
   elasticsearch:
-    image: public.ecr.aws/y7x5j6q3/os-elasticsearch:latest
+    image: elasticsearch:7.6.2
     container_name: elasticsearch
     logging:
       driver: "json-file"
@@ -136,11 +133,7 @@ services:
     networks:
       - esnet
 
-networks:
-  esnet:
-    driver: bridge
-
-# comment this out only if it's needed
+# un-comment this only if it's needed
 # zeppelin:
 #   image: apache/zeppelin:0.9.0
 #   container_name: zeppelin
@@ -160,6 +153,10 @@ networks:
 #   expose:
 #     - "8081"
 #   networks:
-#     - gn-network
+#     - esnet
 #   restart: unless-stopped
 
+
+networks:
+  esnet:
+    driver: bridge

@@ -66,7 +66,7 @@ services:
       - ./geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
       # security overrides
       - ./geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
-      - ./geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
+      #- ./geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
       - ./geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - ./tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ./tomcat/web.xml:/usr/local/tomcat/conf/web.xml

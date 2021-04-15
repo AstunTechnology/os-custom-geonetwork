@@ -41,7 +41,7 @@ services:
     volumes:
       - geonetwork:/catalogue-data
       - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
+      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
       #- /home/ec2-user/schemas/iso19139.gemini23/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
       - /home/ec2-user/schemas/iso19139.nonspatial-main/src/main/plugin/iso19139.nonspatial:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
       - /home/ec2-user/schemas/dcat2-3.10.x/src/main/plugin/dcat2:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
@@ -129,5 +129,3 @@ services:
       interval: 1m
       timeout: 10s
       retries: 5
-
-

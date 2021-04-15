@@ -4,19 +4,10 @@
 
 **This is probably not the branch you want!**
 
-Requires SMTP credentials to be filled in in `.env` and then once you have running containers on the server, ssh onto it and run the following command:
+Requires SMTP credentials to be filled in in `.env` and then once you have running containers on the server, ssh onto it and run the shell-script `clamav/run-clamav.sh`.
 
-`
-docker run --rm -it \
--v /var/lib/docker/volumes:/scan \
--v /home/ec2-user/clamav-logs:/logs \
--v /home/ec2-user/clamav-quarantine:/quarantine \
-tquinnelly/clamav-alpine -i \
---log=logs/output.txt \
---move=quarantine && \ 
-sudo curl --ssl-reqd   --url "smtps://$SMTP"   --user "$SMTPUSER:$SMTPPWD"   --mail-from "$EMAILADDR"   --mail-rcpt "$EMAILADDR"   --upload-file clamav-logs/output.txt && \
-sudo rm clamav-logs/output.txt
-`
+The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned.
+
 
 * If running it on your local machine you will need to adjust the volume locations in the above commands to match.
 

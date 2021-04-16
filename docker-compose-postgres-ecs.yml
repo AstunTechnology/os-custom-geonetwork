@@ -39,16 +39,36 @@ services:
       GEONETWORK_DB_USERNAME: geonetwork
       GEONETWORK_DB_PASSWORD: geonetwork
     volumes:
-      - geonetwork:/catalogue-data
-      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
-      #- /home/ec2-user/schemas/iso19139.gemini23/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
+      # dcat and non-spatial
       - /home/ec2-user/schemas/iso19139.nonspatial-main/src/main/plugin/iso19139.nonspatial:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
       - /home/ec2-user/schemas/dcat2-3.10.x/src/main/plugin/dcat2:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
-      #- /home/ec2-user/schemas/iso19139.gemini23/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
       - /home/ec2-user/schemas/iso19139.nonspatial-main/target/schema-iso19139.nonspatial-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.nonspatial-3.7.jar
-      - /home/ec2-user/geonetwork-customisations/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl
-      - /home/ec2-user/geonetwork-customisations/catalog/locales/en-custom.json:/usr/local/tomcat/webapps/geonetwork//catalog/locales/en-custom.json
+       # general overrides
+      - /home/ec2-user/geonetwork:/catalogue-data
+      - /home/ec2-user/thesauri:/catalogue-data/thesauri
+      # schema overrides
+      # gemini 2.3
+      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
+      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
+      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl
+      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml
+      # gemini 2.2
+      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
+      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/target/schema-iso19139.gemini22-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-3.7.jar
+      - /home/ec2-user/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl:/usr/local/tomcat/webapps/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl
+      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22/process/xml_gemini22gemini23-schemaupgrade.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/process/xml_gemini22gemini23-schemaupgrade.xsl
+      # iso19139
+      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl
+      # OS custom overrides
+      #- /home/ec2-user/geonetwork/catalog/locales/en-custom.json:/usr/local/tomcat/webapps/geonetwork/catalog/locales/en-custom.json
+      #- /home/ec2-user/geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
+      #- /home/ec2-user/geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
+      # security overrides (some not needed for ECS geonetwork)
+      - /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
+      #- /home/ec2-user/geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
+      - /home/ec2-user/geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
+      - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
+      - /home/ec2-user/tomcat/web.xml:/usr/local/tomcat/conf/web.xml
     logging:
         driver: awslogs
         options: 
@@ -69,6 +89,7 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1G -Xmx1G"
       discovery.type: single-node
+      
     volumes:
       - esdata:/usr/share/elasticsearch/data
     logging:

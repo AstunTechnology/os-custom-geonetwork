@@ -33,7 +33,11 @@ services:
       GEONETWORK_DB_USERNAME: geonetwork
       GEONETWORK_DB_PASSWORD: ${GEONETWORK_DB_PASSWORD}
     volumes:
-      # general overrides
+       # dcat and non-spatial
+      - /home/ec2-user/schemas/iso19139.nonspatial-main/src/main/plugin/iso19139.nonspatial:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
+      - /home/ec2-user/schemas/dcat2-3.10.x/src/main/plugin/dcat2:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
+      - /home/ec2-user/schemas/iso19139.nonspatial-main/target/schema-iso19139.nonspatial-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.nonspatial-3.7.jar
+       # general overrides
       - /home/ec2-user/geonetwork:/catalogue-data
       - /home/ec2-user/thesauri:/catalogue-data/thesauri
       # schema overrides
@@ -54,7 +58,7 @@ services:
       - /home/ec2-user/geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
       - /home/ec2-user/geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
       # security overrides (some not needed for ECS geonetwork)
-      #- /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
+      - /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
       #- /home/ec2-user/geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
       - /home/ec2-user/geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml

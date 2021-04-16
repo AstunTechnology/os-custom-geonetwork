@@ -1,15 +1,39 @@
-#!/bin/bash
+#!/usr/bin/bash
 
-# pull and run clamav image, scanning docker volumes
-# send output to clamav-logs/output.txt
+# pull and run clamav container
+# send logs to clamav-logs
 # move infected files to clamav-quarantine
+
 docker run --rm -it -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
 
-#  read the SMTP environment variables from the .env file
-set -a; source .env; set +a
+# make sure we have the environment variables
+source /home/ec2-user/.env
 
-# send output file as email using curl
-sudo curl --ssl-reqd   --url smtps://$SMTP   --user $SMTPUSER:$SMTPPWD   --mail-from $EMAILADDR   --mail-rcpt $EMAILADDR   --upload-file clamav-logs/output.txt
+# ensure the log file is created even if the container doesn't run for some reason
+if [ ! -f ./clamav-logs/output.txt ]; then
+        echo -e "Antivirus job ran, but no output was generated\n" >> /home/ec2-user/clamav-logs/output.txt
+fi
 
-# remove the log file
-sudo rm clamav-logs/output.txt
+# change permission on output.txt so we can send email
+sudo chown ec2-user:ec2-user /home/ec2-user/clamav-logs/output.txt
+
+# send an email with the log file as body
+openssl s_client -crlf -quiet -connect $SMTP  << EOF
+helo
+auth login
+$(echo $SMTPUSER | base64)
+$(echo $SMTPPWD | base64)
+mail from:$EMAILADDR
+rcpt to:$EMAILADDR
+Data
+From: $EMAILADDR
+To: $EMAILADDR
+Subject: $HOSTNAME Clamav Log $(date +%Y-%m-%d)
+
+$(< ./clamav-logs/output.txt)
+.
+EOF
+
+# remove the old log file
+sudo rm /home/ec2-user/clamav-logs/output.txt
+~                                              

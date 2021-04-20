@@ -1,16 +1,16 @@
 #!/usr/bin/bash
 
-# pull and run clamav container
+# pull and run clamav container; non-interactive for cron
 # send logs to clamav-logs
 # move infected files to clamav-quarantine
 
-docker run --rm -it -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
+docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
 
-# make sure we have the environment variables
+# make sure we have the environment variables available
 source /home/ec2-user/.env
 
 # ensure the log file is created even if the container doesn't run for some reason
-if [ ! -f ./clamav-logs/output.txt ]; then
+if [ ! -f /home/ec2-user/clamav-logs/output.txt ]; then
         echo -e "Antivirus job ran, but no output was generated\n" >> /home/ec2-user/clamav-logs/output.txt
 fi
 
@@ -36,4 +36,4 @@ EOF
 
 # remove the old log file
 sudo rm /home/ec2-user/clamav-logs/output.txt
-~                                              
+

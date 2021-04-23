@@ -20,5 +20,6 @@ cp -rf /home/ec2-user/docker-geonetwork/kibana/* /home/ec2-user/kibana  && \
 cp -rf /home/ec2-user/docker-geonetwork/odi-customisations/geonetwork/* /home/ec2-user/geonetwork-customisations  && \
 cp -rf /home/ec2-user/docker-geonetwork/elasticsearch/* /home/ec2-user/elasticsearch  && \
 cp -rf /home/ec2-user/docker-geonetwork/tomcat/* /home/ec2-user/tomcat  && \
+cp -rf /home/ec2-user/docker-geonetwork/geonetwork/* /home/ec2-user/geonetwork  && \
 
 chown -Rf ec2-user:ec2-user pgdata esdata nginx kibana elasticsearch schemas geonetwork-customisations geonetwork tomcat

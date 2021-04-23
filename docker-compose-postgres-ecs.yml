@@ -75,6 +75,11 @@ services:
           awslogs-group: docker-geonetwork
           awslogs-region: eu-west-2
           awslogs-stream-prefix: geonetwork
+    healthcheck:
+      test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
 
   elasticsearch:
     # image: elasticsearch:7.9.2
@@ -89,6 +94,11 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1G -Xmx1G"
       discovery.type: single-node
+    healthcheck:
+      test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
       
     volumes:
       - esdata:/usr/share/elasticsearch/data
@@ -116,6 +126,11 @@ services:
             awslogs-group: docker-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: kibana
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
+        interval: 1m
+        timeout: 10s
+        retries: 5
 
   database:
     image: postgis/postgis:12-master
@@ -131,6 +146,11 @@ services:
             awslogs-group: docker-geonetwork
             awslogs-region: eu-west-2
             awslogs-stream-prefix: database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
 
   nginx:
     image: nginx

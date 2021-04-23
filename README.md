@@ -161,6 +161,10 @@ Then run docker-compose from the same root folder as follows:
 
 	docker-compose -f docker-compose.yml up -d
 
+## Checking everything is running correctly
+
+The docker-compose files contain `healthcheck` sections for each service. If you run `docker ps -a` (when running locally) each service should report a healthy state. The commands being run in the healthcheck can generally be run manually to double-check the responses.
+
 
 ## Testing locally
 
@@ -169,3 +173,7 @@ There is an additional `docker-compose-dev.yml` file to build a separate set of 
 ## Docker Security Tests
 
 See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/1992097906/Docker+security+testing
+
+## Antivirus
+
+WIP: See the `clamav` branch

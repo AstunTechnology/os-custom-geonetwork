@@ -6,5 +6,6 @@
 	"gmd:DQ_DomainConsistency": "Data Quality Reports",
 	"gmd:MD_LegalConstraints": "Constraints Snippets",
 	"searchOver": "Hi, welcome to our experimental Data Catalogue. At present, this is not (yet) our live service – for that, do please go to our website (<a target='_blank' href='https://os.uk'>os.uk</a>) and data hub (<a target='_blank' href='https://osdatahub.os.uk/'>osdatahub.os.uk</a>).",
-	"system/security/passwordEnforcement/pattern": "Regex pattern for password enforcement"
+	"system/security/passwordEnforcement/pattern": "Regex pattern for password enforcement",
+	"system/security/passwordEnforcement/usePattern-help": "Require that the password contains at least 1 uppercase, 1 lowercase, 1 number and 1 symbol. No more than 2 repeated or 2 consecutive numbers or letters are allowed, and no more than two letters in a sequence from a standard qwerty keyboard."
 }

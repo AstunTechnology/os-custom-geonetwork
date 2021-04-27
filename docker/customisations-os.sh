@@ -6,6 +6,8 @@ mkdir -p schemas && \
 unzip -o gemini23.zip -d schemas && \
 curl -fSL https://github.com/AstunTechnology/iso19139.gemini22_GN3/archive/3.8.x.zip -o gemini22.zip && \
 unzip -o gemini22.zip -d schemas && \
+curl -fSL https://github.com/AstunTechnology/iso19139.osmp/archive/refs/heads/3.10.x.zip -o osmp.zip && \
+unzip -o osmp.zip -d schemas &&\
 # directories
 mkdir -p pgdata esdata geonetwork/thesauri nginx kibana elasticsearch postgresql tomcat && \
 cp -rf /home/ec2-user/os-custom-geonetwork/nginx/* /home/ec2-user/nginx && \

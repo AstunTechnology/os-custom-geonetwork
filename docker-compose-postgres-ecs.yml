@@ -8,8 +8,8 @@ volumes:
 services:
   geonetwork:
     #image: geonetwork:4.0.2
-    image: geonetwork:3.10.6
-    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    #image: geonetwork:3.10.6
+    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:v2
 
     ports:
       - 8080:8080

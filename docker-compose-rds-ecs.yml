@@ -4,7 +4,7 @@ services:
   geonetwork:
     env_file:
       - .env
-    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:v2
 
     # ports:
     #   - 8080:8080
@@ -63,6 +63,9 @@ services:
       - /home/ec2-user/geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - /home/ec2-user/tomcat/web.xml:/usr/local/tomcat/conf/web.xml
+      # osmp (WIP)
+      - /home/ec2-user/schemas/iso19139.osmp-3.10.x/src/main/plugin/iso19139.osmp:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.osmp
+      - /home/ec2-user/schemas/iso19139.osmp-3.10.x/target/schema-iso19139.osmp-3.10-SNAPSHOT.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/sschema-iso19139.osmp-3.10-SNAPSHOT.jar
     logging:
         driver: awslogs
         options: 

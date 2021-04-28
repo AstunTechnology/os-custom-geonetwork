@@ -1,19 +1,21 @@
-# Docker Geonetwork CLAMAV BRANCH
+# Docker Geonetwork
 
-**For testing an ephemeral docker container running clamav on the server, which sends the clamav log file to a named user**
+Instructions for deploying a customised GeoNetwork install (from a web archive file) including the following supporting software:
 
-**This is probably not the branch you want!**
+* ElasticSearch
+* Kibana
+* Zeppelin (optional)
+* Nginx
+* PostgreSQL/PostGIS (mandatory but can be RDS)
 
-Requires SMTP credentials to be filled in in `.env` and then once you have running containers on the server, ssh onto it and run the shell-script `clamav/run-clamav.sh`.
+It includes files for building and testing GeoNetwork locally, and also files specific to deploying using AWS ECS.
 
-The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned.
+Note: local containers can use `containername` to communicate with each other. ECS containers use `localhost`. ECS also needs/supports different config. That's why we need different versions of everything.
 
+## Questions before you start
 
-* If running it on your local machine you will need to adjust the volume locations in the above commands to match.
+**Is the client likely to want to access to core geonetwork code and/or the docker customisations and config?**
 
-* You shouldn't need to create the log and quarantine directories but if it doesn't work, try doing exactly that.
-
-<<<<<<< HEAD
 If the answer to the above is NO (default):
 
 * Create a new branch of https://bitbucket.org/astuntech/core-geonetwork/src/3.10.x/ with the format `custom/clientshortname`
@@ -165,7 +167,7 @@ The docker-compose files contain `healthcheck` sections for each service. If you
 
 ## Testing locally
 
-There is an additional `docker-compose-dev.yml` file to build a separate set of ephemeral containers to run the built-in GeoNetwork integration tests. To run the tests. See the instructions at the top of `docker-compose-dev.yml` for information on how to run.
+There is an additional `docker-compose-dev.yml` file to build a separate set of ephemeral containers to run the built-in GeoNetwork integration tests. To run the tests see the instructions at the top of `docker-compose-dev.yml`.
 
 ## Docker Security Tests
 
@@ -173,13 +175,10 @@ See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/1992097906/Docker+secu
 
 ## Antivirus
 
-Requires SMTP credentials to be filled in in `.env` and then once you have running containers on the server, ssh onto it and run the shell-script `clamav/run-clamav.sh`.
+SSH onto the server running the containers. Create `clamav/.clamavenv` from `clamav/.clamavenv.sample` and fill in the correct SMTP credentials. Edit `clamav/run-clamav.sh` to scan the correct volume. 
 
-The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned.
+Ensure the script is executable (`chmod a+x clamav/run-clamav.sh`) and then run it. Test it manually first to pick up issues with things like email credentials and directory access permissions.
 
-
-* If running it on your local machine you will need to adjust the volume locations in the above commands to match.
-
-* You shouldn't need to create the log and quarantine directories but if it doesn't work, try doing exactly that.
+The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned but/or can be set up manually- there's an example crontab file in the `clamav` folder.
 
 * For a tame virus file for testing purposes go to https://www.eicar.org/?page_id=3950.

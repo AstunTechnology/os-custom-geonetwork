@@ -4,10 +4,18 @@
 # send logs to clamav-logs
 # move infected files to clamav-quarantine
 
+# make directories for quarantine and logs if they don't exist
+
+sudo mkdir -p /home/ec2-user/clamav-logs /home/ec2-user/clamav-quarantine
+
+# unset $DOCKER_CONTENT_TRUST because the av container is not signed
+unset DOCKER_CONTENT_TRUST
+
+# change the first mounted volume to match the correct directory to scan
 docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
 
 # make sure we have the environment variables available
-source /home/ec2-user/.env
+source /home/ec2-user/clamav/.clamavenv
 
 # ensure the log file is created even if the container doesn't run for some reason
 if [ ! -f /home/ec2-user/clamav-logs/output.txt ]; then
@@ -30,10 +38,14 @@ From: $EMAILADDR
 To: $EMAILADDR
 Subject: $HOSTNAME Clamav Log $(date +%Y-%m-%d)
 
-$(< ./clamav-logs/output.txt)
+$(< /home/ec2-user/clamav-logs/output.txt)
 .
 EOF
 
 # remove the old log file
 sudo rm /home/ec2-user/clamav-logs/output.txt
+
+# reset $DOCKER_CONTENT_TRUST
+export DOCKER_CONTENT_TRUST=1
+
 

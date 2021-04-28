@@ -13,6 +13,8 @@ curl -fSL https://github.com/AstunTechnology/iso19139.nonspatial/archive/main.zi
 unzip -o nonspatial.zip -d schemas && \
 curl -fSL https://github.com/AstunTechnology/dcat2/archive/3.10.x.zip -o dcat.zip && \
 unzip -o dcat.zip -d schemas
+curl -fSL https://github.com/AstunTechnology/iso19139.osmp/archive/refs/heads/3.10.x.zip -o osmp.zip && \
+unzip -o osmp.zip -d schemas
 # directories
 mkdir -p pgdata esdata nginx kibana elasticsearch geonetwork-customisations geonetwork tomcat && \
 cp -rf /home/ec2-user/docker-geonetwork/nginx/* /home/ec2-user/nginx && \

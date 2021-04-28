@@ -16,6 +16,6 @@ cp -rf /home/ec2-user/os-custom-geonetwork/geonetwork/* /home/ec2-user/geonetwor
 cp -rf /home/ec2-user/os-custom-geonetwork/elasticsearch/* /home/ec2-user/elasticsearch  && \
 cp -rf /home/ec2-user/os-custom-geonetwork/thesauri/* /home/ec2-user/geonetwork/thesauri && \
 cp -rf /home/ec2-user/os-custom-geonetwork/tomcat/* /home/ec2-user/tomcat && \
-cp -rf /home/ec2-user/os-custom-geonetwork/docker/clamav* /home/ec2-user/clamav && \
+cp -rf /home/ec2-user/os-custom-geonetwork/docker/clamav/* /home/ec2-user/clamav && \
 
 chown -Rf ec2-user:ec2-user pgdata esdata geonetwork nginx kibana elasticsearch postgresql tomcat clamav

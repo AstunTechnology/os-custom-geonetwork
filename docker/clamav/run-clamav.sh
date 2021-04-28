@@ -1,39 +1,21 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-# pull and run clamav container; non-interactive for cron
-# send logs to clamav-logs
+# pull and run clamav image, scanning docker volumes
+# send output to clamav-logs/output.txt
 # move infected files to clamav-quarantine
+docker run --rm -it -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
 
-docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
+#  read the SMTP environment variables from the .env file
+set -a; source /home/ec2-user/.env; set +a
 
-# make sure we have the environment variables available
-source /home/ec2-user/.env
+# add a line to output.txt so we know the cron job has run even if
+# clamav doesn't, because of network error or whatever
 
-# ensure the log file is created even if the container doesn't run for some reason
-if [ ! -f /home/ec2-user/clamav-logs/output.txt ]; then
-        echo -e "Antivirus job ran, but no output was generated\n" >> /home/ec2-user/clamav-logs/output.txt
-fi
+sudo echo "Antivirus job ran, but if this is the only line then no output was generated\n"  | tee -a /home/ec2-user/clamav-logs/output.txt
 
-# change permission on output.txt so we can send email
-sudo chown ec2-user:ec2-user /home/ec2-user/clamav-logs/output.txt
+# send output file as email using curl
+sudo curl --ssl-reqd   --url smtps://$SMTP   --user $SMTPUSER:$SMTPPWD   --mail-from $EMAILADDR   --mail-rcpt $EMAILADDR   --upload-file /home/ec2-user/clamav-logs/output.txt
 
-# send an email with the log file as body
-openssl s_client -crlf -quiet -connect $SMTP  << EOF
-helo
-auth login
-$(echo $SMTPUSER | base64)
-$(echo $SMTPPWD | base64)
-mail from:$EMAILADDR
-rcpt to:$EMAILADDR
-Data
-From: $EMAILADDR
-To: $EMAILADDR
-Subject: $HOSTNAME Clamav Log $(date +%Y-%m-%d)
-
-$(< ./clamav-logs/output.txt)
-.
-EOF
-
-# remove the old log file
+# remove the log file
 sudo rm /home/ec2-user/clamav-logs/output.txt
 

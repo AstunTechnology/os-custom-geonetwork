@@ -75,60 +75,48 @@ services:
       timeout: 10s
       retries: 5
 
-  # elasticsearch:
-  #   #image: elasticsearch
-  #   image: public.ecr.aws/y7x5j6q3/os-elasticsearch
-  #   #build: ./elasticsearch
-  #   container_name: elasticsearch
-  #   logging:
-  #     driver: "json-file"
-  #   ports:
-  #     - 9200:9200
-  #   networks:
-  #     - esnet
-  #   ulimits:
-  #     memlock:
-  #       soft: -1
-  #       hard: -1
-  #     nofile:
-  #       soft: 65535
-  #       hard: 65535
-  #   environment:
-  #     - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
-  #     - discovery.type=single-node
-  #     #- xpack.security.enabled=true
-  #     #- xpack.license.self_generated.type=basic
-  #     #- xpack.security.transport.ssl.enabled=true
-  #     #- ELASTIC_PASSWORD_FILE=/run/secrets/bootstrapPassword.txt
-  #   volumes:
-  #     - esdata:/usr/share/elasticsearch/data
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
-  #     interval: 1m
-  #     timeout: 10s
-  #     retries: 3
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    logging:
+      driver: "json-file"
+    networks:
+      - esnet
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
+    environment:
+      ES_JAVA_OPTS: "-Xms1G -Xmx1G"
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
 
-  # kibana:
-  #   image: kibana:7.6.2
-  #   container_name: kibana
-  #   environment:
-  #     SERVER_NAME: kibana
-  #     SERVER_BASEPATH: /geonetwork/dashboards
-  #     SERVER_REWRITEBASEPATH: 'false'
-  #     KIBANA_INDEX: .dashboards
-  #     XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
-  #     ELASTICSEARCH_URL: http://elasticsearch:9200/
-  #     #ELASTICSEARCH_USERNAME: elastic
-  #     #ELASTICSEARCH_PASSWORD: changeme
-  #   logging:
-  #         driver: "json-file"
-  #   networks:
-  #     - esnet
-  #   healthcheck:
-  #       test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
-  #       interval: 1m
-  #       timeout: 10s
-  #       retries: 5
+  kibana:
+    image: kibana:7.6.2
+    container_name: kibana
+    environment:
+      SERVER_NAME: kibana
+      SERVER_BASEPATH: /geonetwork/dashboards
+      SERVER_REWRITEBASEPATH: 'false'
+      KIBANA_INDEX: .dashboards
+      XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+      #ELASTICSEARCH_USERNAME: elastic
+      #ELASTICSEARCH_PASSWORD: changeme
+    logging:
+          driver: "json-file"
+    networks:
+      - esnet
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
+        interval: 1m
+        timeout: 10s
+        retries: 5
 
   
 
@@ -154,28 +142,24 @@ services:
       timeout: 10s
       retries: 3
 
-  # nginx:
-  #   image: nginx
-  #   container_name: nginx
-  #   volumes:
-  #         - ./nginx/default.local:/etc/nginx/conf.d/default.conf
-  #   ports:
-  #     - "81:80"
-  #   logging:
-  #         driver: "json-file"
-  #   networks:
-  #     - esnet
-  # healthcheck:
-  #   test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
-  #   interval: 1m
-  #   timeout: 10s
-  #   retries: 5
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+          - ./nginx/default.local:/etc/nginx/conf.d/default.conf
+    ports:
+      - "81:80"
+    logging:
+          driver: "json-file"
+    networks:
+      - esnet
+  healthcheck:
+    test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
+    interval: 1m
+    timeout: 10s
+    retries: 5
 
-networks:
-  esnet:
-    driver: bridge
-
-# comment this out only if it's needed
+# un-comment this only if it's needed
 # zeppelin:
 #   image: apache/zeppelin:0.9.0
 #   container_name: zeppelin
@@ -195,6 +179,10 @@ networks:
 #   expose:
 #     - "8081"
 #   networks:
-#     - gn-network
+#     - esnet
 #   restart: unless-stopped
 
+
+networks:
+  esnet:
+    driver: bridge

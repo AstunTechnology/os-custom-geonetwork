@@ -1,22 +1,19 @@
-# Docker Geonetwork
+# Docker Geonetwork CLAMAV BRANCH
 
-Instructions for deploying a customised GeoNetwork install (from a web archive file) including the following supporting software:
+**For testing an ephemeral docker container running clamav on the server, which sends the clamav log file to a named user**
 
- * ElasticSearch
- * Kibana
- * Zeppelin (optional)
- * Nginx
- * PostgreSQL/PostGIS (mandatory but can be RDS)
+**This is probably not the branch you want!**
 
-It includes files for building and testing GeoNetwork locally, and also files specific to deploying using AWS ECS.
+Requires SMTP credentials to be filled in in `.env` and then once you have running containers on the server, ssh onto it and run the shell-script `clamav/run-clamav.sh`.
 
-Note: local containers can use `containername` to communicate with each other. ECS containers use `localhost`. ECS also needs/supports different config. That's why we need different versions of everything.
+The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned.
 
 
-## Questions before you start
+* If running it on your local machine you will need to adjust the volume locations in the above commands to match.
 
-**Is the client likely to want to access to core geonetwork code and/or the docker customisations and config?**
+* You shouldn't need to create the log and quarantine directories but if it doesn't work, try doing exactly that.
 
+<<<<<<< HEAD
 If the answer to the above is NO (default):
 
 * Create a new branch of https://bitbucket.org/astuntech/core-geonetwork/src/3.10.x/ with the format `custom/clientshortname`
@@ -176,4 +173,4 @@ See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/1992097906/Docker+secu
 
 ## Antivirus
 
-WIP: See the `clamav` branch
+* For a tame virus file for testing purposes go to https://www.eicar.org/?page_id=3950.

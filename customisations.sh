@@ -16,12 +16,13 @@ unzip -o dcat.zip -d schemas
 curl -fSL https://github.com/AstunTechnology/iso19139.osmp/archive/refs/heads/3.10.x.zip -o osmp.zip && \
 unzip -o osmp.zip -d schemas
 # directories
-mkdir -p pgdata esdata nginx kibana elasticsearch geonetwork-customisations geonetwork tomcat && \
+mkdir -p pgdata esdata nginx kibana elasticsearch geonetwork-customisations geonetwork tomcat clamav && \
 cp -rf /home/ec2-user/docker-geonetwork/nginx/* /home/ec2-user/nginx && \
 cp -rf /home/ec2-user/docker-geonetwork/kibana/* /home/ec2-user/kibana  && \
 cp -rf /home/ec2-user/docker-geonetwork/odi-customisations/geonetwork/* /home/ec2-user/geonetwork-customisations  && \
 cp -rf /home/ec2-user/docker-geonetwork/elasticsearch/* /home/ec2-user/elasticsearch  && \
 cp -rf /home/ec2-user/docker-geonetwork/tomcat/* /home/ec2-user/tomcat  && \
 cp -rf /home/ec2-user/docker-geonetwork/geonetwork/* /home/ec2-user/geonetwork  && \
+cp -rf /home/ec2-user/docker-geonetwork/clamav/* /home/ec2-user/clamav  && \
 
-chown -Rf ec2-user:ec2-user pgdata esdata nginx kibana elasticsearch schemas geonetwork-customisations geonetwork tomcat
+chown -Rf ec2-user:ec2-user pgdata esdata nginx kibana elasticsearch schemas geonetwork-customisations geonetwork tomcat clamav

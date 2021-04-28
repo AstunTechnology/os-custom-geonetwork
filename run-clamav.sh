@@ -12,7 +12,7 @@ sudo mkdir -p /home/ec2-user/clamav-logs /home/ec2-user/clamav-quarantine
 unset DOCKER_CONTENT_TRUST
 
 # change the first mounted volume to match the correct directory to scan
-docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine -i --log=logs/output.txt --move=quarantine
+docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine --log=logs/output.txt --move=quarantine
 
 # make sure we have the environment variables available
 source /home/ec2-user/clamav/.clamavenv

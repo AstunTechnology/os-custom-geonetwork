@@ -4,10 +4,10 @@ task_definition:
   ecs_network_mode: awsvpc
   task_size:
     mem_limit: 7168
-    cpu_limit: 1024
+    cpu_limit: 2048
 services:
   geonetwork:
-    mem_limit: 2048   
+    mem_limit: 4096   
     container_name: geonetwork
     healthcheck:
       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
@@ -44,8 +44,8 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-037e3e5e3c8cc9dd5" 
-        - "subnet-0b64d89dcdc5f3549"
+        - "subnet-037e3e5e3c8cc9dd5" #3_int az3
+        - "subnet-0b64d89dcdc5f3549" #4_int az1
       security_groups:
         - "sg-079d1a2473d7cf600"
 

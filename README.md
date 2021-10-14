@@ -175,7 +175,7 @@ See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/1992097906/Docker+secu
 
 ## Antivirus
 
-SSH onto the server running the containers. Create `clamav/.clamavenv` from `clamav/.clamavenv.sample` and fill in the correct SMTP credentials. Edit `clamav/run-clamav.sh` to scan the correct volume. 
+SSH onto the server running the containers. Create `clamav/.clamavenv` from `clamav/.clamavenv.sample` and fill in the correct SMTP credentials. Edit `clamav/run-clamav.sh` to scan the correct volume (probably the geonetwork data directory, wherever you have put that). 
 
 Ensure the script is executable (`chmod a+x clamav/run-clamav.sh`) and then run it. Test it manually first to pick up issues with things like email credentials and directory access permissions.
 

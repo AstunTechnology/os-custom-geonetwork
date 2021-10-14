@@ -10,3 +10,4 @@ testing/target
 *.log
 *.dump
 *.err
+thesauri/local

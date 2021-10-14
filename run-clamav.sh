@@ -8,11 +8,15 @@
 
 sudo mkdir -p /home/ec2-user/clamav-logs /home/ec2-user/clamav-quarantine
 
+# change permission on log folder and output.txt
+sudo chown -R ec2-user:ec2-user /home/ec2-user/clamav-logs
+touch /home/ec2-user/clamav-logs/output.txt
+
 # unset $DOCKER_CONTENT_TRUST because the av container is not signed
 unset DOCKER_CONTENT_TRUST
 
 # change the first mounted volume to match the correct directory to scan
-docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine --log=logs/output.txt --move=quarantine
+docker run --rm -v /var/lib/docker/volumes:/scan:ro -v /home/ec2-user/clamav-logs:/logs:rw -v /home/ec2-user/clamav-quarantine:/quarantine:rw tquinnelly/clamav-alpine --log=logs/output.txt --move=quarantine
 
 # make sure we have the environment variables available
 source /home/ec2-user/clamav/.clamavenv
@@ -21,9 +25,6 @@ source /home/ec2-user/clamav/.clamavenv
 if [ ! -f /home/ec2-user/clamav-logs/output.txt ]; then
         echo -e "Antivirus job ran, but no output was generated\n" >> /home/ec2-user/clamav-logs/output.txt
 fi
-
-# change permission on output.txt so we can send email
-sudo chown ec2-user:ec2-user /home/ec2-user/clamav-logs/output.txt
 
 # send an email with the log file as body
 openssl s_client -crlf -quiet -connect $SMTP  << EOF

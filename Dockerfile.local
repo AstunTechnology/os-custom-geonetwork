@@ -1,11 +1,15 @@
-FROM tomcat:8
+FROM tomcat:8-jdk8
 
 ENV GN_FILE ./geonetwork/geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data
 ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
 
 #Environment variables
-ENV GN_VERSION 3.10.5
+# ENV GN_VERSION 3.10.5
+
+# downgrade tls from 1.2 to 1.1
+RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/' /etc/ssl/openssl.cnf \
+&& sed -i 's/CipherString = DEFAULT@SECLEVEL=2/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
 
 WORKDIR $CATALINA_HOME/webapps
 

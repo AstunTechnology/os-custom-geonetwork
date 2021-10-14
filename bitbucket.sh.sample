@@ -14,6 +14,10 @@ write_files:
   content: |
     bitbucketuser="youruser"
     bitbucketpwd="your app password"
+    shirouser="user"
+    shiropassword="password"
+    shirohost="host"
+    shirodbname="dbname"
   append: true
 
 repo_update: true
@@ -26,11 +30,14 @@ packages:
 runcmd:
  - cd /home/ec2-user
  - source /etc/environment
- - git clone https://$bitbucketuser:$bitbucketpwd@bitbucket.org/astuntech/docker-geonetwork.git
+ - git clone -b ea3.12.x https://$bitbucketuser:$bitbucketpwd@bitbucket.org/astuntech/docker-geonetwork.git
+ - cd docker-geonetwork && git submodule init && git submodule update
  - chmod +x docker-geonetwork/customisations.sh
  - ./docker-geonetwork/customisations.sh
  - sed '1,2d' /etc/environment
  - unset bitbucketuser
  - unset bitbucketpwd
+ - crontab -u ec2-user ./docker-geonetwork/clamav/clamav.crontab
+
 
 

@@ -395,7 +395,7 @@
     <servlet-class>org.mitre.dsmiley.httpproxy.URITemplateProxyServlet</servlet-class>
     <init-param>
       <param-name>targetUri</param-name>
-      <param-value>http://elasticsearch:9200/gn-features/{_}</param-value>
+      <param-value>${es.url}/${es.index.features}/{_}</param-value>
     </init-param>
     <init-param>
       <param-name>log</param-name>
@@ -412,7 +412,7 @@
     <servlet-class>org.mitre.dsmiley.httpproxy.URITemplateProxyServlet</servlet-class>
     <init-param>
       <param-name>targetUri</param-name>
-      <param-value>http://elasticsearch:9200/gn-records/{_}</param-value>
+      <param-value>${es.url}/${es.index.features}/{_}</param-value>
     </init-param>
     <init-param>
       <param-name>log</param-name>
@@ -430,7 +430,7 @@
     <servlet-class>org.mitre.dsmiley.httpproxy.URITemplateProxyServlet</servlet-class>
     <init-param>
       <param-name>targetUri</param-name>
-      <param-value>http://elasticsearch:9200//{_}</param-value>
+      <param-value>${es.url}/${es.index.records_public}/{_}</param-value>
     </init-param>
     <init-param>
       <param-name>log</param-name>
@@ -447,7 +447,7 @@
     <servlet-class>org.mitre.dsmiley.httpproxy.ProxyServlet</servlet-class>
     <init-param>
       <param-name>targetUri</param-name>
-      <param-value>http://kibana:5601</param-value>
+      <param-value>http://localhost:5601</param-value>
     </init-param>
     <init-param>
       <param-name>log</param-name>
@@ -495,7 +495,7 @@
   </servlet-mapping>
 
   <session-config>
-    <session-timeout>35</session-timeout>
+    <session-timeout>60</session-timeout>
     <cookie-config>
       <http-only>true</http-only>
       <secure>false</secure>

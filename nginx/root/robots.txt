@@ -9,6 +9,6 @@ Disallow:/
 # Don't crawl the login pages
 #Disallow: /catalog.signin
 #Disallow: /login.jsp
-#Sitemap: https://osmetadata.astuntechnology.com/geonetwork/srv/api/sitemap
-#Sitemap: https://osmetadata.astuntechnology.com/geonetwork/srv/api/sitemap?format=rdf
+#Sitemap: https://sandpit.astuntechnology.com/geonetwork/srv/api/sitemap
+#Sitemap: https://sandpit.astuntechnology.com/geonetwork/srv/api/sitemap?format=rdf
 

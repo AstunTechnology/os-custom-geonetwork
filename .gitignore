@@ -1,13 +1,13 @@
 creds.txt
 .env
-shiro-geonetwork/conf/shiro.ini
+shiro-geonetwork
 bitbucket.sh
 geonetwork/*.war
 *.war
 testing/target
 *creds.txt
 .env-local
-*.log
 *.dump
+*.log
 *.err
 thesauri/local

@@ -1,6 +1,6 @@
 version: 1
 task_definition:
-  task_execution_role: ecsTaskExecutionRole
+  #task_execution_role: ecsTaskExecutionRole
   ecs_network_mode: awsvpc
   task_size:
     mem_limit: 6144
@@ -33,15 +33,15 @@ services:
     healthcheck:
         test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/login"]
         retries: 3
-  postgres:
-    mem_limit: 512
-    container_name: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
-      interval: 1m
-      timeout: 10s
-      retries: 3
-      start_period: 5m
+  # postgres:
+  #   mem_limit: 512
+  #   container_name: postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+  #     interval: 1m
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 5m
   nginx:
     container_name: nginx
     healthcheck:
@@ -50,6 +50,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 5m
+  zeppelin:
+    container_name: zeppelin
 
 
 
@@ -57,9 +59,11 @@ run_params:
   network_configuration:
     awsvpc_configuration:
       subnets:
-        - "subnet-0d5ad36d370ef53f0"
-        - "subnet-0d89b9b6aadfadb2a"
+        - "subnet-04ed1b0f2e8a49f17" #3_int az3
+        - "subnet-0a94c6fea5f8157b4" #1_ext az2
+        - "subnet-0e6ffdc3a1d0df406" #4_int az1
       security_groups:
-        - "sg-039f0a97751903467"
+        - "sg-0192b068e0185d319"
+
 
 

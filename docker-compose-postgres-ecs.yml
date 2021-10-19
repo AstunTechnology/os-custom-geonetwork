@@ -11,7 +11,8 @@ services:
       - .env
     #image: geonetwork:4.0.2
     #image: geonetwork:3.10.6
-    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:v2
+    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:v2
+    image: geonetwork:3.12
 
     ports:
       - 8080:8080
@@ -27,38 +28,39 @@ services:
         -Dgeonetwork.data.dir=/catalogue-data
         -Dgeonetwork.codeList.dir=/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/codelist
         -Dgeonetwork.schema.dir=/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins
-
-      ES_HOST: localhost
-      ES_PROTOCOL: http
-      ES_PORT: 9200
-
-      KB_URL: http://localhost:5601
+       -Des.protocol=http
+        -Des.port=9200
+        -Des.host=localhost 
 
       GEONETWORK_DB_TYPE: postgres
-      GEONETWORK_DB_HOST: localhost
-      GEONETWORK_DB_PORT: 5432
-      GEONETWORK_DB_NAME: geonetwork
-      GEONETWORK_DB_USERNAME: geonetwork
-      GEONETWORK_DB_PASSWORD: geonetwork
+      GEONETWORK_DB_HOST: ${POSTGRES_DB_HOST}
+      GEONETWORK_DB_PORT: ${POSTGRES_DB_PORT}
+      GEONETWORK_DB_NAME: ${POSTGRES_DB_NAME}
+      GEONETWORK_DB_USERNAME: ${POSTGRES_DB_USERNAME}
+      GEONETWORK_DB_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      KB_URL: ${KIBANA_URL}
     volumes:
       # dcat and non-spatial
-      - /home/ec2-user/schemas/iso19139.nonspatial-main/src/main/plugin/iso19139.nonspatial:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
-      - /home/ec2-user/schemas/dcat2-3.10.x/src/main/plugin/dcat2:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
-      - /home/ec2-user/schemas/iso19139.nonspatial-main/target/schema-iso19139.nonspatial-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.nonspatial-3.7.jar
+      # - /home/ec2-user/schemas/iso19139.nonspatial-main/src/main/plugin/iso19139.nonspatial:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
+      # - /home/ec2-user/schemas/dcat2-3.10.x/src/main/plugin/dcat2:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/dcat2
+      # - /home/ec2-user/schemas/iso19139.nonspatial-main/target/schema-iso19139.nonspatial-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.nonspatial-3.7.jar
        # general overrides
       - /home/ec2-user/geonetwork:/catalogue-data
       - /home/ec2-user/thesauri:/catalogue-data/thesauri
       # schema overrides
       # gemini 2.3
-      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      - /home/ec2-user/schemas/iso19139.gemini23-3.10.x/target/schema-iso19139.gemini23-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.7.jar
-      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl
-      - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml
+      - /home/ec2-user/schemas/iso19139.gemini23-3.12.x/src/main/plugin/iso19139.gemini23:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
+      - /home/ec2-user/schemas/iso19139.gemini23-3.12.x/target/schema-iso19139.gemini23-3.12-SNAPSHOT.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-3.12-SNAPSHOT.jar
+      #- /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl
+      #- /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/layout/config-editor.xml
       # gemini 2.2
-      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
-      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/target/schema-iso19139.gemini22-3.7.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-3.7.jar
+      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.12.x/src/main/plugin/iso19139.gemini22:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
+      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.12.x/target/schema-iso19139.gemini22-3.12-SNAPSHOT.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-3.12-SNAPSHOT.jar
       - /home/ec2-user/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl:/usr/local/tomcat/webapps/geonetwork/xsl/conversion/import/xml_gemini22gemini23.xsl
-      - /home/ec2-user/schemas/iso19139.gemini22_GN3-3.8.x/src/main/plugin/iso19139.gemini22/process/xml_gemini22gemini23-schemaupgrade.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/process/xml_gemini22gemini23-schemaupgrade.xsl
+      #- /home/ec2-user/schemas/iso19139.gemini22_GN3-3.12.x/src/main/plugin/iso19139.gemini22/process/xml_gemini22gemini23-schemaupgrade.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/process/xml_gemini22gemini23-schemaupgrade.xsl
+      # EAMP
+      - /home/ec2-user/schemas/iso19139.eamp-3.12.x/src/main/plugin/iso19139.eamp:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.eamp
+      - /home/ec2-user/schemas/iso19139.eamp-3.12.x/target/schema-iso19139.eamp-3.12-SNAPSHOT.jar:/usr/local/tomcat/webapps/geonetwork/WEB-INF/lib/schema-iso19139.eamp-3.12-SNAPSHOT.jar
       # iso19139
       - /home/ec2-user/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl:/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl
       # OS custom overrides
@@ -67,7 +69,7 @@ services:
       #- /home/ec2-user/geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
       # security overrides (some not needed for ECS geonetwork)
       - /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
-      #- /home/ec2-user/geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
+      - /home/ec2-user/geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
       - /home/ec2-user/geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - /home/ec2-user/tomcat/web.xml:/usr/local/tomcat/conf/web.xml
@@ -75,7 +77,7 @@ services:
         driver: awslogs
         options: 
           awslogs-group: docker-geonetwork
-          awslogs-region: eu-west-2
+          awslogs-region: eu-west-1
           awslogs-stream-prefix: geonetwork
     healthcheck:
       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1"]
@@ -96,6 +98,7 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1G -Xmx1G"
       discovery.type: single-node
+      logger.level: WARN
     healthcheck:
       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
       interval: 1m
@@ -103,16 +106,17 @@ services:
       retries: 3
       
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - /home/ec2-user/esdata:/usr/share/elasticsearch/data
     logging:
           driver: awslogs
           options: 
             awslogs-group: docker-geonetwork
-            awslogs-region: eu-west-2
+            awslogs-region: eu-west-1
             awslogs-stream-prefix: elasticsearch
 
   kibana:
-    image: kibana:7.9.2
+    #image: kibana:7.9.2
+    image: kibana:7.6.2
     environment:
       SERVER_NAME: 'kibana'
       ELASTICSEARCH_URL: http://localhost:9200/
@@ -120,13 +124,14 @@ services:
       SERVER_REWRITEBASEPATH: 'false'
       KIBANA_INDEX: .dashboards
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
+      #LOGGING_QUIET: 'true'
     volumes:
       - /home/ec2-user/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     logging:
           driver: awslogs
           options: 
             awslogs-group: docker-geonetwork
-            awslogs-region: eu-west-2
+            awslogs-region: eu-west-1
             awslogs-stream-prefix: kibana
     healthcheck:
         test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
@@ -134,22 +139,24 @@ services:
         timeout: 10s
         retries: 5
 
-  database:
+  postgres:
     image: postgis/postgis:12-master
     environment:
-      POSTGRES_USER: geonetwork
-      POSTGRES_PASSWORD: geonetwork
-      POSTGRES_DB: geonetwork
+      POSTGRES_USER: ${POSTGRES_DB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    ports:
+      - 5432:5432
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - /home/ec2-user/pgdata:/var/lib/postgresql/data
     logging:
           driver: awslogs
           options: 
             awslogs-group: docker-geonetwork
-            awslogs-region: eu-west-2
+            awslogs-region: eu-west-1
             awslogs-stream-prefix: database
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U geonetwork"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_DB_USERNAME} -d ${POSTGRES_DB_NAME}"]
       interval: 1m
       timeout: 10s
       retries: 3
@@ -165,10 +172,38 @@ services:
           driver: awslogs
           options: 
             awslogs-group: docker-geonetwork
-            awslogs-region: eu-west-2
+            awslogs-region: eu-west-1
             awslogs-stream-prefix: nginx
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:80/robots.txt || exit 1"]
       interval: 1m
       timeout: 10s
       retries: 5
+
+  # zeppelin:
+  #   image: apache/zeppelin:0.9.0
+  #   volumes: 
+  #     - /home/ec2-user/shiro-geonetwork/geonetwork-integration/target/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar:/opt/zeppelin/lib/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar
+  #     - /home/ec2-user/zeppelin/zeppelin-notebook:/data/zeppelin/notebook
+  #     - /home/ec2-user/zeppelin/zeppelin-logs:/data/zeppelin/logs
+  #     - /home/ec2-user/shiro-geonetwork/lib/postgresql-42.2.12.jar:/opt/zeppelin/lib/postgresql-42.2.12.jar
+  #     #- /home/ec2-user/shiro-geonetwork/conf/shiro.ini:/data/zeppelin/conf/shiro.ini
+  #     #- /home/ec2-user/zeppelin/zeppelin-conf/interpreter-setting.json:/data/zeppelin/interpreter/jdbc/interpreter-setting.json
+  #     #- /home/ec2-user/zeppelin/zeppelin-conf/interpreter.json:/data/zeppelin/conf/interpreter.json
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     - "ZEPPELIN_INTERPRETER_OUTPUT_LIMIT=10490000"
+  #     - "ZEPPELIN_INTERPRETER_INCLUDE=jdbc"  
+  #     - "ZEPPELIN_INTERPRETER_GROUP_DEFAULT=jdbc"
+  #     - "ZEPPELIN_PORT=8081"
+  #     - "ZEPPELIN_ADDR=0.0.0.0"
+  #     - "HOSTNAME=0.0.0.0"
+  #   logging:
+  #         driver: awslogs
+  #         options: 
+  #           awslogs-group: docker-geonetwork
+  #           awslogs-region: eu-west-1
+  #           awslogs-stream-prefix: zeppelin
+
+      

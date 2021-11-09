@@ -8,55 +8,108 @@ Instructions for deploying a customised GeoNetwork install (from a web archive f
 * Nginx
 * PostgreSQL/PostGIS (mandatory but can be RDS)
 
-It includes files for building and testing GeoNetwork locally, and also files specific to deploying using AWS ECS.
+It includes files for building and testing GeoNetwork locally, and also on AWS EC2.
 
-Note: local containers can use `containername` to communicate with each other. ECS containers use `localhost`. ECS also needs/supports different config. That's why we need different versions of everything.
+## QUICK START 
 
-## Questions before you start
+**For local build optionally including Postgres and Zeppelin**
 
-**Is the client likely to want to access to core geonetwork code and/or the docker customisations and config?**
+### Prep
 
-If the answer to the above is NO (default):
+  * Install docker and docker-compose (see below for instructions).
+  * Clone this repository locally and check out the correct branch for the client you are working for.
+  * Look at the `services\geonetwork\volumes` section of `docker-compose.yml` and ensure that you match the file structure for any volumes that are not inside this repository, eg those where the local path starts with `../`. These are generally schema plugins and can be found in https://github.com/astuntechnology.
+  * Clone the required repositories to the same level in your file system as `docker-geonetwork` and match the folder names so that you can refer to the mounted files using the location `../iso19139.gemini23/...`.
 
-* Create a new branch of https://bitbucket.org/astuntech/core-geonetwork/src/3.10.x/ with the format `custom/clientshortname`
-* Create a branch of this repository with the form `clientshortname`
+### Database Prep- Existing postgresql server
 
-*Note that the 3.10.x branch is rectified with https://github.com/geonetwork/core-geonetwork 3.10.x about once a month- by pulling changes from core into a local copy, pushing them to this repository and doing a pull request per custom branch to get the custom branches up to date. Generally this works just fine but occasionally there's a conflict- in which case bitbucket provides instructions on how to resolve locally.*
+  * If you already have a postgres server running then create a user for geonetwork with at least database creation privileges.
+  * Copy `.env-local.sample` to `.env-local` and edit the following credentials:
+		
+		POSTGRES_DB_NAME=
+		POSTGRES_DB_HOST=
+		POSTGRES_DB_PASSWORD=
+		POSTGRES_DB_USERNAME=
+		POSTGRES_DB_PORT= 
+  
+  * Leave the other credentials as is for the moment.
+  * From the root `docker-geonetwork` directory run:
 
-If the answer is YES:
+		docker-compose -f docker-compose.yml --env-file .env-local up -d
+  
+  * You only need to include Zeppelin if you're specifically testing it, but if you do, run:
 
-* Create a new branch of https://github.com/AstunTechnology/custom-geonetwork with the format `clientshortname-version`
+		docker-compose -f docker-compose.yml -f docker-compose-zeppelin.yml --env-file .env-local up -d
+
+### Database Prep- using included Postgres container
+
+  * If you need to use the included Postgres container (because you don't have a postgres server running) then copy `.env-local.sample` to `.env-local` and edit the following credentials. Note that in this scenario `POSTGRES_DB_HOST` has the container name `postgres` rather than `localhost`.
+		
+		POSTGRES_DB_NAME=
+		POSTGRES_DB_HOST=postgres
+		POSTGRES_DB_PASSWORD=
+		POSTGRES_DB_USERNAME=
+		POSTGRES_DB_PORT=5432 
+  
+  *  Start up the containers using:
+
+		docker-compose -f docker-compose.yml -f docker-compose-postgres.yml --env-file .env-local up
+  
+  * You only need to include Zeppelin if you're specifically testing it, but if you do, run:
+
+		docker-compose -f docker-compose.yml -f docker-compose-postgres.yml -f docker-compose-zeppelin.yml --env-file .env-local up -d
+  
+
+## ADVANCED
+
+If all you're doing is running GeoNetwork locally for dev purposes then the quick start section above is all you need.
+
+If you're starting from scratch with a new client then there's a whole bunch of additional prep that you need to do, to set up repositories and such like. Exactly how much work you need to do depends on what the clients need access to, in other words if they want to see the code for their own development purposes.
+
+### Is the client likely to want to access to core geonetwork code and/or the docker customisations and config?
+
+**If the answer to the above is NO (default):**
+
+* Create a new branch of https://bitbucket.org/astuntech/core-geonetwork/src/3.10.x/ with the format `custom/clientshortname` (eg `custom/scotgov`).
+* Create a branch of this repository with the form `clientshortname.geonetworkversion` (eg `scotgov.3.10.x`).
+
+*Note that the 3.10.x and 3.12.x branches are rectified with https://github.com/geonetwork/core-geonetwork 3.10.x and 3.12.x about once a month- by pulling changes from core into a local copy, pushing them to this repository and doing a pull request per custom branch to get the custom branches up to date. Generally this works just fine but occasionally there's a conflict- in which case bitbucket provides instructions on how to resolve locally.*
+
+**If the answer is YES:**
+
+* Create a new branch of https://github.com/AstunTechnology/custom-geonetwork with the format `clientshortname-geonetworkversion`
 * Create new custom repository on GitHub for the docker code, looking like, and named like https://github.com/AstunTechnology/os-custom-geonetwork and leave, your work is done here
 
-*Our custom-geonetwork repository on GitHub is a straight fork of the main core geonetwork one so can be brought up to date using a pull request in the normal way*
+*Our custom-geonetwork repository master branch on GitHub is a straight fork of the main core geonetwork one so can be brought up to date using a pull request in the normal way*
 
-**Are you going to use an RDS for the databse when deploying in ECS?**
+### Are you going to use an RDS for the databse when deploying in EC2?
 
-If NO (default):
+**If NO:**
 
-* Use the `docker-compose-postgres-ecs.yml` file, which will create a local postgresql database on the server alongside the other components
+* Create a `.env-local` file from `.env-local.sample` with your credentials in it.
+* Use the additional `docker-compose-postgres.yml` file as part of your deployment, which will create a local postgresql database on the server alongside the other components
 
-If YES:
+**If YES (default):**
 
-* Create a `.env` file from `.env.sample` with your credentials in it. 
-* Use `docker-compose-rds-ecs.yml` which will use an RDS for the database
+* Create a `.env` file from `.env.sample` with your credentials in it, including the correct path to the RDS host. 
+* Use `docker-compose.yml` for your deployment
 
-**Are you going to need to make any changes to GeoNetwork that require building from source?**
+### Are you going to need to make any changes to GeoNetwork that require building from source?
 
-If NO (default):
+**If NO (default):**
 
-* Choose the correct GeoNetwork image in the `services\geonetwork` section of the correct docker-compose file for you (see above)
+* Choose the correct GeoNetwork image in the `services\geonetwork` section of `docker-compose.yml`
 * Keep any `build` or `context` lines commented out
 
-If YES: 
+**If YES:**
 
 * You'll be working locally so use `docker-compose.yml` and comment out the `services\geonetwork\images` lines. Un-comment the `build` and `context` lines.
 * **RECOMMENDED** build and test GeoNetwork locally so that you have a working geonetwork.war file, and copy it into the `docker-geonetwork/geonetwork` folder. Then use `Dockerfile.local` to build your image.
-* If you absolutely must try to build from a war file on bitbucket then think again, but if you really must then use Dockerfile.bitbucket for the build and follow the additional instructions below
-* Note that a local build of GeoNetwork can't be deployed to ECS, you'll need to publish it to the AWS Public ECR container registry first. 
+* If you absolutely must try to build from a war file on bitbucket then think again, but if you absolutely have to then use Dockerfile.bitbucket for the build and follow the additional instructions below
+* Note that a local build of GeoNetwork can't be deployed to EC2 so you'll need to publish it to the AWS Public ECR container registry first. 
 
 
-## Installation
+## Local Development
 
 ### Requirements
 
@@ -82,28 +135,19 @@ How to install docker etc on an ubuntu box:
 
 ### Set Up
 
-Clone https://bitbucket.org/astuntech/docker-geonetwork locally:
+ * Clone https://bitbucket.org/astuntech/docker-geonetwork locally:
 
-	git clone git@bitbucket.org:astuntech/docker-geonetwork.git
-	cd docker-geonetwork
+		git clone git@bitbucket.org:astuntech/docker-geonetwork.git
+		cd docker-geonetwork
 
-Get an app password from bitbucket with **read** access to **repositories** and save it somewhere useful. Copy `bitbucket.sh.sample` to `bitbucket.sh` and fill in your usename and app password. You'll also need this information in a second place if you're going to try to use a custom war file downloaded from bitbucket later.
+ * Get an app password from bitbucket with **read** access to **repositories** and save it somewhere useful. You'll need this if you're going to try to use a custom war file downloaded from bitbucket later.
 
-
-#### Optional Zeppelin
-
-If you wish to deploy zeppelin (commented out by default) then un-comment the `services\zeppelin` section in your `docker-compose` file and additionally:
-	
-	cd docker-geonetwork
-	git submodule update --init
-
-Modify `./shiro-geonetwork/conf/shiro.ini.geonetworkexample` to match your GeoNetwork postgresql read-only credentials and save it as `./shiro-geonetwork/conf/shiro.ini`
 
 ### Running GeoNetwork locally using a standard image
 
-Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
+As in the Quick Start guide above, ensure you have the schema plugins and additional customisation files referenced in the `services\geonetwork\volumes` section cloned, using the correct branch, and available at the same relative location in your filesystem as `docker-geonetwork`.
 
-Copy `.env-local.sample` to `.env-local` and fill in the credentials- note it's the same value in each case.
+Copy `.env-local.sample` to `.env-local` and fill in the credentials.
 
 In `docker-compose.yml` modify `services\geonetwork\images` to match the image you wish to download. Keep `build` and `context` commented out then run:
 
@@ -111,33 +155,31 @@ In `docker-compose.yml` modify `services\geonetwork\images` to match the image y
 
 Add the `-d` parameter if you want it to run quietly.
 
-### Deploying GeoNetwork to ECS
+### Deploying GeoNetwork to EC2
 
-You'll be using either `docker-compose-postgres-ecs.yml` with `ecs-params.yml` or `docker-compose-rds-ecs.yml` with `ecs-params-rds.yml`.
+SSH onto the EC2 server. Ensure you have the schema plugins and additional customisation files referenced in the `services\geonetwork\volumes` section cloned, using the correct branch, and available at the same relative location in the filesystem as `docker-geonetwork`.
 
-Ensure you have an AWS and ECS profile properly configured and set up. Modify your `docker-compose` and `ecs-params` files with the correct values for subnets and security groups as provided.
+Copy `.env.sample` to `.env` and fill in the credentials.
+
+In `docker-compose.yml` modify `services\geonetwork\images` to match the image you wish to download. Keep `build` and `context` commented out then run:
+
+	docker-compose -f docker-compose.yml --env-file .env up -d
 
 
-In your `docker-compose` modify `services\geonetwork\images` to match the image you wish to download. Keep `build` and `context` commented out then see https://astuntech.atlassian.net/wiki/spaces/ITA/pages/966852646/Docker#GeoNetwork for the generalised commands to deploy, substiting your ECS and AWS profile, and subnets/security groups as needed.
+### Building and running GeoNetwork locally using a war file
 
+Ensure your war file is locally tested, then copy it into `docker-geonetwork/geonetwork`.
 
-### Building and running GeoNetwork using a locally downloaded war file
+Ensure you have the schema plugins and additional customisation files referenced in the `services\geonetwork\volumes` section cloned, using the correct branch, and available at the same relative location in your filesystem as `docker-geonetwork`.
 
-Ensure your war file is locally tested, then copy it into docker-geonetwork/geonetwork.
-
-Ensure you have the schema plugins https://github.com/AstunTechnology/iso19139.gemini23 and https://github.com/AstunTechnology/iso19139.gemini22_GN3 cloned and available at the same relative location in your filesystem as `docker-geonetwork`.
-
-Copy `.env-local.sample` to `.env-local` and fill in the credentials- note it's the same value in each case.
+Copy `.env-local.sample` to `.env-local` and fill in the credentials.
 
 Build from the root `docker-geonetwork` folder using:
 
 	docker build -f Dockerfile.local .
 
-Once the image is built, ensure you're using `build` and `context` rather than `image` in your `docker-compose.yml` then:
+Once the image is built, ensure you're using `build` and `context` rather than `image` in your `docker-compose.yml` then run docker-compose as above.
 
-	docker-compose -f docker-compose.yml --env-file .env-local up
-
-Add the `-d` parameter if you want it to run quietly.
 
 ### Building and running GeoNetwork locally using a war file from bitbucket
 
@@ -156,16 +198,16 @@ Build the docker image for geonetwork from the `docker-geonetwork` root folder w
 
 	DOCKER_BUILDKIT=1 docker build -t customgeonetwork -f Dockerfile.bitbucket--no-cache --secret id=creds,src=creds.txt --progress=plain .
 
-Then run docker-compose from the same root folder as follows:
+Then run docker-compose from the same root folder as above.
 
-	docker-compose -f docker-compose.yml up -d
+See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/2633760804/Creation+of+custom+Geonetwork+and+ElasticSearch+docker+images for instructions on preparing your image and pushing it to AWS ECR-Public.
 
 ## Checking everything is running correctly
 
 The docker-compose files contain `healthcheck` sections for each service. If you run `docker ps -a` (when running locally) each service should report a healthy state. The commands being run in the healthcheck can generally be run manually to double-check the responses.
 
 
-## Testing locally
+## Integration Tests
 
 There is an additional `docker-compose-dev.yml` file to build a separate set of ephemeral containers to run the built-in GeoNetwork integration tests. To run the tests see the instructions at the top of `docker-compose-dev.yml`.
 
@@ -175,10 +217,16 @@ See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/1992097906/Docker+secu
 
 ## Antivirus
 
-SSH onto the server running the containers. Create `clamav/.clamavenv` from `clamav/.clamavenv.sample` and fill in the correct SMTP credentials. Edit `clamav/run-clamav.sh` to scan the correct volume (probably the geonetwork data directory, wherever you have put that). 
+SSH onto the server running the containers. Create `docker-geonetwork/clamav/.clamavenv` from `docker-geonetwork/clamav/.clamavenv.sample` and fill in the correct credentials. Note that the email address will be used as both the `FROM` address and the `TO` address, and if you are using Amazon SES then it needs to be a verified email.
 
-Ensure the script is executable (`chmod a+x clamav/run-clamav.sh`) and then run it. Test it manually first to pick up issues with things like email credentials and directory access permissions.
+Edit `docker-geonetwork/clamav/run-clamav.sh` to scan the correct volume (the default is `/var/lib/docker/volumes`). If your login user is not `astun` then do a find and replace with the correct username to set the folder paths.
 
-The shell-script is set to run as a scheduled task for the `ec2-user` (see `clamav/clamav.crontab`). The crontab is loaded as part of `bitbucket.sh` when the server is provisioned but/or can be set up manually- there's an example crontab file in the `clamav` folder.
+**Switch to the root user.**
+
+Ensure the script is executable (`chmod a+x docker-geonetwork/clamav/run-clamav.sh`) and then run it. Test it manually first to pick up issues with things like email credentials and directory access permissions.
+
+The shell-script can be set to run as a scheduled task. There's an example crontab file in the `clamav` folder. The folder path might need editing if the standard user is not `astun`. You can load it using the following syntax (as root):
+
+	crontab clamav.crontab
 
 * For a tame virus file for testing purposes go to https://www.eicar.org/?page_id=3950.

@@ -124,7 +124,7 @@ How to install docker etc on an ubuntu box:
 	sudo apt update
 	sudo apt -y install docker-ce
 
-	sudo systemctl start docker # start docker
+	sudo systemctl start docker # start docker (if you get "System has not been booted with systemd as init system (PID 1). Can't operate.", then use `service docker start`)
 	sudo systemctl enable docker # enable it as a service
 	sudo usermod -aG docker $(whoami) # add your user to the docker group so commands don't have to be prefixed with sudo
 
@@ -140,7 +140,7 @@ How to install docker etc on an ubuntu box:
 		git clone git@bitbucket.org:astuntech/docker-geonetwork.git
 		cd docker-geonetwork
 
- * Get an app password from bitbucket with **read** access to **repositories** and save it somewhere useful. You'll need this if you're going to try to use a custom war file downloaded from bitbucket later.
+ * Get an app password from bitbucket with **read** access to **repositories** and save it somewhere useful. You'll need this if you're going to try to use a custom war file downloaded from bitbucket later. If you've already done this for another Astun repo, you can clone over HTTPS with `git clone https://[BitBuckerUsername]@bitbucket.org/astuntech/docker-geonetwork.git`
 
 
 ### Running GeoNetwork locally using a standard image

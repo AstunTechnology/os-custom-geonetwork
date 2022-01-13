@@ -4,7 +4,7 @@ services:
   geonetwork:
     env_file:
       - .env
-    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:v2
+    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
 
     # ports:
     #   - 8080:8080
@@ -14,7 +14,7 @@ services:
       JAVA_OPTS: 
         -Dorg.eclipse.jetty.annotations.AnnotationParser.LEVEL=OFF
         -Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true
-        -Xms512M -Xss512M -Xmx2G -XX:+UseConcMarkSweepGC
+        -Xms512M -Xss512M -Xmx4G -XX:+UseConcMarkSweepGC
         -Dgeonetwork.resources.dir=/catalogue-data/resources
         -Dgeonetwork.data.dir=/catalogue-data
         -Dgeonetwork.codeList.dir=/catalogue-data/thesauri

@@ -3,6 +3,10 @@
   "key": "_to_eamp",
   "type": "fixed-params",
   "params": [ ]
+},{
+  "key": "xml_iso19139-schemaupgrade",
+  "type": "fixed-params",
+  "params": [ ]
 },
   {
     "key": "url-host-relocator",
@@ -14,6 +18,10 @@
   }, 
   {
     "key": "xml_gemini22gemini23-schemaupgrade",
+    "type": "fixed-params",
+    "params": []
+  },{
+    "key": "iso19139nonspatial-schemaupgrade.xsl",
     "type": "fixed-params",
     "params": []
   },

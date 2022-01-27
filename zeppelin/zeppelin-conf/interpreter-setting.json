@@ -7,21 +7,21 @@
       "default.url": {
         "envName": null,
         "propertyName": "default.url",
-        "defaultValue": "jdbc:postgresql://live.data.geonetwork.services.astun.co.uk:5432/",
+        "defaultValue": "jdbc:postgresql://URL:PORT/DBNAME",
         "description": "The URL for JDBC.",
         "type": "string"
       },
       "default.user": {
         "envName": null,
         "propertyName": "default.user",
-        "defaultValue": "geonetwork_ro",
+        "defaultValue": "READONLYUSER",
         "description": "The JDBC user name",
         "type": "string"
       },
       "default.password": {
         "envName": null,
         "propertyName": "default.password",
-        "defaultValue": "AfternoonHorizonAdmireRare3",
+        "defaultValue": "READONLYPASSWORD",
         "description": "The JDBC user password",
         "type": "password"
       },

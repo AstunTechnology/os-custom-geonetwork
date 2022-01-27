@@ -5,8 +5,8 @@ echo Initiating Elasticsearch Custom Index
 cd "$(dirname "$0")"
 
 until $(curl -sSf -XGET  'http://localhost:9200/_cluster/health?wait_for_status=yellow' > /dev/null); do
-    printf 'not ready, trying again in 5 seconds \n'
-    sleep 5
+    printf 'No error, just not ready yet. Trying again in 20 seconds \n'
+    sleep 20
 done
 
 echo "Loading Indices into ElasticSearch"

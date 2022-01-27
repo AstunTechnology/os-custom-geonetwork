@@ -40,9 +40,3 @@ CMD ["catalina.sh", "run"]
 
 HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
     CMD curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1
-
-# check tls is not disabled for email
-#/usr/local/openjdk-8/jre/lib/security
-#jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, \                                            
-    #DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, \                                 
-   # include jdk.disabled.namedCurves

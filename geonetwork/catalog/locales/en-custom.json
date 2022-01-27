@@ -5,5 +5,4 @@
 	"gmd:DQ_CompletenessCommission": "Data Quality Reports (Completeness)",
 	"gmd:DQ_DomainConsistency": "Data Quality Reports",
 	"gmd:MD_LegalConstraints": "Constraints Snippets",
-	"searchOver": "Hi, welcome to our experimental Data Catalogue. At present, this is not (yet) our live service – for that, do please go to our website (<a target='_blank' href='https://os.uk'>os.uk</a>) and data hub (<a target='_blank' href='https://osdatahub.os.uk/'>osdatahub.os.uk</a>)."
 }

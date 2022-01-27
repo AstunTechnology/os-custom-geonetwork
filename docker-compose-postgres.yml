@@ -1,0 +1,33 @@
+version: '3'
+
+volumes:
+  pgdata:
+
+services:
+  postgres:
+    image: postgis/postgis:12-master
+    ports:
+      - 5432:5432
+    security_opt:
+      - no-new-privileges=true
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      #- ./postgresql/audit.sql:/docker-entrypoint-initdb.d/1-audit.sql
+    logging:
+          driver: "json-file"
+    networks:
+      - esnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_DB_USERNAME} -d ${POSTGRES_DB_NAME}"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+networks:
+  esnet:
+    driver: bridge

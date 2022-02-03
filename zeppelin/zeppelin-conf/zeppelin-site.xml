@@ -22,13 +22,19 @@
 <property>
   <name>zeppelin.server.addr</name>
   <value>0.0.0.0</value>
-  <description>Server address</description>
+  <description>Server binding address</description>
 </property>
 
 <property>
   <name>zeppelin.server.port</name>
   <value>8081</value>
   <description>Server port.</description>
+</property>
+
+<property>
+  <name>zeppelin.cluster.addr</name>
+  <value></value>
+  <description>Server cluster address, eg. 127.0.0.1:6000,127.0.0.2:6000,127.0.0.3:6000</description>
 </property>
 
 <property>
@@ -51,8 +57,20 @@
 
 <property>
   <name>zeppelin.notebook.dir</name>
-  <value>/data/zeppelin/notebook</value>
+  <value>notebook</value>
   <description>path or URI for notebook persist</description>
+</property>
+
+<property>
+  <name>zeppelin.interpreter.include</name>
+  <value>jdbc</value>
+  <description>All the intepreters that you would like to include. You can only specify either 'zeppelin.interpreter.include' or 'zeppelin.interpreter.exclude'. Specifying them together is not allowed.</description>
+</property>
+
+<property>
+  <name>zeppelin.interpreter.exclude</name>
+  <value></value>
+  <description>All the inteprreters that you would like to exclude. You can only specify either 'zeppelin.interpreter.include' or 'zeppelin.interpreter.exclude'. Specifying them together is not allowed.</description>
 </property>
 
 <property>
@@ -67,6 +85,12 @@
   <description>hide homescreen notebook from list when this value set to true</description>
 </property>
 
+<property>
+  <name>zeppelin.notebook.collaborative.mode.enable</name>
+  <value>true</value>
+  <description>Enable collaborative mode</description>
+</property>
+
 <!-- Google Cloud Storage notebook storage -->
 <!--
 <property>
@@ -77,6 +101,15 @@
     Notes are stored at {zeppelin.notebook.gcs.dir}/{notebook-id}/note.json
  </description>
 </property>
+
+<property>
+  <name>zeppelin.notebook.gcs.credentialsJsonFilePath</name>
+  <value>path/to/key.json</value>
+  <description>
+    Path to GCS credential key file for authentication with Google Storage.
+ </description>
+</property>
+
 
 <property>
   <name>zeppelin.notebook.storage</name>
@@ -107,10 +140,17 @@
 </property>
 
 <property>
+  <name>zeppelin.notebook.s3.timeout</name>
+  <value>120000</value>
+  <description>s3 bucket endpoint request timeout in msec.</description>
+</property>
+
+<property>
   <name>zeppelin.notebook.storage</name>
   <value>org.apache.zeppelin.notebook.repo.S3NotebookRepo</value>
   <description>notebook persistence layer implementation</description>
 </property>
+
 -->
 
 <!-- Additionally, encryption is supported for notebook data stored in S3 -->
@@ -155,6 +195,24 @@
 </property>
 -->
 
+<!-- Path style access for S3 bucket -->
+<!--
+<property>
+  <name>zeppelin.notebook.s3.pathStyleAccess</name>
+  <value>true</value>
+  <description>Path style access for S3 bucket</description>
+</property>
+-->
+
+<!-- S3 Object Permissions (Canned ACL) for notebooks -->
+<!--
+<property>
+  <name>zeppelin.notebook.s3.cannedAcl</name>
+  <value>BucketOwnerFullControl</value>
+  <description>Saves notebooks in S3 with the given Canned Access Control List.</description>
+</property>
+-->
+
 <!-- Optional override to control which signature algorithm should be used to sign AWS requests -->
 <!-- Set this property to "S3SignerType" if your AWS S3 compatible APIs support only AWS Signature Version 2 such as Ceph. -->
 <!--
@@ -163,6 +221,42 @@
   <value>S3SignerType</value>
   <description>optional override to control which signature algorithm should be used to sign AWS requests</description>
 </property>
+-->
+
+<!-- Aliyun OSS notebook storage -->
+<!-- Creates the following directory structure: oss://{bucket}/{notebook_dir}/note_path -->
+<!--
+
+<property>
+  <name>zeppelin.notebook.oss.bucket</name>
+  <value>zeppelin</value>
+  <description>bucket name for notebook storage</description>
+</property>
+
+<property>
+  <name>zeppelin.notebook.oss.endpoint</name>
+  <value>http://oss-cn-hangzhou.aliyuncs.com</value>
+  <description>endpoint for oss bucket</description>
+</property>
+
+<property>
+  <name>zeppelin.notebook.oss.accesskeyid</name>
+  <value></value>
+  <description>Access key id for your OSS account</description>
+</property>
+
+<property>
+  <name>zeppelin.notebook.oss.accesskeysecret</name>
+  <value></value>
+  <description>Access key secret for your OSS account</description>
+</property>
+
+<property>
+  <name>zeppelin.notebook.storage</name>
+  <value>org.apache.zeppelin.notebook.repo.OSSNotebookRepo</value>
+  <description>notebook persistence layer implementation</description>
+</property>
+
 -->
 
 <!-- If using Azure for storage use the following settings -->
@@ -258,7 +352,7 @@
 <property>
   <name>zeppelin.notebook.mongo.autoimport</name>
   <value>false</value>
-  <description>import local notes into MongoDB automatically on startup</description>
+  <description>import local notes into MongoDB automatically on startup, reset to false after import to avoid repeated import</description>
 </property>
 -->
 
@@ -288,7 +382,7 @@
 
 <property>
   <name>zeppelin.interpreter.dep.mvnRepo</name>
-  <value>http://repo1.maven.org/maven2/</value>
+  <value>https://repo1.maven.org/maven2/</value>
   <description>Remote principal repository for interpreter's additional dependency loading</description>
 </property>
 
@@ -306,7 +400,7 @@
 
 <property>
   <name>zeppelin.helium.npm.installer.url</name>
-  <value>http://registry.npmjs.org/</value>
+  <value>https://registry.npmjs.org/</value>
   <description>Remote Npm installer url for Helium dependency loader</description>
 </property>
 
@@ -316,27 +410,29 @@
   <description>Remote Yarn package installer url for Helium dependency loader</description>
 </property>
 
+<!--
 <property>
-  <name>zeppelin.interpreters</name>
-  <value>org.apache.zeppelin.jdbc.JDBCInterpreter,org.apache.zeppelin.spark.SparkInterpreter,org.apache.zeppelin.spark.PySparkInterpreter,org.apache.zeppelin.rinterpreter.RRepl,org.apache.zeppelin.rinterpreter.KnitR,org.apache.zeppelin.spark.SparkRInterpreter,org.apache.zeppelin.spark.SparkSqlInterpreter,org.apache.zeppelin.spark.DepInterpreter,org.apache.zeppelin.markdown.Markdown,org.apache.zeppelin.angular.AngularInterpreter,org.apache.zeppelin.shell.ShellInterpreter,org.apache.zeppelin.file.HDFSFileInterpreter,org.apache.zeppelin.flink.FlinkInterpreter,org.apache.zeppelin.python.PythonInterpreter,org.apache.zeppelin.python.PythonInterpreterPandasSql,org.apache.zeppelin.python.PythonCondaInterpreter,org.apache.zeppelin.python.PythonDockerInterpreter,org.apache.zeppelin.lens.LensInterpreter,org.apache.zeppelin.ignite.IgniteInterpreter,org.apache.zeppelin.ignite.IgniteSqlInterpreter,org.apache.zeppelin.cassandra.CassandraInterpreter,org.apache.zeppelin.geode.GeodeOqlInterpreter,org.apache.zeppelin.kylin.KylinInterpreter,org.apache.zeppelin.elasticsearch.ElasticsearchInterpreter,org.apache.zeppelin.scalding.ScaldingInterpreter,org.apache.zeppelin.alluxio.AlluxioInterpreter,org.apache.zeppelin.hbase.HbaseInterpreter,org.apache.zeppelin.livy.LivySparkInterpreter,org.apache.zeppelin.livy.LivyPySparkInterpreter,org.apache.zeppelin.livy.LivyPySpark3Interpreter,org.apache.zeppelin.livy.LivySparkRInterpreter,org.apache.zeppelin.livy.LivySparkSQLInterpreter,org.apache.zeppelin.bigquery.BigQueryInterpreter,org.apache.zeppelin.beam.BeamInterpreter,org.apache.zeppelin.pig.PigInterpreter,org.apache.zeppelin.pig.PigQueryInterpreter,org.apache.zeppelin.scio.ScioInterpreter,org.apache.zeppelin.groovy.GroovyInterpreter</value>
-  <description>Comma separated interpreter configurations. First interpreter become a default</description>
+  <name>zeppelin.helium.registry</name>
+  <value>helium,https://s3.amazonaws.com/helium-package/helium.json</value>
+  <description>Location of external Helium Registry</description>
 </property>
+-->
 
 <property>
-  <name>zeppelin.interpreter.group.order</name>
-  <value>spark,md,angular,sh,livy,alluxio,file,psql,flink,python,ignite,lens,cassandra,geode,kylin,elasticsearch,scalding,jdbc,hbase,bigquery,beam,groovy</value>
+  <name>zeppelin.interpreter.group.default</name>
+  <value>spark</value>
   <description></description>
 </property>
 
 <property>
   <name>zeppelin.interpreter.connect.timeout</name>
-  <value>30000</value>
+  <value>60000</value>
   <description>Interpreter process connect timeout in msec.</description>
 </property>
 
 <property>
   <name>zeppelin.interpreter.output.limit</name>
-  <value>10490000</value>
+  <value>102400</value>
   <description>Output message from interpreter exceeding the limit will be truncated</description>
 </property>
 
@@ -398,6 +494,38 @@
 </property>
 -->
 
+<!--
+<property>
+  <name>zeppelin.ssl.pem.key</name>
+  <value></value>
+  <description>This directive points to the PEM-encoded private key file for the server.</description>
+</property>
+-->
+
+<!--
+<property>
+  <name>zeppelin.ssl.pem.key.password</name>
+  <value></value>
+  <description>Password of the PEM-encoded private key.</description>
+</property>
+-->
+
+<!--
+<property>
+  <name>zeppelin.ssl.pem.cert</name>
+  <value></value>
+  <description>This directive points to a file with certificate data in PEM format.</description>
+</property>
+-->
+
+<!--
+<property>
+  <name>zeppelin.ssl.pem.ca</name>
+  <value></value>
+  <description>This directive sets the all-in-one file where you can assemble the Certificates of Certification Authorities (CA) whose clients you deal with. These are used for Client Authentication. Such a file is simply the concatenation of the various PEM-encoded Certificate files.</description>
+</property>
+-->
+
 <property>
   <name>zeppelin.server.allowed.origins</name>
   <value>*</value>
@@ -405,9 +533,9 @@
 </property>
 
 <property>
-  <name>zeppelin.anonymous.allowed</name>
+  <name>zeppelin.username.force.lowercase</name>
   <value>false</value>
-  <description>Anonymous user allowed by default</description>
+  <description>Force convert username case to lower case, useful for Active Directory/LDAP. Default is not to change case</description>
 </property>
 
 <property>
@@ -424,7 +552,7 @@
 
 <property>
   <name>zeppelin.websocket.max.text.message.size</name>
-  <value>20480000</value>
+  <value>10240000</value>
   <description>Size in characters of the maximum text message to be received by websocket. Defaults to 10240000</description>
 </property>
 
@@ -434,6 +562,13 @@
   <description>Enable directory listings on server.</description>
 </property>
 
+<property>
+  <name>zeppelin.interpreter.yarn.monitor.interval_secs</name>
+  <value>10</value>
+  <description>Check interval in secs for yarn apps monitors</description>
+</property>
+
+<!--
 <property>
   <name>zeppelin.interpreter.lifecyclemanager.class</name>
   <value>org.apache.zeppelin.interpreter.lifecycle.TimeoutLifecycleManager</value>
@@ -452,23 +587,58 @@
   <value>3600000</value>
   <description>Milliseconds of the interpreter timeout threshold, by default it is 1 hour</description>
 </property>
-
-<!-- re-enabled security settings (prev commented out) --> 
+-->
 
 <property>
     <name>zeppelin.server.jetty.name</name>
-    <value>Jetty(7.6.0.v20120127)</value>
+    <value> </value>
     <description>Hardcoding Application Server name to Prevent Fingerprinting</description>
 </property>
 
+<!--
+<property>
+    <name>zeppelin.server.send.jetty.name</name>
+    <value>false</value>
+    <description>If set to false, will not show the Jetty version to prevent Fingerprinting</description>
+</property>
+-->
 
-
+<!--
 <property>
     <name>zeppelin.server.jetty.request.header.size</name>
     <value>8192</value>
     <description>Http Request Header Size Limit (to prevent HTTP 413)</description>
 </property>
+-->
 
+<!--
+<property>
+    <name>zeppelin.server.jetty.thread.pool.max</name>
+    <value>400</value>
+    <description>Max Thread pool number for QueuedThreadPool in Jetty Server</description>
+</property>
+-->
+<!--
+<property>
+    <name>zeppelin.server.jetty.thread.pool.min</name>
+    <value>8</value>
+    <description>Min Thread pool number for QueuedThreadPool in Jetty Server</description>
+</property>
+-->
+<!--
+<property>
+    <name>zeppelin.server.jetty.thread.pool.timeout</name>
+    <value>30</value>
+    <description>Timeout number for QueuedThreadPool in Jetty Server</description>
+</property>
+-->
+
+
+<property>
+    <name>zeppelin.server.authorization.header.clear</name>
+    <value>true</value>
+    <description>Authorization header to be cleared if server is running as authcBasic</description>
+</property>
 
 
 <property>
@@ -477,20 +647,39 @@
   <description>The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to render a page in a frame/iframe/object.</description>
 </property>
 
-
-
+<!--
 <property>
   <name>zeppelin.server.strict.transport</name>
   <value>max-age=631138519</value>
   <description>The HTTP Strict-Transport-Security response header is a security feature that lets a web site tell browsers that it should only be communicated with using HTTPS, instead of using HTTP. Enable this when Zeppelin is running on HTTPS. Value is in Seconds, the default value is equivalent to 20 years.</description>
 </property>
-
+-->
 
 <property>
   <name>zeppelin.server.xxss.protection</name>
-  <value>1</value>
+  <value>1; mode=block</value>
   <description>The HTTP X-XSS-Protection response header is a feature of Internet Explorer, Chrome and Safari that stops pages from loading when they detect reflected cross-site scripting (XSS) attacks. When value is set to 1 and a cross-site scripting attack is detected, the browser will sanitize the page (remove the unsafe parts).</description>
 </property>
+
+<property>
+  <name>zeppelin.server.xcontent.type.options</name>
+  <value>nosniff</value>
+  <description>The HTTP X-Content-Type-Options response header helps to prevent MIME type sniffing attacks. It directs the browser to honor the type specified in the Content-Type header, rather than trying to determine the type from the content itself. The default value "nosniff" is really the only meaningful value. This header is supported on all browsers except Safari and Safari on iOS.</description>
+</property>
+
+<!--
+<property>
+  <name>zeppelin.server.html.body.addon</name>
+  <value><![CDATA[<script defer src="https://url/to/my/lib.min.js" /><script defer src="https://url/to/other/lib.min.js" />]]></value>
+  <description>Addon html code to be placed at the end of the html->body section in index.html delivered by zeppelin server.</description>
+</property>
+
+<property>
+  <name>zeppelin.server.html.head.addon</name>
+  <value></value>
+  <description>Addon html code to be placed at the end of the html->head section in index.html delivered by zeppelin server.</description>
+</property>
+-->
 
 
 <!--
@@ -503,8 +692,14 @@
 <!--
 <property>
   <name>zeppelin.recovery.storage.class</name>
+  <value>org.apache.zeppelin.interpreter.recovery.LocalRecoveryStorage</value>
+  <description>ReoveryStorage implementation based on java native local file system</description>
+</property>
+
+<property>
+  <name>zeppelin.recovery.storage.class</name>
   <value>org.apache.zeppelin.interpreter.recovery.FileSystemRecoveryStorage</value>
-  <description>ReoveryStorage implementation</description>
+  <description>ReoveryStorage implementation based on hadoop FileSystem</description>
 </property>
 -->
 
@@ -552,4 +747,78 @@
   <description>Notebook cron folders</description>
 </property>
 -->
+
+<property>
+  <name>zeppelin.run.mode</name>
+  <value>auto</value>
+  <description>'auto|local|k8s|docker'</description>
+</property>
+
+<property>
+  <name>zeppelin.k8s.portforward</name>
+  <value>false</value>
+  <description>Port forward to interpreter rpc port. Set 'true' only on local development when zeppelin.k8s.mode 'on'</description>
+</property>
+
+<property>
+  <name>zeppelin.k8s.container.image</name>
+  <value>apache/zeppelin:0.9.0-SNAPSHOT</value>
+  <description>Docker image for interpreters</description>
+</property>
+
+<property>
+  <name>zeppelin.k8s.spark.container.image</name>
+  <value>apache/spark:latest</value>
+  <description>Docker image for Spark executors</description>
+</property>
+
+<property>
+  <name>zeppelin.k8s.template.dir</name>
+  <value>k8s</value>
+  <description>Kubernetes yaml spec files</description>
+</property>
+
+<property>
+  <name>zeppelin.docker.container.image</name>
+  <value>apache/zeppelin:0.8.0</value>
+  <description>Docker image for interpreters</description>
+</property>
+
+<property>
+  <name>zeppelin.search.index.rebuild</name>
+  <value>false</value>
+  <description>Whether rebuild index when zeppelin start. If true, it would read all notes and rebuild the index, this would consume lots of memory if you have large amounts of notes, so by default it is false</description>
+</property>
+
+<property>
+  <name>zeppelin.search.use.disk</name>
+  <value>true</value>
+  <description>Whether using disk for storing search index, if false, memory will be used instead.</description>
+</property>
+
+<property>
+  <name>zeppelin.search.index.path</name>
+  <value>/tmp/zeppelin-index</value>
+  <description>path for storing search index on disk.</description>
+</property>
+
+<property>
+  <name>zeppelin.jobmanager.enable</name>
+  <value>false</value>
+  <description>The Job tab in zeppelin page seems not so useful instead it cost lots of memory and affect the performance.
+  Disable it can save lots of memory</description>
+</property>
+
+<property>
+  <name>zeppelin.spark.only_yarn_cluster</name>
+  <value>false</value>
+  <description>Whether only allow yarn cluster mode</description>
+</property>
+
+<property>
+  <name>zeppelin.note.file.exclude.fields</name>
+  <value></value>
+  <description>fields to be excluded from being saved in note files, with Paragraph prefix mean the fields in Paragraph, e.g. Paragraph.results</description>
+</property>
+
 </configuration>

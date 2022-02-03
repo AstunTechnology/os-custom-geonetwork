@@ -11,3 +11,6 @@ testing/target
 *.log
 *.err
 thesauri/local
+Tiltfile
+*.yaml
+tilt_modules

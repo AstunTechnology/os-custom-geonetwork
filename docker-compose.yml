@@ -68,7 +68,6 @@ services:
       # security overrides
       - ./geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
       - ./geonetwork/WEB-INF/config.properties.local:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
-      - ./geonetwork/WEB-INF/classes/log4j2.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/classes/log4j2.xml
       - ./geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - ./tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ./tomcat/web.xml:/usr/local/tomcat/conf/web.xml

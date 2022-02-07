@@ -6,7 +6,7 @@ volumes:
 
 services:
   geonetwork:
-    image: geonetwork:3.12
+    image: public.ecr.aws/i7c2f1z3/scotgov-custom-geonetwork:latest
     # build:
     #   context: .
     #   dockerfile: Dockerfile.local

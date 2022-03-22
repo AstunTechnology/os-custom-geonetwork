@@ -10,5 +10,7 @@
 	"system/security/passwordEnforcement/usePattern-help": "Require that the password contains at least 1 uppercase, 1 lowercase, 1 number and 1 symbol. No more than 2 repeated or 2 consecutive numbers or letters are allowed, and no more than two letters in a sequence from a standard qwerty keyboard.",
 	"ngdKeywords": "OS NGD",
 	"to-iso19139-keyword": "text",
-	"to-iso19139-keyword-with-anchor": "anchor (recommended)"
+	"to-iso19139-keyword-with-anchor": "anchor (recommended)",
+	"topicCats": "ISO Topics",
+	"keywords" : "All Keywords"
 }

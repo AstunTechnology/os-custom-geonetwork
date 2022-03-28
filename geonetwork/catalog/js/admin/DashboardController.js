@@ -90,7 +90,7 @@
         icon: 'fa-search',
         href: '#/dashboard/statistics?dashboard=' +
             encodeURIComponent('../../dashboards/app/kibana#/dashboard/' +
-            '4b5edcf0-8be2-11eb-8255-7ba8c90e1ee6?embed=true&_g=()')
+            '5b407790-4fa1-11e7-a577-3197d1592a1d?embed=true&_g=()')
       }];
 
 

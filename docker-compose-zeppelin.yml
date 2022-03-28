@@ -4,25 +4,32 @@ services:
   zeppelin:
     # image: apache/zeppelin:0.9.0
     image: apache/zeppelin:0.10.0
+    # build:
+    #   context: ./certs
+    #   dockerfile: dockerfile.zeppelin
     container_name: zeppelin
     volumes: 
       - ./zeppelin/zeppelin-notebook:/opt/zeppelin/notebook
       - ./shiro-geonetwork/geonetwork-integration/target/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar:/opt/zeppelin/lib/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar
       - ./zeppelin/zeppelin-logs:/zeppelin/logs
-      - ./shiro-geonetwork/lib/postgresql-42.2.12.jar:/opt/zeppelin/lib/postgresql-42.2.12.jar
+      - ./shiro-geonetwork/lib/postgresql-42.3.3.jar:/opt/zeppelin/lib/postgresql-42.3.3.jar
       - ./shiro-geonetwork/conf/shiro.ini:/opt/zeppelin/conf/shiro.ini
-      - ./zeppelin/zeppelin-conf/interpreter-setting.json:/zeppelin/interpreter/jdbc/interpreter-setting.json
+      - ./zeppelin/zeppelin-conf/interpreter-setting.json:/opt/zeppelin/interpreter/jdbc/interpreter-setting.json
+      #- ./zeppelin/zeppelin-conf/zeppelin-site.xml:/opt/zeppelin/conf/zeppelin-site.xml
+      #- ./certs/cacerts:/custom_keystore/cacerts
     environment:
-      - "ZEPPELIN_INTERPRETER_OUTPUT_LIMIT=10490000"
-      - "ZEPPELIN_INTERPRETER_INCLUDE=jdbc"  
-      - "ZEPPELIN_INTERPRETER_GROUP_DEFAULT=jdbc"
-      - "ZEPPELIN_INTERPRETER_DIR=/zeppelin/interpreter"
-      - "ZEPPELIN_NOTEBOOK_DIR=/opt/zeppelin/notebook"
-      - "ZEPPELIN_PORT=8081"
-      - "ZEPPELIN_ADDR=0.0.0.0"
-      - "HOSTNAME=0.0.0.0"
+      ZEPPELIN_INTERPRETER_OUTPUT_LIMIT: 10490000
+      ZEPPELIN_INTERPRETER_GROUP_DEFAULT: jdbc
+      ZEPPELIN_INTERPRETER_DIR: /zeppelin/interpreter
+      ZEPPELIN_NOTEBOOK_DIR: /opt/zeppelin/notebook
+      ZEPPELIN_PORT: 8081
+      ZEPPELIN_ADDR: 0.0.0.0
+      HOSTNAME: 0.0.0.0
+      # JAVA_OPTS:
+      #   -Djavax.net.ssl.trustStore=/custom_keystore/cacerts -Djavax.net.ssl.trustStorePassword=changeit
     ports:
       - "8081:8081"
+      #- "8443:8443"
     security_opt:
       - no-new-privileges=true
     networks:

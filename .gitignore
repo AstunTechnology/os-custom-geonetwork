@@ -14,5 +14,6 @@ thesauri/local
 Tiltfile
 *.yaml
 tilt_modules
-geonetwork/WEB-INF/config.properties
-kibana/kibana.yml
+certs/localhost*
+certs/letsencrypt
+certs/cacerts

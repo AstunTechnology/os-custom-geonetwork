@@ -4,48 +4,31 @@
 # send logs to clamav-logs
 # move infected files to clamav-quarantine
 
+# make sure we have the environment variables available
+set -a; source /home/astun/docker-geonetwork/.env; set +a
 # make directories for quarantine and logs if they don't exist
 
-sudo mkdir -p /home/ec2-user/clamav-logs /home/ec2-user/clamav-quarantine
-
-# change permission on output.txt so we can send email
-sudo chown -R ec2-user:ec2-user /home/ec2-user/clamav-logs
+mkdir -p /home/astun/clamav-logs /home/astun/clamav-quarantine
 
 # unset $DOCKER_CONTENT_TRUST because the av container is not signed
 unset DOCKER_CONTENT_TRUST
 
 # change the first mounted volume to match the correct directory to scan
-docker run --rm -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine --log=logs/output.txt --move=quarantine
-
-# make sure we have the environment variables available
-source /home/ec2-user/clamav/.clamavenv
+docker run --rm -v /var/lib/docker/volumes:/scan:ro -v /home/astun/clamav-logs:/logs:rw -v /home/astun/clamav-quarantine:/quarantine:rw tquinnelly/clamav-alpine --log=logs/output.txt --move=quarantine
 
 # ensure the log file is created even if the container doesn't run for some reason
-if [ ! -f /home/ec2-user/clamav-logs/output.txt ]; then
-        echo -e "Antivirus job ran, but no output was generated\n" >> /home/ec2-user/clamav-logs/output.txt
+if [ ! -f /home/astun/clamav-logs/output.txt ]; then
+        echo -e "Antivirus job ran, but no output was generated\n" >> /home/astun/clamav-logs/output.txt
 fi
 
-# send an email with the log file as body
-openssl s_client -crlf -quiet -connect $SMTP  << EOF
-helo
-auth login
-$(echo $SMTPUSER | base64)
-$(echo $SMTPPWD | base64)
-mail from:$EMAILADDR
-rcpt to:$EMAILADDR
-Data
-From: $EMAILADDR
-To: $EMAILADDR
-Subject: $HOSTNAME Clamav Log $(date +%Y-%m-%d)
-
-$(< /home/ec2-user/clamav-logs/output.txt)
-.
-EOF
+# send email with output.txt as body
+curl -v --url smtps://$SMTP --ssl-reqd  --mail-from $EMAILADDR --mail-rcpt $EMAILADDR  --user $SMTPUSER:$SMTPPWD -F '=</home/astun/clamav-logs/output.txt;encoder=quoted-printable' -H "Subject: $ES_PREFIX  antivirus output $(date +%Y-%m-%d)" -H "From: $EMAILADDR <$EMAILADDR>" -H "To: $EMAILADDR <$EMAILADDR>"
 
 # remove the old log file
-sudo rm /home/ec2-user/clamav-logs/output.txt
+rm /home/astun/clamav-logs/output.txt
 
 # reset $DOCKER_CONTENT_TRUST
 export DOCKER_CONTENT_TRUST=1
+
 
 

@@ -17,3 +17,5 @@ tilt_modules
 certs/localhost*
 certs/letsencrypt
 certs/cacerts
+kibana/kibana.yml
+kibana/export.ndjson

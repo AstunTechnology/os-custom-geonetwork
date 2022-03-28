@@ -1,10 +1,10 @@
 server.basePath: "/geonetwork/dashboards"
 server.rewriteBasePath: false
-kibana.index: ".dashboards"
+kibana.index: ".ea-int-dashboards"
 server.name: kibana
 server.host: "0.0.0.0"
-elasticsearch.hosts: [ "http://elasticsearch:9200" ]
-xpack.monitoring.ui.container.elasticsearch.enabled: true
+elasticsearch.hosts: [ "${ELASTICSEARCH_URL}" ]
+#xpack.monitoring.ui.container.elasticsearch.enabled: true
 logging.quiet: true
-# elasticsearch.username: kibana
-# elasticsearch.password: elastic
+elasticsearch.username: "${ES_USERNAME}"
+elasticsearch.password: "${ES_PASSWORD}"

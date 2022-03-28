@@ -10,18 +10,45 @@ add_header X-Content-Type-Options nosniff;
 # enable cross-site scripting filter
 add_header X-XSS-Protection "1; mode=block";
 
+# X-Permitted-Cross-Domain-Policies
+add_header X-Permitted-Cross-Domain-Policies none;
+
+# content security policy
+# add_header Content-Security-Policy "default-src 'self';object-src 'none';child-src 'self';frame-src 'self'; script-src 'unsafe-inline'; upgrade-insecure-requests; block-all-mixed-content";
+
+add_header Content-Security-Policy "frame-ancestors 'none'; child-src 'self', frame-src 'self'";
+
+# referrer policy
+add_header Referrer-Policy 'No-referrer';
+
+# rate limiting
+limit_req_zone $binary_remote_addr zone=ip:10m rate=60r/s;
+
+
 server {
     listen       80;
     listen  [::]:80;
-    server_name  localhost;
+    root /var/www/html;
+
+    
+    server_name _;
+
+    #valid_referers none server_names;
+    #if ($invalid_referer) {
+    #    return 403;
+    #}
 
     location / {
-        root   /var/www/html;
-        index  index.html index.htm;
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
     }
 	
-    include conf/*.conf;
+    include locations/*.inc;
+    
 	
 }
+
+
 	 	
-include servers/*.conf;
+include servers/*.inc;

@@ -1,6 +1,6 @@
 server.basePath: "/geonetwork/dashboards"
 server.rewriteBasePath: false
-kibana.index: ".ea-int-dashboards"
+kibana.index: ".gn-prefix-dashboards"
 server.name: kibana
 server.host: "0.0.0.0"
 elasticsearch.hosts: [ "${ELASTICSEARCH_URL}" ]

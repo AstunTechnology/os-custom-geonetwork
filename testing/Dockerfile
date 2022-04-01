@@ -1,4 +1,4 @@
-FROM maven:3.6.3-jdk-8-openj9
+FROM maven:3.8-jdk-8-openj9
 
 RUN apt-get update && apt-get install -y firefox wget
 

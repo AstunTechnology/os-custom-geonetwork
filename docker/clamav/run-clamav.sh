@@ -7,7 +7,7 @@
 #unset $DOCKER_CONTENT_TRUST because the av container is not signed
 unset DOCKER_CONTENT_TRUST
 
-docker run --rm -it -v /var/lib/docker/volumes:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine  --log=logs/output.txt --move=quarantine
+docker run --rm -it -v /home/ec2-user/geonetwork:/scan -v /home/ec2-user/clamav-logs:/logs -v /home/ec2-user/clamav-quarantine:/quarantine tquinnelly/clamav-alpine  --log=logs/output.txt --move=quarantine
 
 #  read the SMTP environment variables from the .env file
 set -a; source /home/ec2-user/.env; set +a

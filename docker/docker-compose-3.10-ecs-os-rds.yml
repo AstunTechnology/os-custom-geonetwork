@@ -57,7 +57,7 @@ services:
       - /home/ec2-user/geonetwork/catalog/config/batch-process-cfg.json:/usr/local/tomcat/webapps/geonetwork/catalog/config/batch-process-cfg.json
       - /home/ec2-user/geonetwork/WEB-INF/config/config-service-csw.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config/config-service-csw.xml
       # security overrides (some not needed for ECS geonetwork)
-      #- /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
+      - /home/ec2-user/geonetwork/WEB-INF/web.xml:/usr/local/tomcat/webapps/geonetwork/WEB-INF/web.xml
       #- /home/ec2-user/geonetwork/WEB-INF/config.properties:/usr/local/tomcat/webapps/geonetwork/WEB-INF/config.properties
       - /home/ec2-user/geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml

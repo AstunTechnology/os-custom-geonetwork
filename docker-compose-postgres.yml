@@ -5,7 +5,7 @@ volumes:
 
 services:
   postgres:
-    image: postgis/postgis:12-master
+    image: postgis/postgis:14-master
     ports:
       - 5432:5432
     security_opt:

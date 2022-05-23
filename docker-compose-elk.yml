@@ -4,44 +4,44 @@ volumes:
   esdata:
 
 services:
-  # elasticsearch:
-  #     image: public.ecr.aws/d7m3b2m9/ea-custom-elasticsearch:latest
-  #     # build:
-  #     #   context: ./elasticsearch
-  #     container_name: elasticsearch
-  #     restart: unless-stopped
-  #     logging:
-  #       driver: "json-file"
-  #     networks:
-  #       - esnet
-  #     ports:
-  #       - "9200:9200"
-  #     security_opt:
-  #       - no-new-privileges=true
-  #     ulimits:
-  #       memlock:
-  #         soft: -1
-  #         hard: -1
-  #       nofile:
-  #         soft: 65535
-  #         hard: 65535
-  #     environment:
-  #       - "ES_JAVA_OPTS=-Xms1G -Xmx1G 
-  #                       -XX:-UseConcMarkSweepGC
-  #                       -XX:-UseCMSInitiatingOccupancyOnly
-  #                       -XX:+UseG1GC
-  #                       -XX:InitiatingHeapOccupancyPercent=75"
-  #       - discovery.type=single-node
-  #       - xpack.security.enabled=false
-  #       - logger.level=WARN
-  #       - logger.deprecation.level=error
-  #     volumes:
-  #       - esdata:/usr/share/elasticsearch/data
-  #     healthcheck:
-  #       test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
-  #       interval: 3m
-  #       timeout: 10s
-  #       retries: 3
+  elasticsearch:
+      image: public.ecr.aws/d7m3b2m9/ea-custom-elasticsearch:latest
+      # build:
+      #   context: ./elasticsearch
+      container_name: elasticsearch
+      restart: unless-stopped
+      logging:
+        driver: "json-file"
+      networks:
+        - esnet
+      ports:
+        - "9200:9200"
+      security_opt:
+        - no-new-privileges=true
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+        nofile:
+          soft: 65535
+          hard: 65535
+      environment:
+        - "ES_JAVA_OPTS=-Xms1G -Xmx1G 
+                        -XX:-UseConcMarkSweepGC
+                        -XX:-UseCMSInitiatingOccupancyOnly
+                        -XX:+UseG1GC
+                        -XX:InitiatingHeapOccupancyPercent=75"
+        - discovery.type=single-node
+        - xpack.security.enabled=false
+        - logger.level=WARN
+        - logger.deprecation.level=error
+      volumes:
+        - esdata:/usr/share/elasticsearch/data
+      healthcheck:
+        test: ["CMD-SHELL", "curl -i -H \"Accept: application/json\" -f http://localhost:9200/gn-records || exit 1"]
+        interval: 3m
+        timeout: 10s
+        retries: 3
 
   kibana:
     #image: kibana:7.6.2

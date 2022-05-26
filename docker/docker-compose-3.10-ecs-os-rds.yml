@@ -19,6 +19,7 @@ services:
         -Dgeonetwork.data.dir=/catalogue-data
         -Dgeonetwork.codeList.dir=/catalogue-data/thesauri
         -Dgeonetwork.schema.dir=/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins
+        -Djava.security.properties=/usr/local/openjdk-8/jre/lib/security/java.security.overrides
 
       ES_HOST: localhost
       ES_PROTOCOL: http
@@ -63,7 +64,6 @@ services:
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - /home/ec2-user/tomcat/web.xml:/usr/local/tomcat/conf/web.xml
       - /home/ec2-user/jdk/jre/lib/security/java.security.overrides:/usr/local/openjdk-8/jre/lib/security/java.security.overrides
-
     logging:
         driver: awslogs
         options: 

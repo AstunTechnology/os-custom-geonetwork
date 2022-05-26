@@ -2,9 +2,9 @@ version: '3'
 
 services:
   geonetwork:
-    image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
-    # build:
-    #   context: .
+    #image: public.ecr.aws/y7x5j6q3/os-custom-geonetwork:latest
+    build:
+       context: .
     container_name: geonetwork
     env_file:
       - .env-local
@@ -32,6 +32,7 @@ services:
         -Dgeonetwork.codeList.dir=/catalogue-data/thesauri
         -Dgeonetwork.schema.dir=/usr/local/tomcat/webapps/geonetwork/WEB-INF/data/config/schema_plugins
         -Dkb.url=http://kibana:5601
+        -Djava.security.properties=/usr/local/openjdk-8/jre/lib/security/java.security.overrides
     logging:
       driver: "json-file"
     # networks:
@@ -64,6 +65,7 @@ services:
       - ../geonetwork/META-INF/context.xml:/usr/local/tomcat/webapps/geonetwork/META-INF/context.xml
       - ../tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - ../tomcat/web.xml:/usr/local/tomcat/conf/web.xml
+      - ../jdk/jre/lib/security/java.security.overrides:/usr/local/openjdk-8/jre/lib/security/java.security.overrides
 
   elasticsearch:
     image: public.ecr.aws/y7x5j6q3/os-elasticsearch:latest

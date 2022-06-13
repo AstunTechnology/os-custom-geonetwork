@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.0-experimental
-FROM tomcat:8
+FROM tomcat:jdk8-corretto
 
 #ENV CATALINA_HOME=/var/lib/tomcat8
 ENV GN_FILE geonetwork.war

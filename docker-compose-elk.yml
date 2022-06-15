@@ -5,7 +5,7 @@ volumes:
 
 services:
   elasticsearch:
-      image: public.ecr.aws/d7m3b2m9/ea-custom-elasticsearch:latest
+      image: elasticsearch:7.11.1
       # build:
       #   context: ./elasticsearch
       container_name: elasticsearch
@@ -26,15 +26,8 @@ services:
           soft: 65535
           hard: 65535
       environment:
-        - "ES_JAVA_OPTS=-Xms1G -Xmx1G 
-                        -XX:-UseConcMarkSweepGC
-                        -XX:-UseCMSInitiatingOccupancyOnly
-                        -XX:+UseG1GC
-                        -XX:InitiatingHeapOccupancyPercent=75"
+        - "ES_JAVA_OPTS=-Xms1G -Xmx1G" 
         - discovery.type=single-node
-        - xpack.security.enabled=false
-        - logger.level=WARN
-        - logger.deprecation.level=error
       volumes:
         - esdata:/usr/share/elasticsearch/data
       healthcheck:
@@ -44,14 +37,15 @@ services:
         retries: 3
 
   kibana:
-    #image: kibana:7.6.2
-    image: amazon/opendistro-for-elasticsearch-kibana:1.9.0
+    image: kibana:7.11.1
+    #image: amazon/opendistro-for-elasticsearch-kibana:1.9.0
     container_name: kibana
     restart: unless-stopped
     environment:
       ELASTICSEARCH_URL: ${ES_URL}
       ES_USERNAME: ${ES_USERNAME}
       ES_PASSWORD: ${ES_PASSWORD}
+      XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
     volumes:
       - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     logging:

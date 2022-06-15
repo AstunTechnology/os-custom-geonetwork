@@ -2,35 +2,33 @@ version: '3.9'
 
 volumes:
    geoserver-data:
-   geo-db-data:
+   # geo-db-data:
 
 services:
-   db:
-      env_file:
-        - .env-geoserver
-      image: kartoza/postgis:${POSTGIS_VERSION_TAG}
-      volumes:
-        - geo-db-data:/var/lib/postgresql
-      ports:
-        - ${POSTGRES_PORT}:5432
-      environment:
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASS=${POSTGRES_PASS}
-        - ALLOW_IP_RANGE=${ALLOW_IP_RANGE}
-        - FORCE_SSL=TRUE
-      restart: on-failure
-      healthcheck:
-        test: "exit 0"
+   # db:
+   #    env_file:
+   #      - .env-geoserver
+   #    image: kartoza/postgis:${POSTGIS_VERSION_TAG}
+   #    volumes:
+   #      - geo-db-data:/var/lib/postgresql
+   #    ports:
+   #      - ${POSTGRES_PORT}:5432
+   #    environment:
+   #      - POSTGRES_DB=${POSTGRES_DB}
+   #      - POSTGRES_USER=${POSTGRES_USER}
+   #      - POSTGRES_PASS=${POSTGRES_PASS}
+   #      - ALLOW_IP_RANGE=${ALLOW_IP_RANGE}
+   #      - FORCE_SSL=TRUE
+   #    restart: on-failure
+   #    healthcheck:
+   #      test: "exit 0"
 
    geoserver:
-      env_file:
-        - .env-geoserver
       image: kartoza/geoserver:${GS_VERSION}
       volumes:
         - geoserver-data:/opt/geoserver/data_dir
       ports:
-        - ${GEOSERVER_PORT}:8080
+        - 8082:8080
       restart: on-failure
       environment:
         - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
@@ -39,11 +37,11 @@ services:
         - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
         - INITIAL_MEMORY=${INITIAL_MEMORY}
         - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
-      depends_on:
-        db:
-          condition: service_healthy
+      # depends_on:
+      #   db:
+      #     condition: service_healthy
       healthcheck:
-        test: curl --fail -s http://localhost:8080/ || exit 1
+        test: curl --fail -s http://localhost:8082/ || exit 1
         interval: 1m30s
         timeout: 10s
         retries: 3

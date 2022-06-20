@@ -37,7 +37,9 @@ services:
       - geonetwork:/catalogue-data
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
       - ../iso19139.gemini23/src/main/config/translations/en-schema-iso19139.gemini23.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-schema-iso19139.gemini23.json
-      - ../iso19139.gemini23/target/schema-iso19139.gemini23-3.12-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-4.0.6-SNAPSHOT.jar
+      - ../iso19139.gemini23/target/gn-schema-iso19139.gemini23-4.0.6-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.gemini23-4.0.6-SNAPSHOT.jar
+      - ../iso19139.eamp/src/main/plugin/iso19139.eamp:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.eamp
+      - ../iso19139.eamp/target/gn-schema-iso19139.eamp-4.2.0-0.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.eamp-4.2.0-0.jar
     # depends_on:
     #   - elasticsearch
     #   - database
@@ -50,7 +52,7 @@ services:
   #   container_name: nginx
   #   volumes:
   #         - ./nginx/default.local:/etc/nginx/conf.d/default.conf
-  #         - ./nginx/servers:/etc/nginx/servers
+  #         - ./nginx/servers:/etc/ngifnx/servers
   #         - ./nginx/locations:/etc/nginx/locations
   #         - ./nginx/root/robots.txt:/var/www/html/robots.txt
   #         # - ./certs/letsencrypt/live:/etc/nginx/certs

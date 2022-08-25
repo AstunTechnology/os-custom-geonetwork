@@ -249,7 +249,7 @@
     <name>gmd:referenceSystemInfo</name>
     <name>gmd:spatialResolution</name>
     <name>gmd:offLine</name>
-    <name>gmd:onLine</name>
+    <!-- <name>gmd:onLine</name> -->
     <name>gmd:address</name>
     <name>gmd:projection</name>
     <name>gmd:ellipsoid</name>
@@ -3602,43 +3602,49 @@
         <text ref="spatialref_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
         <text ref="spatialrefsrv_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
 
-        <section name="gmd:distributionInfo">
-          <field xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0"
-                 del="."/>
+        <section name="gmd:distributionInfo"> <!-- start distribution info section -->
+        
+            <section name="gmd:distributionFormat"> <!-- start distribution format section -->
+            
+              <field xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0"
+                     del="."/>
 
-        <action type="add" name="addDistributionFormat" or="distributionFormat" btnLabel="distributionFormat"
-                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0">
-            <template>
-              <snippet>
-                <gmd:distributionFormat>
-                  <gmd:MD_Format>
-                    <gmd:name>
-                      <gco:CharacterString></gco:CharacterString>
-                    </gmd:name>
-                    <gmd:version>
-                      <gco:CharacterString></gco:CharacterString>
-                    </gmd:version>
-                  </gmd:MD_Format>
-                </gmd:distributionFormat>
-              </snippet>
-            </template>
-          </action>
-
-
-        <text ref="distribution_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
-        <text ref="distributionsrv_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
-
-        <section xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions
-            /gmd:MD_DigitalTransferOptions/gmd:onLine"/>
-
-        <text ref="resourcelocator_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+              <action type="add" name="addDistributionFormat" or="distributionFormat" btnLabel="distributionFormat"
+                        in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0">
+                  <template>
+                    <snippet>
+                      <gmd:distributionFormat>
+                        <gmd:MD_Format>
+                          <gmd:name>
+                            <gco:CharacterString></gco:CharacterString>
+                          </gmd:name>
+                          <gmd:version>
+                            <gco:CharacterString></gco:CharacterString>
+                          </gmd:version>
+                        </gmd:MD_Format>
+                      </gmd:distributionFormat>
+                    </snippet>
+                  </template>
+                </action>
 
 
-        <section xpath="gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-        </section>
-        <text ref="resourcelocatorsrv_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
-                </section>
+              <text ref="distribution_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+              <text ref="distributionsrv_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
+
+            </section>  <!-- end distribution format section -->   
+                    
+
+            <section name="gmd:transferOptions">  <!-- start transfer options section -->
+            
+              <field xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine" del="."/>
+
+              <text ref="resourcelocatorsrv_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
+              <text ref="resourcelocator_help" if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+
+             </section>  <!-- end transfer options section -->       
+
+      </section> <!-- end distribution info section -->
 
 
         <!-- Start dataQualitySection -->

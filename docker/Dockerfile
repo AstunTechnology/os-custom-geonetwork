@@ -25,11 +25,11 @@ RUN mkdir -p geonetwork && \
 # Patch in log4j version 2.17
 RUN rm "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/log4j-core-* && \
     rm "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/log4j-api-* && \
-    curl https://dlcdn.apache.org/logging/log4j/2.17.2/apache-log4j-2.17.2-bin.tar.gz -o /tmp/log4j2.tgz && \
+    curl https://dlcdn.apache.org/logging/log4j/2.18.0/apache-log4j-2.18.0-bin.tar.gz -o /tmp/log4j2.tgz && \
     mkdir /tmp/log4j2 && \
     tar -xvzf /tmp/log4j2.tgz -C /tmp/log4j2 && \
-    cp /tmp/log4j2/apache-log4j-2.17.2-bin/log4j-core-2.17.2.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
-    cp /tmp/log4j2/apache-log4j-2.17.2-bin/log4j-api-2.17.2.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
+    cp /tmp/log4j2/apache-log4j-2.18.0-bin/log4j-core-2.18.0.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
+    cp /tmp/log4j2/apache-log4j-2.18.0-bin/log4j-api-2.18.0.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
     rm -rf /tmp/log4j2*
 
 #Set geonetwork data dir

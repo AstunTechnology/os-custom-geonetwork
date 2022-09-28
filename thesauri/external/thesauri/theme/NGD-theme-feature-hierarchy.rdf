@@ -26,11 +26,12 @@
 <rdf:Description rdf:about="http://os.uk/vocabularies/ngd">
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
 	<dct:title xml:lang="en">Ordnance Survey NGD vocabulary</dct:title>
-	<dct:created>2022-08-31</dct:created>
+	<dct:created>2022-09-26</dct:created>
 	<dct:description xml:lang="en">Pre-release trial SKOS version of evolving NGD vocab, 2022-02-15 extract from NGD_Metadata_And_Definitions_MASTER; 
 manually amended (2022-08-18) to move Rail into Transport-Features collection, and add LandPoint
 manually amended (2022-08-23) to add "Theme" to the prefLabel of each theme in order to avoid the duplication of prefLabel between theme and feature type for Land and Water
-manuall amended (2022-08-31) to replace "#" with "/" in URIs for OS NGD concepts; and swap prefLabel/altLabel</dct:description>
+manually amended (2022-08-31) to replace "#" with "/" in URIs for OS NGD concepts; and swap prefLabel/altLabel.
+manually amended (2022-09-26) fixed typo in http://os.uk/vocabularies/ngd/HistoricAddress</dct:description>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://os.uk/vocabularies/ngd/BoundaryHighWaterMark">
@@ -261,7 +262,7 @@ manuall amended (2022-08-31) to replace "#" with "/" in URIs for OS NGD concepts
 
 <rdf:Description rdf:about="http://os.uk/vocabularies/ngd/HistoricAddress">
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
-	<skos:prefLabel xml:lang="en">Historicddress</skos:prefLabel>
+	<skos:prefLabel xml:lang="en">Historic Address</skos:prefLabel>
 	<skos:definition xml:lang="en">A former address for a building or similar construction that could conceivably receive mail, deliveries or services prior to becoming historic.</skos:definition>
 	<skos:altLabel xml:lang="en">HistoricAddress</skos:altLabel>
 	<skos:broader rdf:resource="http://os.uk/vocabularies/collection/GB-Address"/>

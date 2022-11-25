@@ -10,6 +10,7 @@ services:
     restart: always
     ports:
       - 8080:8080
+    user: 999:999
     environment:
       DATA_DIR: /catalogue-data
 
@@ -36,8 +37,9 @@ services:
     volumes:
       - geonetwork:/catalogue-data
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
+      #- ../iso19139.gemini23/src/main/plugin/iso19139.gemini23/schema:/catalogue-data/resources/xml/schemas/iso19139.gemini23/schema
       - ../iso19139.gemini23/src/main/config/translations/en-schema-iso19139.gemini23.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-schema-iso19139.gemini23.json
-      - ../iso19139.gemini23/target/gn-schema-iso19139.gemini23-4.0.6-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.gemini23-4.0.6-SNAPSHOT.jar
+      - ../iso19139.gemini23/target/schema-iso19139.gemini23-4.2.2-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-4.2.2-SNAPSHOT.jar
       #- ../iso19139.eamp/src/main/plugin/iso19139.eamp:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.eamp
       #- ../iso19139.eamp/target/gn-schema-iso19139.eamp-4.2.0-0.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.eamp-4.2.0-0.jar
       # - ../iso19139.nonspatial/src/main/plugin/iso19139.nonspatial:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial

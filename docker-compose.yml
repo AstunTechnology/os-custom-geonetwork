@@ -10,7 +10,7 @@ services:
     restart: always
     ports:
       - 8080:8080
-    user: 999:999
+    user: 0:0
     environment:
       DATA_DIR: /catalogue-data
 
@@ -37,9 +37,11 @@ services:
     volumes:
       - geonetwork:/catalogue-data
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23
-      #- ../iso19139.gemini23/src/main/plugin/iso19139.gemini23/schema:/catalogue-data/resources/xml/schemas/iso19139.gemini23/schema
       - ../iso19139.gemini23/src/main/config/translations/en-schema-iso19139.gemini23.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-schema-iso19139.gemini23.json
       - ../iso19139.gemini23/target/schema-iso19139.gemini23-4.2.2-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini23-4.2.2-SNAPSHOT.jar
+      - ../iso19139.gemini22/src/main/plugin/iso19139.gemini22:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini22
+      - ../iso19139.gemini22/src/main/config/translations/en-schema-iso19139.gemini22.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-schema-iso19139.gemini22.json
+      - ../iso19139.gemini22/target/schema-iso19139.gemini22-4.2.2-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/schema-iso19139.gemini22-4.2.2-SNAPSHOT.jar
       #- ../iso19139.eamp/src/main/plugin/iso19139.eamp:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.eamp
       #- ../iso19139.eamp/target/gn-schema-iso19139.eamp-4.2.0-0.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.eamp-4.2.0-0.jar
       # - ../iso19139.nonspatial/src/main/plugin/iso19139.nonspatial:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.nonspatial
@@ -60,6 +62,24 @@ services:
     restart: always
     networks:
     - esnet
+
+  ogc-api-records-service:
+    image: geonetwork/gn-cloud-ogc-api-records-service:0.2.0
+    environment:
+      SPRING_PROFILES_ACTIVE: standalone
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/geonetwork
+      SPRING_DATASOURCE_USERNAME: geonetwork
+      SPRING_DATASOURCE_PASSWORD: geonetwork
+      GN_BASEURL: http://geonetwork:8080/geonetwork/api
+      GN_LEGACY_URL: http://geonetwork:8080/geonetwork
+      GN_INDEX_URL: http://elasticsearch:9200
+      SERVER_FORWARDHEADERSSTRATEGY: FRAMEWORK
+
+    # depends_on:
+    #   - database
+    #   - elasticsearch
+    networks:
+      - esnet
 
 
   

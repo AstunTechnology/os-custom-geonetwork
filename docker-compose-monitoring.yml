@@ -13,7 +13,7 @@ services:
       - elasticsearch
       - kibana
     networks:
-      - gn-network
+      - esnet
 
 
   filebeat:
@@ -30,4 +30,4 @@ services:
       - elasticsearch
       - kibana
     networks:
-      - gn-network
+      - esnet

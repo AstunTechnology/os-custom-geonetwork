@@ -2,4 +2,4 @@
   #metricsets:
   #  - stubstatus
   period: 10s
-  hosts: ["http://nginx:999"]
+  hosts: ["${NGINX_HOST}"]

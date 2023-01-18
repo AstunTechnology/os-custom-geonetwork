@@ -7,7 +7,7 @@ setup.template.settings:
   index.codec: best_compression
 
 setup.kibana:
-  host: "nginx:80"
+  host: "${NGINX_HOST}:80"
   path: "/geonetwork/dashboards"
   space.id: catalogue-monitor
   username: admin
@@ -16,6 +16,8 @@ setup.kibana:
 setup.dashboards:
   index: "gn-metrics-*"
   directory: ${path.config}/templates
+  always_kibana: true
+  retry.enabled: true
 
 setup.ilm:
   enabled: auto
@@ -23,7 +25,7 @@ setup.ilm:
   pattern: "{now/d}-000001"
 
 output.elasticsearch:
-  hosts: ["elasticsearch:9200"]
+  hosts: ["${ES_HOST}:${ES_PORT}"]
 
 processors:
   - add_host_metadata: ~

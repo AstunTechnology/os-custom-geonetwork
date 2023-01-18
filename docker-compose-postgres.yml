@@ -2,10 +2,11 @@ version: '3'
 
 volumes:
   pgdata:
+  pglog:
 
 services:
   postgres:
-    image: postgis/postgis:12-master
+    image: postgis/postgis:14-master
     ports:
       - 5432:5432
     security_opt:
@@ -15,8 +16,15 @@ services:
       POSTGRES_USER: ${POSTGRES_DB_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB_NAME}
+    command: [ "postgres",
+                   "-c", "log_statement=all",
+                   "-c", "logging_collector=true",
+                   "-c", "log_file_mode=0644",
+                   "-c", "log_directory=/var/log/postgresql",
+                   "-c", "log_filename=postgresql.log" ]
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - pglog:/var/log/postgresql
       #- ./postgresql/audit.sql:/docker-entrypoint-initdb.d/1-audit.sql
     logging:
           driver: "json-file"

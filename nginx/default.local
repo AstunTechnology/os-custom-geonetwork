@@ -33,6 +33,10 @@ server {
     
     server_name _;
 
+    access_log /var/log/nginx/gn-access.log;
+    error_log /var/log/nginx/gn-error.log;
+
+
     #valid_referers none server_names;
     #if ($invalid_referer) {
     #    return 403;

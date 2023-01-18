@@ -62,7 +62,7 @@ services:
     ports:
       - 8081:80
     environment:
-      GN4_API_URL: http://localhost:8080/geonetwork/srv/api
+      GN4_API_URL: http://${DH_HOST}:{DH_PORT}/geonetwork/srv/api
     restart: always
     networks:
     - esnet
@@ -71,12 +71,12 @@ services:
     image: geonetwork/gn-cloud-ogc-api-records-service:0.2.0
     environment:
       SPRING_PROFILES_ACTIVE: standalone
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/geonetwork4
-      SPRING_DATASOURCE_USERNAME: geonetwork
-      SPRING_DATASOURCE_PASSWORD: killeddonegraveround
-      GN_BASEURL: http://geonetwork:8080/geonetwork/api
-      GN_LEGACY_URL: http://geonetwork:8080/geonetwork
-      GN_INDEX_URL: http://elasticsearch:9200
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      GN_BASEURL: http://${GN_HOST}:${GN_PORT}/geonetwork/api
+      GN_LEGACY_URL: http://${GN_HOST}:${GN_PORT}/geonetwork
+      GN_INDEX_URL: ${ES_URL}
       SERVER_FORWARDHEADERSSTRATEGY: FRAMEWORK
 
     # depends_on:

@@ -1,4 +1,4 @@
-FROM tomcat:8.5-jdk8-corretto
+FROM tomcat:8.5-jdk8
 
 ENV GN_FILE ./geonetwork/geonetwork.war
 ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data

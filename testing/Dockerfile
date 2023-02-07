@@ -1,4 +1,4 @@
-FROM maven:3.8-amazoncorretto-8
+FROM maven:3.8.7-eclipse-temurin-11
 
 RUN apt-get update && apt-get install -y firefox wget
 

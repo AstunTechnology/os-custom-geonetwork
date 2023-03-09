@@ -181,26 +181,27 @@ Build from the root `docker-geonetwork` folder using:
 Once the image is built, ensure you're using `build` and `context` rather than `image` in your `docker-compose.yml` then run docker-compose as above.
 
 
-### Building and running GeoNetwork locally using a war file from bitbucket
+### Deploying to AWS Container Registry
 
-Ensure that the war file you wish to deploy is available as part of the downloads in https://bitbucket.org/astuntech/docker-geonetwork/downloads/. This may mean creating one with a different name. If your file is big enough it may trip the BitBucket upload size limit, in which case it will provide instructions on how to use the API to upload the file with cURL.
+Build image and check it's present:
 
-Grab your app password that you created what seems like years ago and create a file `creds.txt` in the root `docker-geonetwork` folder with the following format:
+	docker build --no-cache . -t [sensible-name-for-image]
+	docker images -a
 
-	--user yourbitbucketusername:yourapppassword
+Get login details from AWS ECR and temporarily authenticate your local docker. Note that the region is always us-east-1, and the profile is optional, but if included must be as configured in your aws credentials on your local computer
 
-Take a copy of `env.test`,  save it as `.env`, and edit it to match your postgresql super user credentials. 
+	aws ecr-public get-login-password --region us-east-1 --profile [yourprofile] | docker login --username AWS --password-stdin public.ecr.aws
 
-**Ensure you don't inadvertently overwrite or edit `env.test` as that is needed!**
+Tag your image with the correct aws ecr-public repository
 
+	docker tag [sensible-name-for-image] public.ecr.aws/[registryid]/[sensible-name-for-image]
 
-Build the docker image for geonetwork from the `docker-geonetwork` root folder with the following command:
+Push the image to ecr-public:
 
-	DOCKER_BUILDKIT=1 docker build -t customgeonetwork -f Dockerfile.bitbucket--no-cache --secret id=creds,src=creds.txt --progress=plain .
+	docker push public.ecr.aws/[registryid]/[sensible-name-for-image]
 
-Then run docker-compose from the same root folder as above.
+Then in your docker-compose file refer to this image for the geonetwork service
 
-See https://astuntech.atlassian.net/wiki/spaces/ITA/pages/2633760804/Creation+of+custom+Geonetwork+and+ElasticSearch+docker+images for instructions on preparing your image and pushing it to AWS ECR-Public.
 
 ## Checking everything is running correctly
 

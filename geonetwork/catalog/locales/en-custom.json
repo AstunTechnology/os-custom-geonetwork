@@ -4,5 +4,5 @@
 	"passwordMinlength": "Password must contain at least 10 characters!",
 	"gmd:DQ_CompletenessCommission": "Data Quality Reports (Completeness)",
 	"gmd:DQ_DomainConsistency": "Data Quality Reports",
-	"gmd:MD_LegalConstraints": "Constraints Snippets",
+	"gmd:MD_LegalConstraints": "Constraints Snippets"
 }

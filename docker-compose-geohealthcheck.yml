@@ -4,17 +4,37 @@ services:
   geohealthcheck:
     image: geopython/geohealthcheck:latest
     container_name: geohealthcheck
+    hostname: geohealthcheck
     restart: unless-stopped
+    environment:
+      SCRIPT_NAME: ${SCRIPT_NAME}
+      SQLALCHEMY_DATABASE_URI: ${SQLALCHEMY_DATABASE_URI}
+      GHC_NOTIFICATIONS: ${GHC_NOTIFICATIONS}
+      GHC_ADMIN_EMAIL:  ${GHC_ADMIN_EMAIL}
+      GHC_NOTIFICATIONS_EMAIL: ${GHC_NOTIFICATIONS_EMAIL}
+      GHC_SMTP_SERVER: ${GHC_SMTP_SERVER}
+      GHC_SMTP_PORT: ${GHC_SMTP_PORT}
+      GHC_SMTP_TLS: ${GHC_SMTP_TLS}
+      GHC_SMTP_SSL: ${GHC_SMTP_SSL}
+      GHC_SMTP_USERNAME: ${GHC_SMTP_USERNAME}
+      GHC_SMTP_PASSWORD: ${GHC_SMTP_PASSWORD}
     ports:
-      - 8082:80
-    env_file:
-      - ghc.env
+      - "8082:80"
+    networks:
+      esnet:
+        aliases:
+          - geohealthcheck
+
 
   ghc_runner:
     image: geopython/geohealthcheck:latest
     container_name: ghc_runner
     restart: unless-stopped
-    env_file:
-      - ghc.env
     entrypoint:
       - /run-runner.sh
+    networks:
+    - esnet
+
+networks:
+  esnet:
+    driver: bridge

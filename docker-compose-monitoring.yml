@@ -4,6 +4,7 @@ version: '3.1'
 services:
   metricbeat:
     image: docker.elastic.co/beats/metricbeat:7.11.1
+    container_name: metricbeat
     command: metricbeat -e -strict.perms=false
     restart: unless-stopped
     environment:
@@ -11,6 +12,8 @@ services:
       - NGINX_HOST=${NGINX_HOST}
       - ES_HOST=${ES_HOST}
       - ES_PORT=${ES_PORT}
+      - METRIC_GN_USER=${METRIC_GN_USER}
+      - METRIC_GN_PASSWORD=${METRIC_GN_PASSWORD}
     volumes:
       - ./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
       - ./metricbeat/modules.d:/usr/share/metricbeat/modules.d
@@ -24,6 +27,7 @@ services:
 
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.11.1
+    container_name: filebeat
     command: filebeat -e -strict.perms=false
     restart: unless-stopped
     environment:
@@ -31,6 +35,8 @@ services:
       - NGINX_HOST=${NGINX_HOST}
       - ES_HOST=${ES_HOST}
       - ES_PORT=${ES_PORT}
+      - METRIC_GN_USER=${METRIC_GN_USER}
+      - METRIC_GN_PASSWORD=${METRIC_GN_PASSWORD}
     volumes:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./filebeat/modules.d:/usr/share/filebeat/modules.d
@@ -43,3 +49,4 @@ services:
       - kibana
     networks:
       - esnet
+      

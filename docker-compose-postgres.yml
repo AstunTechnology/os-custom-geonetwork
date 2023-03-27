@@ -9,6 +9,7 @@ services:
     image: postgis/postgis:14-master
     ports:
       - 5432:5432
+    restart: unless-stopped
     security_opt:
       - no-new-privileges=true
     container_name: postgres

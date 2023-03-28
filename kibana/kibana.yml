@@ -4,7 +4,7 @@ kibana.index: ".dashboards"
 server.name: kibana
 server.host: "0.0.0.0"
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
-xpack.monitoring.ui.container.elasticsearch.enabled: true
+# xpack.monitoring.ui.container.elasticsearch.enabled: true
 logging.quiet: true
 # elasticsearch.username: kibana
 # elasticsearch.password: elastic

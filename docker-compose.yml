@@ -48,7 +48,7 @@ services:
       - ./geonetwork/catalog/locales/en-core.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-core.json
       - ./geonetwork/catalog/locales/en-editor.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-editor.json
       # dashboards
-      # - ./geonetwork/catalog/js/admin/DashboardController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/DashboardController.js
+      - ./geonetwork/catalog/js/admin/DashboardController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/DashboardController.js
       # datepicker layout fix
       - ./geonetwork/catalog/components/edit/datepicker/partials/datepicker.html:/var/lib/jetty/webapps/geonetwork/catalog/components/edit/datepicker/partials/datepicker.html
       - ./geonetwork/catalog/views/default/less/gn_editor_default.less:/var/lib/jetty/webapps/geonetwork/catalog/views/default/less/gn_editor_default.less
@@ -60,6 +60,8 @@ services:
       - ./geonetwork/catalog/components/utility/UtilityDirective.js:/var/lib/jetty/webapps/geonetwork/catalog/components/utility/UtilityDirective.js
       - ./geonetwork/catalog/components/utility/partials/recordOriginLogo.html:/var/lib/jetty/webapps/geonetwork/catalog/components/utility/partials/recordOriginLogo.html
       - ./geonetwork/catalog/views/default/templates/recordView/metadata.html:/var/lib/jetty/webapps/geonetwork/catalog/views/default/templates/recordView/metadata.html
+      - ./geonetwork/catalog/style/gn_metadata.less:/var/lib/jetty/webapps/geonetwork/catalog/style/gn_metadata.less
+      - ./geonetwork/catalog/locales/en-search.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-search.json
       # schema overrides
       # gemini 2.3
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23

@@ -48,9 +48,10 @@ services:
       - ./geonetwork/catalog/locales/en-core.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-core.json
       - ./geonetwork/catalog/locales/en-editor.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-editor.json
       # dashboards
-      - ./geonetwork/catalog/js/admin/DashboardController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/DashboardController.js
+      # - ./geonetwork/catalog/js/admin/DashboardController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/DashboardController.js
       # datepicker layout fix
       - ./geonetwork/catalog/components/edit/datepicker/partials/datepicker.html:/var/lib/jetty/webapps/geonetwork/catalog/components/edit/datepicker/partials/datepicker.html
+      - ./geonetwork/catalog/views/default/less/gn_editor_default.less:/var/lib/jetty/webapps/geonetwork/catalog/views/default/less/gn_editor_default.less
       # data quality snippets
       - ../geonetwork-snippets/gemini23-index-fields/index-subtemplate.xsl:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23/index-fields/index-subtemplate.xsl
       - ../geonetwork-snippets/iso19139-index-fields/index-subtemplate.xsl:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/index-subtemplate.xsl  

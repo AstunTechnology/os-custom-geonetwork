@@ -3,19 +3,6 @@
 	"xml_gemini22gemini23": "Convert from Gemini 2.2 to 2.3 on import",
 	"passwordMinlength": "Password must contain at least 10 characters!",
 	"gmd:DQ_CompletenessCommission": "Data Quality Reports (Completeness)",
-	"gmd:MD_LegalConstraints": "Legal Constraints Snippets",
-	"gmd:DQ_CompletenessOmission": "Data Quality Reports (Omission)",
-	"gmd:DQ_ThematicAccuracy": "Data Quality Reports (Thematic Accuracy)",
-	"gmd:DQ_TemporalAccuracy": "Data Quality Reports (Temporal Accuracy)",
-	"gmd:DQ_PositionalAccuracy": "Data Quality Reports (Positional Accuracy)",
-	"gmd:DQ_TopologicalConsistency": "Data Quality Reports (Topological Consistency)",
-	"gmd:DQ_LogicalConsistency": "Data Quality Reports (Logical Consistency)",
-	"gmd:DQ_FormatConsistency": "Data Quality Reports (Format Consistency)",
-	"gmd:DQ_ConceptualConsistency": "Data Quality Reports (Conceptual Consistency)",
-	"gmd:DQ_DomainConsistency": "Data Quality Reports (Domain Consistency and INSPIRE)",
-	"searchOver": "Hi, welcome to our experimental Data Catalogue. At present, this is not (yet) our live service - for that, do please go to our website (<a target='_blank' href='https://os.uk'>os.uk</a>) and data hub (<a target='_blank' href='https://osdatahub.os.uk/'>osdatahub.os.uk</a>).",
-	"createA": "Create a new record",
-	"noTemplatesAvailable": "Warning! There are no templates available in the catalog. You should add or <a href='admin.console#/metadata'>import</a> some.",
-	"facet-th_os-ngd_tree": "OS National Geographic Database",
-	"searchAlineage": "Search for a lineage report ..."
+	"gmd:DQ_DomainConsistency": "Data Quality Reports",
+	"gmd:MD_LegalConstraints": "Constraints Snippets"
 }

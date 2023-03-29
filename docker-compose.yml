@@ -10,6 +10,8 @@ volumes:
 services:
   geonetwork:
     image: geonetwork:latest
+    #image: public.ecr.aws/i7c2f1z3/scotgov-custom-geonetwork:latest
+    #image: scotgov-custom-geonetwork:latest
     restart: unless-stopped
     container_name: geonetwork
     ports:
@@ -45,7 +47,6 @@ services:
       - ./geonetwork/catalog/locales/en-admin.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-admin.json
       - ./geonetwork/catalog/locales/en-core.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-core.json
       - ./geonetwork/catalog/locales/en-editor.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-editor.json
-      - ./geonetwork/catalog/locales/en-custom.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-custom.json
       # dashboards
       - ./geonetwork/catalog/js/admin/DashboardController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/DashboardController.js
       # datepicker layout fix
@@ -61,9 +62,6 @@ services:
       - ./geonetwork/catalog/views/default/templates/recordView/metadata.html:/var/lib/jetty/webapps/geonetwork/catalog/views/default/templates/recordView/metadata.html
       - ./geonetwork/catalog/style/gn_metadata.less:/var/lib/jetty/webapps/geonetwork/catalog/style/gn_metadata.less
       - ./geonetwork/catalog/locales/en-search.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-search.json
-      # minimum password length fix (may not be needed from version 4.2.3 if the pull request to core-geonetwork is accepted)
-      - ./geonetwork/catalog/js/admin/UserGroupController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/admin/UserGroupController.js
-      - ./geonetwork/catalog/js/LoginController.js:/var/lib/jetty/webapps/geonetwork/catalog/js/LoginController.js
       # schema overrides
       # gemini 2.3
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23

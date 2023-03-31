@@ -78,6 +78,10 @@ services:
       - ./geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/default.xsl:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/index-fields/default.xsl
       - ./geonetwork/WEB-INF/data/config/schema_plugins/iso19139/layout/tpl-rdf.xsl:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/layout/tpl-rdf.xsl
       - ./geonetwork/WEB-INF/data/config/schema_plugins/iso19139/loc/eng/labels.xml:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/loc/eng/labels.xml
+      # osmp
+      - ../iso19139.osmp/src/main/plugin/iso19139.osmp:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.osmp
+      - ../iso19139.osmp/src/main/config/translations/en-schema-iso19139.osmp.json:/var/lib/jetty/webapps/geonetwork/catalog/locales/en-schema-iso19139.osmp.json
+      - ../iso19139.osmp/target/schema-iso19139.osmp-4.2.4-SNAPSHOT.jar:/var/lib/jetty/webapps/geonetwork/WEB-INF/lib/gn-schema-iso19139.osmp-4.2.4-SNAPSHOT.jar
     networks:
       - esnet
 

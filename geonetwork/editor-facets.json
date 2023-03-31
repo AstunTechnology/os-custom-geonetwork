@@ -1,0 +1,99 @@
+{
+    "resourceType": {
+      "terms": {
+        "field": "resourceType",
+        "size": 5
+      }
+    },
+    "statusWorkflow": {
+        "terms": {
+            "field": "statusWorkflow"
+        }
+    },
+    "sourceCatalogue": {
+        "terms": {
+          "field": "sourceCatalogue",
+          "size": 5,
+          "include": ".*"
+        },
+        "meta": {
+          "orderByTranslation": true,
+          "filterByTranslation": true,
+          "displayFilter": true
+        }
+      },
+    "valid": {
+      "terms": {
+        "field": "valid",
+        "size": 5
+      }
+    },
+    "valid_inspire": {
+        "terms": {
+          "field": "valid_inspire"}
+        },
+    "groupOwner": {
+      "terms": {
+        "field": "groupOwner",
+        "size": 5,
+        "include": ".*"
+      },
+      "meta": {
+        "orderByTranslation": true,
+        "filterByTranslation": true,
+        "displayFilter": true
+      }
+    },
+    "recordOwner": {
+        "terms": {
+          "field": "recordOwner",
+          "size": 5,
+          "include": ".*"
+        },
+        "meta": {
+
+        }
+      },
+    "groupPublishedId": {
+      "terms": {
+        "field": "groupPublishedId",
+        "size": 5,
+        "include": ".*"
+      },
+      "meta": {
+        "orderByTranslation": true,
+        "filterByTranslation": true,
+        "displayFilter": true
+      }
+    },
+    "documentStandard": {
+      "terms": {
+        "field": "documentStandard",
+        "size": 5
+      },
+      "meta": {
+      }
+    },
+    "isHarvested": {
+      "terms": {
+        "field": "isHarvested",
+        "size": 2
+      },
+      "meta": {
+      }
+    },
+    "isTemplate": {
+      "terms": {
+        "field": "isTemplate",
+        "size": 5
+      },
+      "meta": {
+      }
+    },
+    "isPublishedToAll": {
+      "terms": {
+        "field": "isPublishedToAll",
+        "size": 2
+      }
+    }
+  }

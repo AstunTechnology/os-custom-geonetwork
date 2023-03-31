@@ -1,0 +1,13 @@
+{
+    "gnTopicsBackgroundColor": "#FFFFFF",
+    "gnMenubarBackground": "#FFFFFF",
+    "gnSearchButtonBackgroundColor": "#FF3366",
+    "gnMenubarColorHover": "#453C90",
+    "gnMenubarBackgroundHover": "#FFFFFF",
+    "gnMenubarColorActive": "#453C90",
+    "gnMenubarBackgroundActive": "#FFFFFF",
+    "gnSearchButtonColor": "#FFFFFF",
+    "gnBottombarBackground": "#FFFFFF",
+    "gnBottombarColor": "#453C90",
+    "gnMenubarBorderColor": "#FFFFFF"
+    }

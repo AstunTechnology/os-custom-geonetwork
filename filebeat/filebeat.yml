@@ -7,11 +7,11 @@ setup.template.settings:
   index.codec: best_compression
 
 setup.kibana:
-  host: "${NGINX_HOST}:80"
+  host: "${NGINX_HOST}"
   path: "/geonetwork/dashboards"
   space.id: catalogue-monitor
-  username: admin
-  password: admin
+  username: ${METRIC_GN_USER}
+  password: ${METRIC_GN_PASSWORD}
 
 setup.dashboards:
   index: "gn-logs-*"

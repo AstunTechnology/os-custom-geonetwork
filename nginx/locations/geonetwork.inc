@@ -15,7 +15,8 @@ location /geonetwork {
 	 	send_timeout                36000;
 	 	proxy_intercept_errors on;
 	 	error_page 404 /404.html;
-	 	if ($http_x_forwarded_proto = "http") {
-	 				rewrite ^/(.*)$ https://$host$request_uri;
-	 	  		}
-	}
+}
+
+#	 	if ($http_x_forwarded_proto = "http") {
+#	 				rewrite ^/(.*)$ https://$host$request_uri;
+#	 	  		}

@@ -1426,10 +1426,6 @@
     "uiConfigDeleteError": "Error deleting user interface configuration",
     "sourceRemoved": "Source removed",
     "sourceRemovedError": "Error while removing the source",
-    "saveThesaurus": "Save",
-    "metricbeatDatabaseStatistics": "Metricbeat - Database statistics",
-    "filebeatDatabaseStatistics": "Filebeat - Database statistics",
-    "metricbeatNginxStatistics": "Metricbeat - Nginx statistics",
-    "filebeatNginxStatistics": "Filebeat - Nginx statistics"
+    "saveThesaurus": "Save"
 }
 

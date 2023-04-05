@@ -1,0 +1,134 @@
+<!-- In GeoNetwork 4.2.x data quality snippets need an extra element 
+for their title to display correctly in the Manage directory menu 
+and the data quality report picker in the records Editor view -->
+
+<gmd:DQ_DomainConsistency xmlns:gco="http://www.isotc211.org/2005/gco"
+                          xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                          xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                          xmlns:gts="http://www.isotc211.org/2005/gts"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          uuid="5baa66dc-120f-4e49-b167-7f584060fc55">
+   <gmd:result>
+      <gmd:DQ_ConformanceResult>
+         <gmd:specification xlink:href="http://inspire.ec.europa.eu/id/citation/ir/reg-1089-2010">
+            <gmd:CI_Citation>
+               <gmd:title>
+                  <gmx:Anchor xlink:href="http://data.europa.eu/eli/reg/2010/1089">COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services</gmx:Anchor>
+               </gmd:title>
+               <gmd:date>
+                  <gmd:CI_Date>
+                     <gmd:date>
+                        <gco:Date>2010-12-08</gco:Date>
+                     </gmd:date>
+                     <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#gmxCodelists.xml#CI_DateTypeCode"
+                                             codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                     </gmd:dateType>
+                  </gmd:CI_Date>
+               </gmd:date>
+               <!-- GeoNetwork 4.2.x extra element dictating the title of the data quality snippet-->
+               <gmd:otherCitationDetails>
+                  <gco:CharacterString>INSPIRE Spatial Data Service</gco:CharacterString>
+               </gmd:otherCitationDetails>
+            </gmd:CI_Citation>
+         </gmd:specification>
+         <gmd:explanation>
+            <gco:CharacterString>This Spatial Data Service set is conformant with the INSPIRE
+Implementing Rules for the interoperability of spatial data sets and
+services</gco:CharacterString>
+         </gmd:explanation>
+         <gmd:pass>
+            <gco:Boolean>true</gco:Boolean>
+         </gmd:pass>
+      </gmd:DQ_ConformanceResult>
+   </gmd:result>
+</gmd:DQ_DomainConsistency>
+
+
+
+<gmd:DQ_DomainConsistency xmlns:gco="http://www.isotc211.org/2005/gco"
+                          xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                          xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                          xmlns:gts="http://www.isotc211.org/2005/gts"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          uuid="23346fc3-e752-4b71-afce-74ab92764887">
+   <gmd:result>
+      <gmd:DQ_ConformanceResult>
+         <gmd:specification xlink:href="http://inspire.ec.europa.eu/id/citation/ir/reg-1089-2010">
+            <gmd:CI_Citation>
+               <gmd:title>
+                  <gmx:Anchor xlink:href="http://data.europa.eu/eli/reg/2010/1089">COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services</gmx:Anchor>
+               </gmd:title>
+               <gmd:date>
+                  <gmd:CI_Date>
+                     <gmd:date>
+                        <gco:Date>2010-12-08</gco:Date>
+                     </gmd:date>
+                     <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#gmxCodelists.xml#CI_Da teTypeCode"
+                                             codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                     </gmd:dateType>
+                  </gmd:CI_Date>
+               </gmd:date>
+               <!-- GeoNetwork 4.2.x extra element dictating the title of the data quality snippet-->
+               <gmd:otherCitationDetails>
+                  <gco:CharacterString>INSPIRE Spatial Data Sets and Services</gco:CharacterString>
+               </gmd:otherCitationDetails>
+            </gmd:CI_Citation>
+         </gmd:specification>
+         <gmd:explanation>
+            <gco:CharacterString>This data set is conformant with the INSPIRE Implementing Rules for
+the interoperability of spatial data sets and services</gco:CharacterString>
+         </gmd:explanation>
+         <gmd:pass>
+            <gco:Boolean>true</gco:Boolean>
+         </gmd:pass>
+      </gmd:DQ_ConformanceResult>
+   </gmd:result>
+</gmd:DQ_DomainConsistency>
+
+
+
+<gmd:DQ_DomainConsistency xmlns:gco="http://www.isotc211.org/2005/gco"
+                          xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                          xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                          xmlns:gts="http://www.isotc211.org/2005/gts"
+                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                          xmlns:gml="http://www.opengis.net/gml/3.2"
+                          uuid="1a65ab78-7e95-4576-9861-25c8943ce5f0">
+   <gmd:result>
+      <gmd:DQ_ConformanceResult>
+         <gmd:specification xlink:href="http://inspire.ec.europa.eu/id/citation/ir/reg-976-2009">
+            <gmd:CI_Citation>
+               <gmd:title>
+                  <gmx:Anchor xlink:href="http://data.europa.eu/eli/reg/2009/976">COMMISSION REGULATION (EC) No 976/2009 of 19 October 2009 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards the Network Services</gmx:Anchor>
+               </gmd:title>
+               <gmd:date>
+                  <gmd:CI_Date>
+                     <gmd:date>
+                        <gco:Date>2010-12-08</gco:Date>
+                     </gmd:date>
+                     <gmd:dateType>
+                        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#gmxCodelists.xml#CI_Da teTypeCode"
+                                             codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                     </gmd:dateType>
+                  </gmd:CI_Date>
+               </gmd:date>
+               <!-- GeoNetwork 4.2.x extra element dictating the title of the data quality snippet-->
+               <gmd:otherCitationDetails>
+                  <gco:CharacterString>INSPIRE Network Services</gco:CharacterString>
+               </gmd:otherCitationDetails>
+            </gmd:CI_Citation>
+         </gmd:specification>
+         <gmd:explanation>
+            <gco:CharacterString>This data set is conformant with the INSPIRE Implementing Rules for
+Network Services</gco:CharacterString>
+         </gmd:explanation>
+         <gmd:pass>
+            <gco:Boolean>true</gco:Boolean>
+         </gmd:pass>
+      </gmd:DQ_ConformanceResult>
+   </gmd:result>
+</gmd:DQ_DomainConsistency>

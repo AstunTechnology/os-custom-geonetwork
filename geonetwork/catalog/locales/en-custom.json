@@ -18,5 +18,7 @@
 	"noTemplatesAvailable": "Warning! There are no templates available in the catalog. You should add or <a href='admin.console#/metadata'>import</a> some.",
 	"facet-th_os-ngd_tree-theme_tree": "OS National Geographic Database",
 	"facet-cl_topic": "ISO Topics",
-	"facet-cat.keyword": "All Keywords"
+	"facet-cat.keyword": "All Keywords",
+	"ogc-api": "OGC API",
+	"datahub": "Datahub"
 }

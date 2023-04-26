@@ -4,15 +4,15 @@
 
 psql -h geonetwork310.ciofhwibjtfs.eu-west-2.rds.amazonaws.com -p 5432 -U postgres -W -d geonetwork
 
-create database geonetwork423
-create database geohealthcheck423
+create database geonetwork423;
+create database geohealthcheck423;
 \c geonetwork423
-create extension postgis
-create extension hstore
+create extension postgis;
+create extension hstore;
 
 
-alter database geonetwork423 owner to geonetwork
-alter database geohealthcheck423 owner to geonetwork
+alter database geonetwork423 owner to geonetwork;
+alter database geohealthcheck423 owner to geonetwork;
 
 # run audit script
 

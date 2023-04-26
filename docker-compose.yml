@@ -67,6 +67,9 @@ services:
       # persistent logo and favicon
       - ./ordnance-survey/OS-logo.png:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/data/resources/images/logos/044fac9d-3bba-4214-b010-eeb9978422b2.png
       - ./ordnance-survey/OS-favicon.png:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/data/resources/images/logos/favicon.png
+      # OGC-API and Datahub header links (menu button translations are in en-custom.json)
+      - ./geonetwork/catalog/templates/top-toolbar-accessible.html:/var/lib/jetty/webapps/geonetwork/catalog/templates/top-toolbar-accessible.html
+      - ./geonetwork/catalog/templates/top-toolbar.html:/var/lib/jetty/webapps/geonetwork/catalog/templates/top-toolbar.html
       # schema overrides
       # gemini 2.3
       - ../iso19139.gemini23/src/main/plugin/iso19139.gemini23:/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139.gemini23

@@ -119,6 +119,10 @@ services:
 
     restart: unless-stopped
     container_name: ogc-api-service
+    volumes:
+      - ./ogc-api/copy/copy-iso19139.gemini23.xsl:/workspace/BOOT-INF/classes/xslt/ogcapir/formats/copy/copy-iso19139.gemini23.xsl
+      - ./ogc-api/copy/copy-iso19139.gemini22.xsl:/workspace/BOOT-INF/classes/xslt/ogcapir/formats/copy/copy-iso19139.gemini22.xsl
+      - ./ogc-api/copy/copy-iso19139.osmp.xsl:/workspace/BOOT-INF/classes/xslt/ogcapir/formats/copy/copy-iso19139.osmp.xsl
 
     networks:
       - esnet

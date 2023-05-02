@@ -16,9 +16,10 @@
 	"searchOver": "Hi, welcome to our Data Catalogue. At present, this is mainly used to feed data.gov.uk. We would appreciate feedback on the user interface to <a href='mailto:Gemini@os.uk?Subject=OS%20Data%20Catalogue' target='_blank' rel='noopener' noreferrer=''>Gemini@os.uk</a>. For other information about OS please go to our website (<a target='_blank' href='https://os.uk'>os.uk</a>) and data hub (<a target='_blank' href='https://osdatahub.os.uk/'>osdatahub.os.uk</a>).",
 	"createA": "Create a new record",
 	"noTemplatesAvailable": "Warning! There are no templates available in the catalog. You should add or <a href='admin.console#/metadata'>import</a> some.",
-	"facet-th_os-ngd_tree-theme_tree": "OS National Geographic Database",
+	"facet-th_os-ngd_tree": "OS National Geographic Database",
 	"facet-cl_topic": "ISO Topics",
 	"facet-cat.keyword": "All Keywords",
 	"ogc-api": "OGC API",
-	"datahub": "Datahub"
+	"datahub": "Datahub",
+	"facet-statusWorkflow": "Workflow progress"
 }

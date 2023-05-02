@@ -23,9 +23,9 @@
       "size": 5
     }
   },
-  "th_os-ngd_tree.key": {
+  "th_NGD-theme-feature-hierarchy.default": {
       "terms": {
-      "field": "th_os-ngd_tree.key",
+      "field": "th_NGD-theme-feature-hierarchy.default",
       "size": 5
       }
   },

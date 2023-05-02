@@ -24,19 +24,19 @@
         }
         }
     },
-    "th_os-ngd_tree.key": {
-        "terms": {
-        "field": "th_os-ngd_tree.key",
-        "size": 34
+    "th_NGD-theme-feature-hierarchy.default": {
+            "terms": {
+                "field": "th_NGD-theme-feature-hierarchy.default",
+                "size": 20
+            },
+            "meta": {
+                "decorator": {
+                    "type": "icon",
+                    "prefix": "fa fa-2x pull-left gn-icon-",
+                    "expression": "http://os.uk/vocabularies/theme/(.*)"
+                }
+            }
         },
-        "meta": {
-        "decorator": {
-            "type": "icon",
-            "prefix": "fa fa-2x pull-left gn-icon iti-",
-            "expression": "http://inspire.ec.europa.eu/theme/(.*)"
-        }
-        }
-    },
     "resourceType": {
         "terms": {
         "field": "resourceType",

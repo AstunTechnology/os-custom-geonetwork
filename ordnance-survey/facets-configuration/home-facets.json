@@ -24,9 +24,9 @@
         }
         }
     },
-    "th_os-ngd_tree-theme_tree.key": {
+    "th_os-ngd_tree.key": {
         "terms": {
-        "field": "th_os-ngd_tree-theme_tree.key",
+        "field": "th_os-ngd_tree.key",
         "size": 34
         },
         "meta": {

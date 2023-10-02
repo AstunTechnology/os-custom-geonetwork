@@ -8,10 +8,6 @@ ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true 
 #Environment variables
 #ENV GN_VERSION 3.10.5
 
-# downgrade tls from 1.2 to 1.1
-#RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/' /etc/ssl/openssl.cnf \
-#&& sed -i 's/CipherString = DEFAULT@SECLEVEL=2/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
-
 RUN yum install -y unzip tar gzip
 
 WORKDIR $CATALINA_HOME/webapps

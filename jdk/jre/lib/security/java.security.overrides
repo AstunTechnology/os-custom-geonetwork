@@ -1,12 +1,12 @@
 # security customisations
 
 #original
-#jdk.tls.disabledAlgorithms=SSLv3, TLSv1, TLSv1.1, RC4, DES, MD5withRSA, \                            
-#    DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, \                                 
-#    include jdk.disabled.namedCurves 
+jdk.tls.disabledAlgorithms=SSLv3, TLSv1, TLSv1.1, RC4, DES, MD5withRSA, \                            
+    DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, \                                 
+    include jdk.disabled.namedCurves 
 
 # overwritten for Geonetwork sending mail via AWS SES
-jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, \
-    DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, \
-    include jdk.disabled.namedCurves
+#jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, \
+#    DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, \
+#    include jdk.disabled.namedCurves
 

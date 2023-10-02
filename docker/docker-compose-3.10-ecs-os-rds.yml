@@ -64,6 +64,7 @@ services:
       - /home/ec2-user/tomcat/server.xml:/usr/local/tomcat/conf/server.xml
       - /home/ec2-user/tomcat/web.xml:/usr/local/tomcat/conf/web.xml
       - /home/ec2-user/jdk/jre/lib/security/java.security.overrides:/usr/local/openjdk-8/jre/lib/security/java.security.overrides
+      - /home/ec2-user/etc/ssl/openssl.conf:/etc/ssl/openssl.conf
     logging:
         driver: awslogs
         options: 

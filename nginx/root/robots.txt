@@ -1,0 +1,14 @@
+User-agent: *
+Disallow:/
+# At the moment everything is commented out so the site isn't crawled but when we're ready, comment out the Disallow line above and un-comment the lines below
+# Don't crawl the parameterised endpoints
+#Disallow: /csw
+#Disallow: /xml
+#Disallow: /json
+#Disallow: /search
+# Don't crawl the login pages
+#Disallow: /catalog.signin
+#Disallow: /login.jsp
+#Sitemap: https://osmetadata.astuntechnology.com/geonetwork/srv/api/sitemap
+#Sitemap: https://osmetadata.astuntechnology.com/geonetwork/srv/api/sitemap?format=rdf
+

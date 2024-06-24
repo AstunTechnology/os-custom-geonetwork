@@ -1,0 +1,46 @@
+FROM tomcat:8.5-jdk8
+
+ENV GN_FILE geonetwork.war
+ENV DATA_DIR=$CATALINA_HOME/webapps/geonetwork/WEB-INF/data
+ENV JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -server -Xms512m -Xmx2024m -XX:NewSize=512m -XX:MaxNewSize=1024m -XX:+UseConcMarkSweepGC"
+
+
+#Environment variables
+#ENV GN_VERSION 3.10.5
+
+# downgrade tls from 1.2 to 1.1
+#RUN sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1/' /etc/ssl/openssl.cnf \
+#&& sed -i 's/CipherString = DEFAULT@SECLEVEL=2/CipherString = DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
+
+RUN yum install -y unzip tar gzip
+
+WORKDIR $CATALINA_HOME/webapps
+
+COPY ./$GN_FILE $CATALINA_HOME/webapps/$GN_FILE
+
+RUN mkdir -p geonetwork && \
+     unzip -e $GN_FILE -d geonetwork && \
+     rm $GN_FILE
+
+# Patch in log4j version 2.17
+RUN rm "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/log4j-core-* && \
+    rm "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/log4j-api-* && \
+    curl https://dlcdn.apache.org/logging/log4j/2.18.0/apache-log4j-2.18.0-bin.tar.gz -o /tmp/log4j2.tgz && \
+    mkdir /tmp/log4j2 && \
+    tar -xvzf /tmp/log4j2.tgz -C /tmp/log4j2 && \
+    cp /tmp/log4j2/apache-log4j-2.18.0-bin/log4j-core-2.18.0.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
+    cp /tmp/log4j2/apache-log4j-2.18.0-bin/log4j-api-2.18.0.jar "${CATALINA_HOME}"/webapps/geonetwork/WEB-INF/lib/ && \
+    rm -rf /tmp/log4j2*
+
+#Set geonetwork data dir
+COPY ./docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["catalina.sh", "run"]
+
+HEALTHCHECK --interval=1m --timeout=10s --retries=5 \
+    CMD curl -i -H \"Accept: application/json\" -f http://localhost:8080/geonetwork/srv/api/0.1/site || exit 1
+

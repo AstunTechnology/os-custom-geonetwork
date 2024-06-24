@@ -1,0 +1,12 @@
+docker/geonetwork.war
+.env-local
+esdata
+geonetwork/*.db
+.env
+pgdata
+geonetwork/data
+geonetwork/config
+geonetwork/index
+geonetwork/resources
+geonetwork/*[0-9]*
+*creds.txt

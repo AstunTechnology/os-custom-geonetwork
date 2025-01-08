@@ -1,0 +1,22 @@
+creds.txt
+.env
+shiro-geonetwork
+bitbucket.sh
+*.war
+testing/target
+*creds.txt
+.env-local
+*.dump
+*.log
+*.err
+thesauri/
+Tiltfile
+*.yaml
+tilt_modules
+certs/localhost*
+certs/letsencrypt
+certs/cacerts
+# customer folders
+scotgov/
+astun/
+nrw/

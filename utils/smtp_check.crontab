@@ -1,0 +1,1 @@
+0 18 * * * /usr/bin/bash /home/astun/docker-geonetwork/utils/smtp_check.sh

@@ -11,7 +11,7 @@
 	"ngdKeywords": "OS National Geographic Database",
 	"facet-th_NGD-theme-feature-hierarchy": "OS National Geographic Database",
 	"facet-th_gemet-423-en": "GEMET Concepts",
-	"featureconcept-en": "INSPIRE Feature Concepts",
+	"facet-th_featureconcept-en": "INSPIRE Feature Concepts",
 	"to-iso19139-keyword": "text",
 	"to-iso19139-keyword-with-anchor": "anchor (recommended)",
 	"topicCats": "ISO Topics",

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  datahub:
+    image: geonetwork/geonetwork-ui-datahub:master
+    container_name: datahub
+    ports:
+      - 8081:80
+    environment:
+      GN4_API_URL: ${GN_PROTOCOL}://${DH_HOST}:${DH_PORT}/geonetwork/srv/api
+    restart: unless-stopped
+    volumes:
+      #- ./datahub/assets:/assets
+      - ./datahub/conf/:/conf
+    networks:
+    - esnet
+
+    nginx:
+      # override to add nginx config for datahub
+      volumes:
+      - ./datahub/nginx/locations/datahub.inc:/etc/nginx/locations/datahub.inc
+        
+networks:
+  esnet:
+    driver: bridge

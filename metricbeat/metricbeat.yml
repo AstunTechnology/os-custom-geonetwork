@@ -1,0 +1,34 @@
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+
+setup.kibana:
+  host: "${NGINX_HOST}"
+  path: "/geonetwork/dashboards"
+  space.id: catalogue-monitor
+  username: ${METRIC_GN_USER}
+  password: ${METRIC_GN_PASSWORD}
+
+setup.dashboards:
+  index: "gn-metrics-*"
+  directory: ${path.config}/templates
+  always_kibana: true
+  retry.enabled: true
+
+setup.ilm:
+  enabled: auto
+  rollover_alias: "gn-metrics"
+  pattern: "{now/d}-000001"
+
+output.elasticsearch:
+  hosts: ["${ES_HOST}:${ES_PORT}"]
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~

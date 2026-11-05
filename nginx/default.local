@@ -1,0 +1,70 @@
+# Default server configuration
+#
+
+# don't send nginx version in error pages and server header
+server_tokens off;
+
+# disable content-type sniffing
+add_header X-Content-Type-Options nosniff;
+
+# enable cross-site scripting filter
+add_header X-XSS-Protection "1; mode=block";
+
+# X-Permitted-Cross-Domain-Policies
+add_header X-Permitted-Cross-Domain-Policies none;
+
+# content security policy
+# original
+#add_header Content-Security-Policy "frame-ancestors 'none'; child-src 'self', frame-src 'self'";
+# revised- to fix map preview in datahub
+add_header Content-Security-Policy "frame-ancestors 'none'; frame-src 'self'";
+
+# referrer policy
+add_header Referrer-Policy 'No-referrer';
+
+# rate limiting
+limit_req_zone $binary_remote_addr zone=ip:10m rate=60r/s;
+
+# disable absolute redirects
+absolute_redirect off;
+
+#upstream ghc {
+#    server geohealthcheck:8082;
+#}
+
+log_format  verbose  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+server {
+    listen       80;
+    listen  [::]:80;
+    root /var/www/html;
+
+
+    server_name _;
+
+    access_log /var/log/nginx/gn-access.log verbose;
+    error_log /var/log/nginx/gn-error.log;
+
+
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+    }
+
+    location ^~ /files {
+        alias /var/www/html/files;
+    }
+
+    include locations/*.inc;
+
+    include sites-available/*.inc;
+
+
+}
+
+
+
+#include servers/*.inc;

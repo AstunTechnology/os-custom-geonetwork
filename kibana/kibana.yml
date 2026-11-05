@@ -1,0 +1,28 @@
+server.basePath: "/geonetwork/dashboards"
+#server.publicBaseUrl: ${SERVER_PUBLICBASEURL}/geonetwork/dashboards
+server.rewriteBasePath: true
+kibana.index: ".dashboards"
+server.name: kibana
+server.host: "0.0.0.0"
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+logging.quiet: true
+csp.rules: ["frame-src 'self' ${SERVER_PUBLICBASEURL}"]
+csp.warnLegacyBrowsers: false
+elasticsearch.username: "elastic"
+server.securityResponseHeaders.strictTransportSecurity: "max-age=31536000"
+xpack.monitoring.ui.container.elasticsearch.enabled: true
+xpack.security.session.idleTimeout: "1h"
+xpack.security.session.lifespan: "30d"
+xpack.security.authc:
+  providers:
+    basic.basic1:
+      order: 0
+      description: "Sign in"
+    anonymous.anonymous1:
+      order: 1
+      description: "Continue as guest"
+      icon: "globe"
+      credentials:
+        username: "anonymous"
+        password: "anonymous"
+

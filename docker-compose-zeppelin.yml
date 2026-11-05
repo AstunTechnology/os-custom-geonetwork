@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  zeppelin:
+    # image: apache/zeppelin:0.9.0
+    #image: apache/zeppelin:0.10.0
+    image: public.ecr.aws/d7m3b2m9/ea-custom-zeppelin:latest
+    # build:
+    #   context: ./certs
+    #   dockerfile: dockerfile.zeppelin
+    container_name: zeppelin
+    volumes: 
+      - ./zeppelin/zeppelin-notebook:/notebook
+      - ./shiro-geonetwork/geonetwork-integration/target/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar:/usr/local/tomcat/webapps/zeppelin/lib/testshiro-1.0-SNAPSHOT-jar-with-dependencies.jar
+      - ./zeppelin/zeppelin-logs:/zeppelin/logs
+      - ./shiro-geonetwork/lib/postgresql-42.3.3.jar:/usr/local/tomcat/webapps/zeppelin/lib/postgresql-42.3.3.jar
+      - ./shiro-geonetwork/conf/shiro.ini:/usr/local/tomcat/webapps/zeppelin/conf/shiro.ini
+      - ./zeppelin/zeppelin-conf/interpreter-setting.json:/usr/local/tomcat/webapps/zeppelin/interpreter/jdbc/interpreter-setting.json
+      - ./zeppelin/zeppelin-conf/zeppelin-site.xml:/usr/local/tomcat/webapps/zeppelin/conf/zeppelin-site.xml
+      #- ./certs/cacerts:/custom_keystore/cacerts
+    environment:
+      - "ZEPPELIN_INTERPRETER_OUTPUT_LIMIT=10490000"
+      - "ZEPPELIN_INTERPRETER_GROUP_DEFAULT=jdbc"
+      - "ZEPPELIN_NOTEBOOK_DIR=/notebook"
+      - "ZEPPELIN_PORT=8083"
+      - "ZEPPELIN_ADDR=0.0.0.0"
+      - "JDBC_DB_URL=jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}" 
+      - "JDBC_DB_USER=${POSTGRES_DB_ROUSER}" 
+      - "JDBC_DB_PASSWORD=${POSTGRES_DB_ROPASSWORD}" 
+      - "HOSTNAME=0.0.0.0"
+      - "JDBC_MAX_ROWS=10000"
+      - "JDBC_MAX_COUNT=10000"
+      # JAVA_OPTS:
+      #   -Djavax.net.ssl.trustStore=/custom_keystore/cacerts -Djavax.net.ssl.trustStorePassword=changeit
+    ports:
+      - "8083:8083"
+      #- "8443:8443"
+    security_opt:
+      - no-new-privileges=true
+    networks:
+      - esnet
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8083/health/readiness || exit 1"]
+      interval: 3m
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  nginx:
+    # override to add nginx config for zeppelin
+    volumes:
+          # only needed for secure zeppelin
+          #- ./zeppelin/nginx/servers/zeppelin.inc:/etc/nginx/servers/zeppelin.inc
+          # default
+          - ./zeppelin/nginx/locations/zeppelin.inc:/etc/nginx/locations/zeppelin.inc
+    
+networks:
+  esnet:
+    driver: bridge

@@ -1,0 +1,41 @@
+version: '3.9'
+
+volumes:
+   geoserver-data:
+
+services:
+  geoserver:
+      image: docker.osgeo.org/geoserver:2.23.x
+      container_name: geoserver
+      ports:
+        - ${GEOSERVER_PORT}:8080
+      environment:
+      - INSTALL_EXTENSIONS=true
+      - STABLE_EXTENSIONS=wps,csw
+      - EXTRA_JAVA_OPTS=-Xms1G -Xmx2G
+      - GEOSERVER_CSRF_WHITELIST=${GN_URL}
+      - GEOSERVER_CSRF_DISABLED=true
+      volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./additional_libs:/opt/additional_libs:Z
+      - ./geoserver/web.xml:/opt/apache-tomcat-9.0.75/webapps/geoserver/WEB-INF/web.xml
+      restart: unless-stopped
+      networks:
+      - esnet
+      healthcheck:
+        test: ["CMD-SHELL", "curl -f '${GN_PROTOCOL}://${GN_URL}/geoserver/ows?service=CSW&version=2.0.2&request=GetCapabilities' || exit 1"]
+        interval: 3m
+        timeout: 10s
+        retries: 5
+
+  nginx:
+    # override to add nginx config for zeppelin
+    volumes:
+          # only needed for secure zeppelin
+          #- ./zeppelin/nginx/servers/zeppelin.inc:/etc/nginx/servers/zeppelin.inc
+          # default
+          - ./geoserver/nginx/locations/geoserver.inc:/etc/nginx/locations/geoserver.inc
+
+networks:
+  esnet:
+    driver: bridge

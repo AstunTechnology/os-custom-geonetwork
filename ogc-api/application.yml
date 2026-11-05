@@ -1,0 +1,134 @@
+gn:
+  search:
+    # Full text on all fields
+    # 'queryBase': '${any}',
+    # Full text but more boost on title match
+    #queryFilter: '+isTemplate:n AND -indexingError:true'
+    queryFilter: '+isTemplate:n'
+    queryBase: '(any.\*:(${any}) OR resourceTitleObject.\*:(${any})^2)'
+    trackTotalHits: true
+    scoreConfig: >
+      {
+        "boost": "5",
+        "functions": [
+          { // Boost down member of a series
+            "filter": { "exists": { "field": "parentUuid" } },
+            "weight": 0.3
+          },
+          { // Boost down obsolete records
+            "filter": { "match": { "cl_status.key": "obsolete" } },
+            "weight": 0.3
+          },
+          {
+            "gauss": {
+              "dateStamp": {
+                "scale": "365d",
+                "offset": "90d",
+                "decay": 0.5
+              }
+            }
+          }
+        ],
+        "score_mode": "multiply"
+      }
+    sortables:
+      - "relevance"
+      - "createDate:desc"
+      - "resourceTitleObject.default.keyword"
+      - "rating:desc"
+      - "popularity:desc"
+    formats:
+      - name: html
+        mimeType: text/html
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - conformance
+          - collections
+          - collection
+          - items
+          - item
+      -
+        name: xml
+        mimeType: application/xml
+        responseProcessor: XmlResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      -
+        name: json
+        mimeType: application/json
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - conformance
+          - collections
+          - collection
+          - items
+          - item
+      -
+        name : gn
+        mimeType : application/gn+xml
+        responseProcessor: XsltResponseProcessorImpl
+      -
+        name: opensearch
+        mimeType: application/opensearchdescription+xml
+        operations:
+          - collection
+      -
+        name : schema.org
+        mimeType : application/ld+json
+        responseProcessor: JsonLdResponseProcessorImpl
+        operations:
+          - items
+          - item
+      -
+        name: dcat
+        mimeType: application/rdf+xml
+        responseProcessor: DcatCatalogResponseProcessorImpl
+        operations:
+          - items
+          - item
+      -
+        name : dcat_turtle
+        mimeType : text/turtle
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations :
+          - item
+#      -
+#        name : iso19139
+#        mimeType : application/iso19139+xml
+#        responseProcessor: XsltResponseProcessorImpl
+#      -
+#        name : iso19115-3
+#        mimeType : application/iso19115-3+xml
+#        responseProcessor: XsltResponseProcessorImpl
+      -
+        name : rss
+        mimeType : application/rss+xml
+        responseProcessor: RssResponseProcessorImpl
+        operations:
+          - items
+      -
+        name : geojson
+        mimeType : application/geo+json
+        responseProcessor: GeoJsonResponseProcessorImpl
+        operations:
+          - items
+          - item
+    defaultMimeType: text/html
+    sources:
+      - "resourceTitleObject"
+      - "resourceAbstractObject"
+      - "resourceType"
+      - "overview"
+      - "uuid"
+      - "schema"
+      - "link"
+      - "allKeywords"
+      - "contactForResource"
+      - "cl_status"
+      - "edit"

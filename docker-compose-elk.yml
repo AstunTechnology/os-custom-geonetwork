@@ -1,0 +1,80 @@
+
+volumes:
+  esdata:
+  esconfig:
+  kbdata:
+  kbconfig:
+
+services:
+  elasticsearch:
+    #image: elasticsearch:7.12.1
+    image: elasticsearch:7.17.15
+    # build:
+    #   context: ./elasticsearch
+    container_name: elasticsearch
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+    networks:
+      - esnet
+    ports:
+      - "9200:9200"
+    security_opt:
+      - no-new-privileges=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65535
+        hard: 65535
+    environment:
+      - "ES_JAVA_OPTS=-Xms1G -Xmx1G" 
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - logger.deprecation.level=OFF
+      - ES_USERNAME=${ES_USERNAME}
+      - ES_PASSWORD=${ES_PASSWORD}
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      - esconfig:/usr/share/elasticsearch/config
+    healthcheck:
+      test: ["CMD-SHELL", "curl -u $ES_USERNAME:$ES_PASSWORD -i -H \"Accept: application/json\" -f http://localhost:9200/_cat/health || exit 1"]
+      interval: 3m
+      timeout: 10s
+      retries: 3
+
+
+  kibana:
+    #image: kibana:7.12.1
+    image: kibana:7.17.15
+    #image: amazon/opendistro-for-elasticsearch-kibana:1.9.0
+    container_name: kibana
+    restart: unless-stopped
+    environment:
+      ELASTICSEARCH_URL: ${ES_URL}
+      ES_USERNAME: ${ES_USERNAME}
+      ES_PASSWORD: ${ES_PASSWORD}
+      SERVER_PUBLICBASEURL: ${KB_BASE_URL}/geonetwork/dashboards
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./kibana/node.options:/usr/share/kibana/config/node.options
+      - kbdata:/usr/share/kibana/data
+      - kbconfig:/usr/share/kibana/config
+    logging:
+          driver: "json-file"
+    ports:
+      - "5601:5601"
+    security_opt:
+      - no-new-privileges=true
+    networks:
+      - esnet
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:5601/login || exit 1"]
+        interval: 1m
+        timeout: 10s
+        retries: 5
+
+networks:
+  esnet:
+    driver: bridge

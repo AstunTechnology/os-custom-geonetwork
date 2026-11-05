@@ -1,0 +1,17 @@
+services:
+  geonetwork:
+      # overrides to add keycloak config
+      volumes:
+        - ./keycloak/client-config/openid-configuration.json:/var/lib/jetty/webapps/geonetwork/WEB-INF/config-security/openid-configuration.json
+      environment:
+        GEONETWORK_SECURITY_TYPE: ${GEONETWORK_SECURITY_TYPE}
+        OPENIDCONNECT_CLIENTSECRET: ${OPENIDCONNECT_CLIENTSECRET}
+        OPENIDCONNECT_CLIENTID: ${OPENIDCONNECT_CLIENTID}
+        OPENIDCONNECT_SERVERMETADATA_FNAME: ${OPENIDCONNECT_SERVERMETADATA_FNAME}
+        OPENIDCONNECT_IDTOKENROLELOCATION: ${OPENIDCONNECT_IDTOKENROLELOCATION}
+        OPENIDCONNECT_LOGSENSITIVE_INFO: ${OPENIDCONNECT_LOGSENSITIVE_INFO}
+        OPENIDCONNECT_ROLECONVERTER: ${OPENIDCONNECT_ROLECONVERTER}
+
+networks:
+  esnet:
+    driver: bridge

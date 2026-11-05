@@ -1,0 +1,7 @@
+- module: postgresql
+  #metricsets:
+  #  - database
+  #  - bgwriter
+  #  - activity
+  period: 10s
+  hosts: ["${METRIC_HOST}"]
